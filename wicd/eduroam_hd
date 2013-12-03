@@ -1,0 +1,27 @@
+# Here’s the wicd template that you need connect to eduroam, just place it in
+# the /etc/wicd/encryption/templates/ on Arch Linux and add your template to the
+# active file in the same directory
+name = Eduroam UHEI
+author = Oliver Breitwieser (original by Steven She)
+version = 1
+require username *Username password *Password
+-----
+ctrl_interface=/var/run/wpa_supplicant
+network={
+    ssid="eduroam"
+    # ssid="$_ESSID"
+    scan_ssid="$_SCAN"
+    proto=WPA2
+    # pairwise=CCMP
+    # group=CCMP
+    key_mgmt=WPA-EAP
+    eap=TTLS
+    phase2="auth=PAP"
+    # ca_cert="/etc/ssl/certs/deutsche-telekom-root-ca-2.pem"
+    ca_cert="/etc/ssl/certs/Deutsche_Telekom_Root_CA_2.pem"
+    altsubject_match="DNS:radius.urz.uni-heidelberg.de;DNS:radius2.urz.uni-heidelberg.de"
+    anonymous_identity="anonymous@uni-heidelberg.de"
+    identity="$_USERNAME@uni-heidelberg.de"
+    password="$_PASSWORD"
+}
+
