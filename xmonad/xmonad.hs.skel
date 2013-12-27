@@ -1,7 +1,6 @@
 -- |||
 -- |||-- 
--- cfg["filename"] = "xmonad_test.hs"
--- cfg["folder"] = "~/.xmonad"
+-- cfg["filename"] = "xmonad.hs"
 -- |||
 -- Originally taken from: http://github.com/vicfryzel/xmonad-config
  
@@ -125,7 +124,7 @@ myNumlockMask	= mod2Mask
 myWorkspaces	= [ "1", "2" ]
 myExtendedWorkspaces = {{extWS}}
 -- |||
--- R("extWS").default = '["NSP"]'
+-- R("extWS", default='["NSP"]')
 -- R("extWS")["juno"] = '[ "NSP", "quassel", "stream", "root", "web" ]'
 -- R("extWS")["phaelon"] = '[ "NSP", "music", "quassel", "root", "web" ]'
 -- R("extWS")["nukular"] = R("extWS")["phaelon"]
@@ -154,7 +153,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 -- ||| Locking @ juno
 	, ((modMask .|. controlMask,	xK_l		), spawn "slock")
 -- ||| Locking @ phaelon
-	, ((modMask .|. controlMask,	xK_l		), spawn "/bin/sh ~/git/desktop_dotfiles/scripts/go_standby.sh" )
+	, ((modMask .|. controlMask,	xK_l		), spawn "/bin/sh ~/git/dotfiles_desktop/scripts/go_standby.sh" )
 -- |||
 
 	-- launch dmenu
@@ -162,7 +161,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 	, ((modMask,					xK_m),  spawnHere "gmrun")
 
 	-- launch gmrun
-	, ((modMask .|. shiftMask,		xK_p		), spawnHere "eval \"exec ~/bin/mydmenu\"")
+	-- , ((modMask .|. shiftMask,		xK_p		), spawnHere "eval \"exec ~/bin/mydmenu\"") 
 
 	-- launch gvim
 	, ((modMask	,					xK_g		), spawnHere "gvim")
@@ -380,7 +379,7 @@ myLayout = avoidStruts $ minimize (mkToggle ( NOBORDERS ?? FULL ?? EOT ) $
 	tiled ||| Grid ({{screen_ratio:16/10}}) ||| noBorders streamwatching ||| Mirror tiled ||| noBorders Full ||| spiral (6/7)) ||| oddtiled 
 -- |||
 -- R("screen_ratio")["juno"] = "16/9"
--- R("odd_ratio")["phaelon"] = "1 - 400 / 1440"
+-- R("oddratio")["phaelon"] = "1 - 400 / 1440"
 -- |||
   where
 	-- default tiling algorithm partitions the screen into two panes
