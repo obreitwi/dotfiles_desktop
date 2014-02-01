@@ -1,0 +1,127 @@
+!!!
+!!!! 
+! cfg["filename"] = ".Xdefaults"
+! cfg["folder"] = "$HOME"
+!!!
+
+! Xf settings ---------------------------------------------------------------
+
+Xft.dpi:        96
+Xft.antialias:  true
+Xft.rgba:       rgb
+Xft.hinting:    true
+! Xft.hintstyle:  hintslight
+Xft.hintstyle:  hintfull
+Xft.autohint:   false
+Xft.lcdfilter:  lcddefault
+
+
+! Transpacrency --------------------------------------------------------------
+urxvt*transparent: true
+urxvt*shading: 100
+
+! real trans
+URxvt*depth: 32
+! urxvt*background: rgba:0000/0000/0200/c800
+! URxvt*background: rgba:0000/0000/0000/0000
+
+! urxvt like Linux from gnome-terminal
+
+! URxvt.perl-lib: /home/obreitwi/git/usualStuff/tools/urxvt-perls/
+
+URxvt.termName : rxvt-unicode-256color
+
+! to match gnome-terminal "Linux console" scheme
+! foreground/background
+URxvt*background: #000000
+URxvt*foreground: #ffffff
+! black
+URxvt.color0  : #000000
+URxvt.color8  : #555555
+! red
+URxvt.color1  : #AA0000
+URxvt.color9  : #FF5555
+! green
+URxvt.color2  : #00AA00
+URxvt.color10 : #55FF55
+! yellow
+URxvt.color3  : #AA5500
+URxvt.color11 : #FFFF55
+! blue
+URxvt.color4  : #0000AA
+URxvt.color12 : #5555FF
+! magenta
+URxvt.color5  : #AA00AA
+URxvt.color13 : #FF55FF
+! cyan
+URxvt.color6  : #00AAAA
+URxvt.color14 : #55FFFF
+! white
+URxvt.color7  : #AAAAAA
+URxvt.color15 : #FFFFFF
+
+URxvt.scrollBar: false
+
+URxvt*scrollTtyOutput: false
+URxvt*scrollWithBuffer: true
+URxvt*scrollTtyKeypress: true
+
+urxvt*saveLines: 120000
+
+! URxvt*font: xft:DejaVu Sans Mono-8
+! URxvt*letterSpace: -1
+
+! URxvt*font: xft:Terminus-12:style=Regular
+! URxvt*boldFont: xft:Terminus-12:style=Bold
+! URxvt*boldMode: true
+!
+! URxvt*font: xft:DejaVu Sans Mono for Powerline:style=Book:size=10
+! URxvt*boldFont: xft:Source Code Pro for Powerline:style=BoldForPowerline:size=10
+! URxvt*letterSpace: -1
+
+URxvt*font: xft:DejaVu Sans Mono for Powerline:style=Regular:size=8
+URxvt*boldFont: xft:DejaVu Sans Mono for Powerline:style=Bold:size=8
+URxvt*letterSpace: -1
+
+! URxvt*font: xft:Inconsolata for Powerline:style=Regular:size=11
+! URxvt*boldFont: xft:Inconsolata for Powerline:style=Bold:size=11
+! URxvt*letterSpace: -1
+
+! URxvt*font: xft:Ubuntu Mono for Powerline:style=RegularForPowerline:size=10
+! URxvt*boldFont: xft:Ubuntu Mono for Powerline:style=BoldForPowerline:size=10
+! URxvt*letterSpace: -1
+
+! URxvt*font: xft:Anonymous Pro:size=9
+! URxvt*letterSpace: 1
+
+! URxvt*font: xft:Envy Code R-10
+! URxvt*letterSpace: -1
+! URxvt*font: xft:Envy Code R:size=8:antialias=false:hinting=true:rgba=rgb:lcdfilter=lcdlegend
+! fix width
+
+! URxvt.perl-ext-common: default,keyboard-select,url-select,clipboard,searchable-scrollback<M-slash>,autocomplete-ALL-the-things
+URxvt.perl-ext-common: default,keyboard-select,url-select,clipboard,searchable-scrollback<M-slash>
+
+! The following line overwrites the default Meta-s binding and allows to activate keyboard-select directly in backward search mode:
+URxvt.keysym.M-question: perl:keyboard-select:search
+! URxvt.keysym.M-slash: perl:searchable-scrollback:start
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
+! URxvt.perl-ext:      default,url-select
+
+URxvt.keysym.M-j:   perl:aAtt:complete
+URxvt.keysym.M-h:  perl:aAtt:skeleton-complete
+URxvt.keysym.M-quotedbl:  perl:aAtt:undo
+
+! DESCRIPTION 
+
+! launch links in firefox
+URxvt.keysym.M-u:    perl:url-select:select_next
+URxvt.url-select.launcher:   /usr/bin/firefox -new-tab
+URxvt.url-select.underline: false
+
+URxvt.keysym.M-k:   perl:clipboard:copy
+URxvt.keysym.M-l:   perl:clipboard:paste
+URxvt.keysym.M-C-l: perl:clipboard:paste_escaped
+
+! vim: ft=xdefaults
+
