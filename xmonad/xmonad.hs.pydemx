@@ -125,7 +125,7 @@ myWorkspaces	= [ "1", "2" ]
 myExtendedWorkspaces = {{extWS}}
 -- |||
 -- R("extWS", default='["NSP"]')
--- R("extWS")["juno"] = '[ "NSP", "quassel", "stream", "root", "web" ]'
+-- R("extWS")["lark"] = '[ "NSP", "music", "quassel", "stream", "root", "web" ]'
 -- R("extWS")["phaelon"] = '[ "NSP", "music", "quassel", "root", "web" ]'
 -- R("extWS")["nukular"] = R("extWS")["phaelon"]
 -- R("extWS")["nurikum"] = '[ "NSP", "quassel", "stream", "root", "web" ]' 
@@ -321,7 +321,11 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 	-- changed to q,w,e because then r stands for the reloading it does
 	--
 	[((m .|. modMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
+-- ||| DisplayOrder
 	| (key, sc) <- zip [xK_q, xK_w, xK_e] [0..], (f, m) <- [(W.view, 0),
+-- ||| DisplayOrder@lark
+	| (key, sc) <- zip [xK_w, xK_q, xK_e] [0..], (f, m) <- [(W.view, 0),
+-- |||
 	(W.shift, shiftMask)]]
 	++ 
 	-- Swap screens
@@ -434,6 +438,7 @@ myManageHook = manageDocks
 	, className =? "Komodo Edit"		--> doShift "1:code"
 	, className =? "Emacs"				--> doShift "1:code"
 	, className =? "Firefox"		  	--> doShift "web"
+	, className =? "Chromium"		  	--> doShift "web"
 	, className =? "Thunderbird-bin"	--> doShift "3:msg"
 	, className =? "Pidgin"				--> doShift "3:msg"
 	, className =? "VirtualBox"			--> doShift "4:vm"
@@ -483,7 +488,7 @@ myStartupHook = setWMName "Xmonad {{hostname:Default}}"
 -- hn["phaelon"] = "Phaelon"
 -- hn["nurikum"] = "Nurikum"
 -- hn["nukular"] = "Nukular"
--- hn["juno"] = "Juno"
+-- hn["lark"] = "Lark"
 -- |||
 
 -- Minimize windows hook (to restore from taskbar)

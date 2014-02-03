@@ -1,2 +1,4 @@
-folder : ~/.xmonad
+cfg = {"folder" : "~/.xmonad" } 
+
+# vim: ft=python
 

@@ -1,0 +1,133 @@
+"""
+"""" 
+" cfg["filename"] = ".pentadactylrc"
+" cfg["folder"] = "$HOME"
+"""
+nmap <c-c> Y
+nmap <c-i> :forward<CR>
+nmap <c-o> :back<CR>
+" nmap <c-g> YP
+" nmap <c-r> :!gvim ~/.vimperatorrc<CR>
+" NEO:
+nmap <c-n> 8<c-e>
+nmap <c-r> 8<c-y>
+nmap <c-q> <c-u>
+nmap <c-s> gT
+nmap <c-t> gt
+nmap j 8<c-e>
+nmap k 8<c-y>
+nmap h gT
+nmap l gt
+nmap <c-h> h
+nmap <c-l> l
+nmap <c-j> j
+nmap <c-k> k
+nmap L F\comment\
+" nmap <c-j> ]n
+" nmap <c-k> ]p
+" nmap K :noscript toggletemp<CR>
+" nmap L :noscript popup<CR>
+nmap <c-ü> <c-[>
+nmap <c-m> ]]
+nmap <c-b> [[
+
+" No statusbar in fullscreen
+au fullscreen on  set go-=s
+au fullscreen off set go+=s
+
+set hintkeys=asdfghjkl;
+set hlfind
+set incfind
+
+com -nargs=1 rd :tabopen http://<args>.reddit.com
+
+" set go+=m
+" Makes tabs unclickable
+" set go=Csn
+set go=Cs
+
+" colorscheme solarized-dark
+
+" map <A-c> :set noscript-objects!=<A-Tab>
+" map <A-s> :set noscript-sites!=<A-Tab>
+" map <A-S-s> :set noscript-tempsites!=<A-Tab>
+" map <A-C-s> :set noscript-untrusted!=<A-Tab>
+map <C-s> :set noscript-objects!=<A-Tab>
+map S :set noscript-sites!=<A-Tab>
+map s :set noscript-tempsites!=<A-Tab>
+map x :set noscript-untrusted!=<A-Tab>
+
+" Disable the annoying bell
+" javascript liberator.beep = function() { return false; }
+
+" Editor only needed for windoof
+" set editor="gvim -c 'set encoding=utf-8' -f"
+se! browser.enable_automatic_image_resizing=true
+
+" set wildmode=list:full
+" set wildoptions=auto
+set complete=slfS
+
+" Switch between manual Proxy and No Proxy
+command! NoProxy set! network.proxy.type=0
+command! Proxy set! network.proxy.type=5
+command! MyProxy set! network.proxy.type=1
+
+" Don't split URL by , but rather ;
+set urlseparator=";\\s"
+
+" StumbleUpon settings
+" nmap S :stumble<CR>
+" nmap s :tabstumble<CR>
+
+" default search
+set defsearch=g
+
+" readability
+command! ReadB open javascript:(function(){readStyle='style-apertura';readSize='size-small';readMargin='margin-medium';_readability_script=document.createElement('SCRIPT');_readability_script.type='text/javascript';_readability_script.src='http://lab.arc90.com/experiments/readability/js/readability.js?x='+(Math.random());document.getElementsByTagName('head')[0].appendChild(_readability_script);_readability_css=document.createElement('LINK');_readability_css.rel='stylesheet';_readability_css.href='http://lab.arc90.com/experiments/readability/css/readability.css';_readability_css.type='text/css';_readability_css.media='all';document.getElementsByTagName('head')[0].appendChild(_readability_css);_readability_print_css=document.createElement('LINK');_readability_print_css.rel='stylesheet';_readability_print_css.href='http://lab.arc90.com/experiments/readability/css/readability-print.css';_readability_print_css.media='print';_readability_print_css.type='text/css';document.getElementsByTagName('head')[0].appendChild(_readability_print_css);})();
+
+command! ReadW open javascript:(function(){readStyle='style-ebook';readSize='size-medium';readMargin='margin-medium';_readability_script=document.createElement('SCRIPT');_readability_script.type='text/javascript';_readability_script.src='http://lab.arc90.com/experiments/readability/js/readability.js?x='+(Math.random());document.getElementsByTagName('head')[0].appendChild(_readability_script);_readability_css=document.createElement('LINK');_readability_css.rel='stylesheet';_readability_css.href='http://lab.arc90.com/experiments/readability/css/readability.css';_readability_css.type='text/css';_readability_css.media='all';document.getElementsByTagName('head')[0].appendChild(_readability_css);_readability_print_css=document.createElement('LINK');_readability_print_css.rel='stylesheet';_readability_print_css.href='http://lab.arc90.com/experiments/readability/css/readability-print.css';_readability_print_css.media='print';_readability_print_css.type='text/css';document.getElementsByTagName('head')[0].appendChild(_readability_print_css);})();
+
+" Send no referrer
+command! NoRef set! network.http.sendRefererHeader=0
+command! Ref set! network.http.sendRefererHeader=2
+
+set nextpattern+=\\bweiter\\b
+set previouspattern+=\\bvorige\\b,\\bzurück\\b
+
+
+" Filetype in external editor
+Imap -builtin <C-i> -javascript editExternallyWithFiletype()
+javascript <<EOF
+function editExternallyWithFiletype() {
+    var save_editor = options["editor"];
+    var filetype = editExternallyFiletype();
+    if (filetype) {
+        options["editor"] += " \"+setf " + filetype + "\"";
+    }
+    editor.editFieldExternally();
+    options["editor"] = save_editor;
+}
+EOF
+javascript <<EOF
+function editExternallyFiletype() {
+    var host = buffer.URL.host
+    switch(host.replace(/^www\./, "")) {
+	case "github.com":
+	    if (! buffer.URL.path.match("/wiki/"))
+		return "markdown";
+	case "reddit.com":
+	    return "markdown";
+	case "stackoverflow.com":
+	    return "markdown";
+    }
+    if (host.match(/.*\.wikia\.com$/) || host.match(/.*\.wikipedia\.org$/))
+	return "mediawiki";
+}
+EOF
+
+" copy to usual clipboard
+js editor.defaultRegister="+"
+
+" vim: ft=vim
+

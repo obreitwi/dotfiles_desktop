@@ -1,0 +1,65 @@
+###
+#### 
+# cfg["folder"] = "$HOME"
+# cfg["filename"] = ".xinitrc"
+###
+cd $HOME
+# xsetroot -cursor_name left_ptr &
+setxkbmap us intl -model pc105
+setxkbmap \
+  -variant altgr-intl \
+  -option \
+  -option compose:rctrl \
+  -option lv3:ralt_switch \
+  -option eurosign:e \
+  -option nbsp:level3n
+# -option terminate:ctrl_alt_bkspc \
+
+# xrdb ~/.Xresources &
+xrdb ~/.Xdefaults &
+# xcompmgr -c -f -D 6 &
+
+# ~/bin/keynav &
+keynav &
+
+### display
+### display@lark
+xrandr --output VGA1 --mode 1920x1080
+xrandr --output HDMI1 --mode 1920x1080
+xrandr --output VGA1 --right-of HDMI1
+###
+
+# keynav needs to be started first because otherwise the keycode for capslock is not found
+
+xmodmap ~/.Xmodmap &
+
+# xbindkeys &
+# xcompmgr -c -f -D 6 &
+
+### background
+feh  --bg-fill "${HOME}/wallpaper/brisbinxmonadwall.png"
+###
+
+# xscreensaver &
+unclutter &
+# loliclip --daemon
+autocutsel -fork &
+autocutsel -selection PRIMARY -fork &
+
+killall urxvtd
+urxvtd -q -f
+
+
+# Disable TapButtons for trackpad
+# synclient TapButton1=0
+# synclient TapButton2=0
+# synclient TapButton3=0
+
+# /usr/sbin/trackpad-toggle.sh &
+# exec ck-launch-session ~/.xstart
+. ~/.config/gnupg/gpg-agent.sh
+
+# pulseaudio --start &
+
+exec xmonad
+

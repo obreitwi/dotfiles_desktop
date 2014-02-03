@@ -1,0 +1,10 @@
+###
+cfg["filename"] = ".Xmodmap"
+cfg["folder"] = "$HOME"
+###
+
+### vimswap
+clear lock
+keycode 0x42 = Escape 
+### vimswap@nukular
+###
