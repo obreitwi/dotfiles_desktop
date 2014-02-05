@@ -17,33 +17,36 @@
 -- R("cpus")["nukular"] = "<total0><total1><total2><total3><total4><total5>"
 -- 
 -- R("wirename", default="eth0")
--- R("wirename")["lark"] = "enp63s0"
+-- R("wirename")["lark"] = "enp2s0"
 -- R("wirename")["phaelon"] = "wlp12s0"
 -- 
 -- def make_network(wirename):
---     return ', Run Network "{wirename}" ["-t","<rx> / <tx>","-H","3500","-L","100","-h","#FFB6B0",'\
---         '"-l","#CEFFAC","-n","#FFFFCC", "-m", "6", "-c", " "] 5'.format(wirename=wirename)
--- R("LAN", default= make_network("{{wirename}}"))
+--     return '\t\t, Run Network "{wirename}" ["-t","<rx> / <tx>","-H","3500","-L","100","-h","#FFB6B0",'\
+--         '"-l","#CEFFAC","-n","#FFFFCC", "-m", "6", "-c", "{{{{padding}}}}"] 5'.format(wirename=wirename)
+-- R("LAN", default=make_network("{{wirename}}"))
 -- R("LAN")["phaelon"] = make_network("eth0") + "\n" + make_network(R("wirename")["phaelon"])
 -- R("padding", default=" ")
 -- R("padding")["lark"] = " "
+-- R("info_wl")["phaelon"] = "%eth0% %{0}% :: %{0}wi%".format(R("wirename")["phaelon"])
+-- R("info_ct")["phaelon"] = ""
 -- !!!
+-- Run Cpu ["-L","3","-H","50","--normal","#CEFFAC","--high","#FFB6B0"] 10
 Config { font = "Envy Code R:style=Regular:size=10"
 		, bgColor = "#000000"
 		, fgColor = "#ffffff"
 		, position = Static { xpos = 0, ypos = 0, width = {{width}}, height = 16 }
 		, lowerOnStart = True
-		, commands = [ Run Cpu ["-L","3","-H","50","--normal","#CEFFAC","--high","#FFB6B0"] 10
+		, commands = [
 -- !!! MultiCpu
-		, Run MultiCpu ["-t","{{cpus:<total0><total1>}}","-L","3","-H","50","--normal","#CEFFAC","--high","#FFB6B0","-w","4", "-c", "{{padding}}"] 10
+		Run MultiCpu ["-t","{{cpus:<total0><total1>}}","-L","3","-H","50","--normal","#CEFFAC","--high","#FFB6B0","-w","4", "-c", "{{padding}}"] 10
 -- !!! CoreTemp
 		, Run CoreTemp [ "-t", "<core0>|<core1>C", "-L","40","-H","60","--normal","#CEFFAC","--high","#FFB6B0","-w","2", "-c", "{{padding}}" ] 10
 -- !!! CoreTemp @ nukular
 -- !!!
-		-- , Run Memory ["-t","Mem: <usedratio>%"] 10
+		, Run DynNetwork ["-t","<rx> / <tx>","-H","3500","-L","100","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC", "-m", "6", "-c", "{{padding}}"] 10
 		, Run Memory ["-t","<used>M"] 10
-		, Run Swap [ "-t", "<usedratio>%" ] 10
--- !!! LAN
+		, Run Swap [ "-t", "<usedratio>%"] 10
+-- -- !!! LAN
 -- !!! Wireless
 -- !!! Wireless @ phaelon
 		, Run Wireless "{{wirename}}" ["-t","<quality>%","-H","80","-L","20","-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC", "-m", "3", "-c", "{{padding}}" 5
@@ -61,13 +64,10 @@ Config { font = "Envy Code R:style=Regular:size=10"
 		]
 		, sepChar = "%"
 		, alignSep = "}{"
---          , template = "%StdinReader% }{ %multicpu%   %memory%   %swap%   Net: %eth0% :: %wlan0% %wlan0wi%   <fc=#FFFFCC>%date%</fc>"
-		--  , template = "%StdinReader% }{ %multicpu% (%coretemp%)   %memory% %swap%   %eth0%   <fc=#FFFFCC>%date%</fc>"
-		, template = "%StdinReader% }{ %multicpu% {{info_ct:%coretemp%   }}%memory% %swap%   %{{wirename}}% {{info_wl}}  <fc=#FFFFCC>%date%</fc>"
+		-- , template = "%StdinReader% }{ %multicpu% {{info_ct:%coretemp%   }}%memory% %swap%   %{{wirename}}% {{info_wl}}  <fc=#FFFFCC>%date%</fc>"
+		, template = "%StdinReader% }{ %multicpu% {{info_ct:%coretemp%   }}%memory% %swap%   %dynnetwork% {{info_wl}}  <fc=#FFFFCC>%date%</fc>"
 	}
 -- !!!
--- R("info_wl")["phaelon"] = "%eth0% %{0}% :: %{0}wi%".format(R("wirename")["phaelon"])
--- R("info_ct")["phaelon"] = ""
 -- !!!
 
 -- vim: ft=haskell
