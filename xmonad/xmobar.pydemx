@@ -15,6 +15,7 @@
 -- R("width")["phaelon"] = 1700
 -- 
 -- R("cpus")["nukular"] = "<total0><total1><total2><total3><total4><total5>"
+-- R("cpus")["nurikum"] = "<total0><total1><total2><total3><total4>"
 -- 
 -- R("wirename", default="eth0")
 -- R("wirename")["lark"] = "enp2s0"
@@ -27,8 +28,10 @@
 -- R("LAN")["phaelon"] = make_network("eth0") + "\n" + make_network(R("wirename")["phaelon"])
 -- R("padding", default=" ")
 -- R("padding")["lark"] = " "
+-- R("padding")["nurikum"] = " "
 -- R("info_wl")["phaelon"] = "%eth0% %{0}% :: %{0}wi%".format(R("wirename")["phaelon"])
 -- R("info_ct")["phaelon"] = ""
+-- R("info_ct")["nurikum"] = ""
 -- !!!
 -- Run Cpu ["-L","3","-H","50","--normal","#CEFFAC","--high","#FFB6B0"] 10
 Config { font = "Envy Code R:style=Regular:size=10"
@@ -41,7 +44,7 @@ Config { font = "Envy Code R:style=Regular:size=10"
 		Run MultiCpu ["-t","{{cpus:<total0><total1>}}","-L","3","-H","50","--normal","#CEFFAC","--high","#FFB6B0","-w","4", "-c", "{{padding}}"] 10
 -- !!! CoreTemp
 		, Run CoreTemp [ "-t", "<core0>|<core1>C", "-L","40","-H","60","--normal","#CEFFAC","--high","#FFB6B0","-w","2", "-c", "{{padding}}" ] 10
--- !!! CoreTemp @ nukular
+-- !!! CoreTemp @ nurikum
 -- !!!
 		, Run DynNetwork ["-t","<rx> / <tx>","-H","3500","-L","100","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC", "-m", "6", "-c", "{{padding}}"] 10
 		, Run Memory ["-t","<used>M"] 10
