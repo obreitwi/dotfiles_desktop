@@ -481,7 +481,8 @@ myFocusFollowsMouse = False
 --  myStartupHook = return ()
 addExtendedWorkspaces = foldl1 (<+>) $ map addHiddenWorkspace myExtendedWorkspaces
 
-myStartupHook = setWMName "Xmonad {{hostname:Default}}"
+-- myStartupHook = setWMName "Xmonad {{hostname:Default}}"
+myStartupHook = setWMName "LG3D"
 	<+> addExtendedWorkspaces
 -- |||
 -- hn = R("hostname")
