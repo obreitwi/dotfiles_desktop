@@ -29,7 +29,8 @@
 -- R("padding", default=" ")
 -- R("padding")["lark"] = " "
 -- R("padding")["nurikum"] = " "
--- R("info_wl")["phaelon"] = "%eth0% %{0}% :: %{0}wi%".format(R("wirename")["phaelon"])
+-- R("padding")["phaelon"] = " "
+-- R("info_wl")["phaelon"] = ":: %{0}wi%".format(R("wirename")["phaelon"])
 -- R("info_ct")["phaelon"] = ""
 -- R("info_ct")["nurikum"] = ""
 -- !!!
@@ -52,7 +53,7 @@ Config { font = "Envy Code R:style=Regular:size=10"
 -- -- !!! LAN
 -- !!! Wireless
 -- !!! Wireless @ phaelon
-		, Run Wireless "{{wirename}}" ["-t","<quality>%","-H","80","-L","20","-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC", "-m", "3", "-c", "{{padding}}" 5
+		, Run Wireless "{{wirename}}" ["-t","<quality>%","-H","80","-L","20","-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC", "-m", "3", "-c", "{{padding}}"] 5
 -- !!!
 		--  , Run Network "wlan0" ["-t","<rx> / <tx>","-H","3500","-L","100","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC", "-m", "6", "-c", "{{padding}}"] 5
 		--  , Run Wireless "wlan0" ["-t","<quality>%","-H","80","-L","20","-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC", "-m", "3", "-c", "{{padding}}"] 5

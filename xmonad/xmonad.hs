@@ -475,7 +475,7 @@ myFocusFollowsMouse = False
 --  myStartupHook = return ()
 addExtendedWorkspaces hostname = foldl1 (<+>) $ map addHiddenWorkspace $ myExtendedWorkspaces hostname
 
-myStartupHook hostname = setWMName ("Xmonad " ++ hostname)
+myStartupHook hostname = setWMName "LG3D"
 	<+> addExtendedWorkspaces hostname
 
 -- Minimize windows hook (to restore from taskbar)
