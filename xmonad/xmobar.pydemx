@@ -12,7 +12,7 @@
 -- !!!
 -- R("width", default=1820)
 -- R("width")["phaelon"] = 1340
--- R("width")["phaelon"] = 1700
+-- R("width")["nurikum"] = 1700
 -- 
 -- R("cpus")["nukular"] = "<total0><total1><total2><total3><total4><total5>"
 -- R("cpus")["nurikum"] = "<total0><total1><total2><total3><total4>"

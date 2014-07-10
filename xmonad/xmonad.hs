@@ -1,8 +1,7 @@
--- |||
--- |||-- 
--- cfg["filename"] = "xmonad.hs"
--- |||
+
 -- Originally taken from: http://github.com/vicfryzel/xmonad-config
+
+import GetHostName
  
 import System.IO
 import System.Exit
@@ -123,15 +122,12 @@ myNumlockMask	= mod2Mask
 --
 --  myWorkspaces	= ["1:code","2:pdf1","3:pdf2","4:web","5:vserver","6","7","8","9"]
 myWorkspaces	= [ "1", "2" ]
-myExtendedWorkspaces = {{extWS}}
--- |||
--- R("extWS", default='["NSP"]')
--- R("extWS")["lark"] = '[ "NSP", "dopamine", "dopamineP", "music", "quassel", "stream", "root", "web" ]'
--- R("extWS")["phaelon"] = '[ "NSP", "music", "quassel", "root", "web" ]'
--- R("extWS")["nukular"] = R("extWS")["phaelon"]
--- R("extWS")["nurikum"] = '[ "NSP", "quassel", "stream", "root", "web" ]' 
--- |||
-
+myExtendedWorkspaces :: String -> [String]
+myExtendedWorkspaces "lark" = [ "NSP", "cluster", "clusterP", "music", "quassel", "stream", "root", "web" ]
+myExtendedWorkspaces "phaelon" = [ "NSP", "music", "quassel", "root", "web" ]
+myExtendedWorkspaces "nukular" = myExtendedWorkspaces "phaelon"
+myExtendedWorkspaces "nurikum" = [ "NSP", "quassel", "stream", "root", "web" ]
+myExtendedWorkspaces _  = ["NSP"]
  
 -- Border colors for unfocused and focused windows, respectively.
 --
@@ -140,22 +136,16 @@ myNormalBorderColor		= "#7c7c7c"
 myFocusedBorderColor	= "#ff0000"
  
 ------------------------------------------------------------------------
--- Key bindings. Add, modify or remove key bindings here.
+-- Key bindings. Add, modify or remove key bindings here
 --
-myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
+
+myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
  
 	-- launch a terminal
 	[ ((modMask .|. shiftMask,		xK_Return	), spawnHere $ XMonad.terminal conf)
 
 	-- lock screensaver
-
--- ||| Locking
-	, ((modMask .|. controlMask,	xK_l		), spawn "xscreensaver-command -lock") 
--- ||| Locking @ lark
-	, ((modMask .|. controlMask,	xK_l		), spawn "slock")
--- ||| Locking @ phaelon
-	, ((modMask .|. controlMask,	xK_l		), spawn "/bin/sh ~/git/dotfiles_desktop/scripts/go_standby.sh" )
--- |||
+	, ((modMask .|. controlMask,	xK_l		), lockSpawner hostname) 
 
 	-- launch dmenu
 	--      , ((modMask,					xK_semicolon), spawnHere "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
@@ -322,11 +312,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 	-- changed to q,w,e because then r stands for the reloading it does
 	--
 	[((m .|. modMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
--- ||| DisplayOrder
-	| (key, sc) <- zip [xK_q, xK_w, xK_e] [0..], (f, m) <- [(W.view, 0),
--- ||| DisplayOrder@lark
-	| (key, sc) <- zip [xK_w, xK_q, xK_e] [0..], (f, m) <- [(W.view, 0),
--- |||
+	| (key, sc) <- zip (displayOrder hostname) [0..], (f, m) <- [(W.view, 0),
 	(W.shift, shiftMask)]]
 	++ 
 	-- Swap screens
@@ -341,6 +327,14 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 		-- , ((modMask .|. controlMask, xK_l),  shiftNextScreen)
 		-- , ((modMask .|. controlMask, xK_h),  shiftPrevScreen) 
 	-- ]
+	where
+		lockSpawner "lark" = spawn "slock"
+		lockSpawner "phaelon" = spawn "/bin/sh ~/git/dotfiles_desktop/scripts/go_standby.sh"
+		lockSpawner _ = spawn "xscreensaver-command -lock"
+
+		displayOrder "lark" = [xK_w, xK_q, xK_e]
+		displayOrder _ = [xK_q, xK_w, xK_e]
+
  
  
 ------------------------------------------------------------------------
@@ -380,18 +374,20 @@ myTabConfig = defaultTheme {  activeBorderColor = "#7C7C7C"
 							
 -- myLayout = avoidStruts $ minimize (mkToggle ( NOBORDERS ?? FULL ?? EOT ) $ tiled ||| oddtiled ||| Mirror tiled ||| tabbed shrinkText myTabConfig ||| noBorders Full ||| spiral (6/7))
 -- Tabbed layout causes segfault with toggle - RANDOMLY, avoid until known to be fixed
-myLayout = avoidStruts $ minimize (mkToggle ( NOBORDERS ?? FULL ?? EOT ) $
-	tiled ||| Grid ({{screen_ratio:16/10}}) ||| noBorders streamwatching ||| Mirror tiled ||| noBorders Full ||| spiral (6/7)) ||| oddtiled 
--- |||
--- R("screen_ratio")["juno"] = "16/9"
--- R("oddratio")["phaelon"] = "1 - 400 / 1440"
--- |||
+myLayout hostname = avoidStruts $ minimize (mkToggle ( NOBORDERS ?? FULL ?? EOT ) $
+	tiled ||| Grid (screenRatio hostname) ||| noBorders streamwatching ||| Mirror tiled ||| noBorders Full ||| spiral (6/7)) ||| oddtiled 
   where
+	screenRatio "juno" = 16/9
+	screenRatio _ = 16/10
+
+	oddRatio "phaelon" = 1 - 400 / 1440
+	oddRatio _ = 1 - 550 / 1920
+
 	-- default tiling algorithm partitions the screen into two panes
 	tiled		= Tall nmaster delta ratio
 	
 	-- Another tiling algorithm where the master pane is larger
-	oddtiled	= Tall nmaster delta oddratio
+	oddtiled	= Tall nmaster delta $ oddRatio hostname
 
 	streamwatching = Tall nmaster delta ( 1280 / 1920 )
  
@@ -400,9 +396,6 @@ myLayout = avoidStruts $ minimize (mkToggle ( NOBORDERS ?? FULL ?? EOT ) $
  
 	-- Default proportion of screen occupied by master pane
 	ratio		= 1/2
-	
-	-- Default proportion of screen occupied by master pane in odd schema (600 pixel)
-	oddratio	= ({{oddratio:1 - 550 / 1920}})
  
 	-- Percent of screen to increment by when resizing panes
 	delta		= 3/100
@@ -480,17 +473,10 @@ myFocusFollowsMouse = False
 --
 -- By default, do nothing.
 --  myStartupHook = return ()
-addExtendedWorkspaces = foldl1 (<+>) $ map addHiddenWorkspace myExtendedWorkspaces
+addExtendedWorkspaces hostname = foldl1 (<+>) $ map addHiddenWorkspace $ myExtendedWorkspaces hostname
 
-myStartupHook = setWMName "Xmonad {{hostname:Default}}"
-	<+> addExtendedWorkspaces
--- |||
--- hn = R("hostname")
--- hn["phaelon"] = "Phaelon"
--- hn["nurikum"] = "Nurikum"
--- hn["nukular"] = "Nukular"
--- hn["lark"] = "Lark"
--- |||
+myStartupHook hostname = setWMName ("Xmonad " ++ hostname)
+	<+> addExtendedWorkspaces hostname
 
 -- Minimize windows hook (to restore from taskbar)
 myHandleEventHook =
@@ -512,11 +498,11 @@ myLogHookConfig = xmobarPP {
 
 --  myTrayer = "killall trayer; trayer --edge top --align left --margin 1770 --width 150 --widthtype pixel --height 16 --SetDockType true --expand false --padding 1 --tint 0x000000 --transparent true --alpha 0"
 -- myTrayer = "killall trayer; trayer --edge top --align left --margin 1340 --width 100 --widthtype pixel --height 16 --padding 1 --tint 0x000000 --transparent true --alpha 0"
-myTrayer = "killall trayer; trayer \
+myTrayer hostname = "killall trayer; trayer \
 	\--edge top \
 	\--align left \
-	\--margin {{tray_margin:1820}} \
-	\--width {{tray_width:100}} \
+	\--margin " ++ (trayMargin hostname) ++ "\
+	\--width " ++ (trayWidth hostname) ++ " \
 	\--widthtype pixel \
 	\--height 16 \
 	\--padding 1 \
@@ -525,13 +511,14 @@ myTrayer = "killall trayer; trayer \
 	\--alpha 0 \
 	\--expand false \
 	\--SetDockType  true"
-myXmobar = "/usr/bin/xmobar ~/.xmonad/xmobar"
+	where
+		trayWidth "nurikum" = "150"
+		trayWidth _ = "100"
 
--- |||
--- R("tray_margin")["nurikum"] = 1700
--- R("tray_margin")["phaelon"] = 1340
--- R("tray_width")["nurikum"] = 150
--- |||
+		trayMargin "nurikum" = "1700"
+		trayMargin "phaelon" = "1340"
+		trayMargin _ = "1820"
+myXmobar = "/usr/bin/xmobar ~/.xmonad/xmobar"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
@@ -539,16 +526,17 @@ myXmobar = "/usr/bin/xmobar ~/.xmonad/xmobar"
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 main = do
+	hostname <- getHostName
 	xmproc <- spawnPipe myXmobar
-	trayer <- spawnPipe myTrayer
-	xmonad $ defaults {
+	trayer <- spawnPipe $ myTrayer hostname
+	xmonad $ (defaults hostname) {
 		logHook	=  	(dynamicLogWithPP $ myLogHookConfig{
 					ppOutput = hPutStrLn xmproc
 		})
 		-- >> updatePointer (Relative 0.99 0.99)
 		--  , manageHook = manageDocks <+> manageSpawn <+> myManageHook
 		--  , startupHook = setWMName "LG3D" 
-		, startupHook = myStartupHook
+		-- , startupHook = myStartupHook
 	}
  
 -- A structure containing your configuration settings, overriding
@@ -557,7 +545,8 @@ main = do
 -- 
 -- No need to modify this.
 --
-defaults = defaultConfig {
+defaults hostname =
+	defaultConfig {
 	  -- simple stuff
 		terminal			= myTerminal,
 		focusFollowsMouse	= myFocusFollowsMouse,
@@ -569,13 +558,13 @@ defaults = defaultConfig {
 		focusedBorderColor	= myFocusedBorderColor,
  
 	  -- key bindings
-		keys				= myKeys,
+		keys				= myKeys hostname,
 		mouseBindings		= myMouseBindings,
  
 	  -- hooks, layouts
-		layoutHook			= smartBorders $ myLayout,
+		layoutHook			= smartBorders $ myLayout hostname,
 		manageHook			= myManageHook,
-		startupHook			= myStartupHook,
+		startupHook			= myStartupHook hostname,
 		handleEventHook		= myHandleEventHook
 	}
 
