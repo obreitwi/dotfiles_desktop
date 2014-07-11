@@ -57,7 +57,7 @@ myXPConfig			=  myXPConfig_nC {
 --
 -- myTerminal		= "sakura"  
 --  myTerminal		= "gnome-terminal"
-myTerminal		= "urxvtc"
+myTerminal _		= "urxvtc"
 
 
 myScratchpads = [
@@ -126,7 +126,7 @@ myExtendedWorkspaces :: String -> [String]
 myExtendedWorkspaces "lark" = [ "NSP", "cluster", "clusterP", "music", "quassel", "stream", "root", "web" ]
 myExtendedWorkspaces "phaelon" = [ "NSP", "music", "quassel", "root", "web" ]
 myExtendedWorkspaces "nukular" = myExtendedWorkspaces "phaelon"
-myExtendedWorkspaces "nurikum" = [ "NSP", "quassel", "stream", "root", "web" ]
+myExtendedWorkspaces "nurikum" = [ "NSP", "cluster", "clusterP", "quassel", "stream", "root", "web" ]
 myExtendedWorkspaces _  = ["NSP"]
  
 -- Border colors for unfocused and focused windows, respectively.
@@ -548,7 +548,7 @@ main = do
 defaults hostname =
 	defaultConfig {
 	  -- simple stuff
-		terminal			= myTerminal,
+		terminal			= myTerminal hostname,
 		focusFollowsMouse	= myFocusFollowsMouse,
 		borderWidth			= myBorderWidth,
 		modMask				= myModMask,
