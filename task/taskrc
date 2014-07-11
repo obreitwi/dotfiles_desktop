@@ -26,9 +26,15 @@ include /usr/share/doc/task/rc/dark-256.theme
 #include /usr/share/doc/task/rc/dark-gray-256.theme
 
 default.project=master
-taskd.certificate=\/home\/obreitwi\/.task\/certs\/obreitwi.cert.pem
-taskd.key=\/home\/obreitwi\/.task\/certs\/obreitwi.key.pem
-taskd.ca=\/home\/obreitwi\/.task\/certs\/ca.cert.pem
+# taskd.certificate=\/home\/obreitwi\/.task\/certs\/obreitwi.cert.pem
+# taskd.key=\/home\/obreitwi\/.task\/certs\/obreitwi.key.pem
+# taskd.ca=\/home\/obreitwi\/.task\/certs\/ca.cert.pem
+# # taskd.server=zqnr.de:53589
+# taskd.server=localhost:53589
+# taskd.credentials=Public\/obreitwi\/6f9213a9-7608-43ea-a8fa-b7eaf4f81b0a
+
+# taskd.certificate=\/home\/obreitwi\/.task\/certs\/obreitwi.cert.pem
+# taskd.key=\/home\/obreitwi\/.task\/certs\/obreitwi.key.pem
+# taskd.ca=\/home\/obreitwi\/.task\/certs\/ca.cert.pem
 # taskd.server=zqnr.de:53589
-taskd.server=localhost:53589
-taskd.credentials=Public\/obreitwi\/6f9213a9-7608-43ea-a8fa-b7eaf4f81b0a
+# taskd.credentials=Public\/obreitwi\/6f9213a9-7608-43ea-a8fa-b7eaf4f81b0a

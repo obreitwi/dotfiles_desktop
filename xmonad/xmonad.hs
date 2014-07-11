@@ -501,7 +501,7 @@ myLogHookConfig = xmobarPP {
 myTrayer hostname = "killall trayer; trayer \
 	\--edge top \
 	\--align left \
-	\--margin " ++ (trayMargin hostname) ++ "\
+	\--margin " ++ (trayMargin hostname) ++ " \
 	\--width " ++ (trayWidth hostname) ++ " \
 	\--widthtype pixel \
 	\--height 16 \
