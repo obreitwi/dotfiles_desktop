@@ -1,0 +1,15 @@
+[Unit]
+Description=Proper Quassel shutdown (loses information if just stopped)
+Requires=network.target
+After=network.target
+Before=shutdown.target
+DefaultDependencies=no
+
+[Service]
+ExecStart=/usr/bin/true
+ExecStop=/home/obreitwi/git/dotfiles_desktop/systemd/quassel_shutdown.sh
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=shutdown.target
