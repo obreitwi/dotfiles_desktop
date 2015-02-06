@@ -123,7 +123,7 @@ myNumlockMask	= mod2Mask
 --  myWorkspaces	= ["1:code","2:pdf1","3:pdf2","4:web","5:vserver","6","7","8","9"]
 myWorkspaces	= [ "1", "2" ]
 myExtendedWorkspaces :: String -> [String]
-myExtendedWorkspaces "lark" = [ "NSP", "cluster", "clusterP", "music", "quassel", "stream", "root", "web" ]
+myExtendedWorkspaces "lark" = [ "NSP", "c", "cP", "music", "quassel", "stream", "root", "web" ]
 myExtendedWorkspaces "phaelon" = [ "NSP", "music", "quassel", "root", "web" ]
 myExtendedWorkspaces "nukular" = myExtendedWorkspaces "phaelon"
 myExtendedWorkspaces "nurikum" = [ "NSP", "cluster", "clusterP", "quassel", "stream", "root", "web" ]
@@ -327,6 +327,13 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 		-- , ((modMask .|. controlMask, xK_l),  shiftNextScreen)
 		-- , ((modMask .|. controlMask, xK_h),  shiftPrevScreen) 
 	-- ]
+	++
+	-- Music controller
+	[
+		  ((modMask, xK_F10), spawn "playerctl prev")
+		, ((modMask, xK_F11), spawn "playerctl next")
+		, ((modMask, xK_F12), spawn "playerctl play-pause")
+	]
 	where
 		lockSpawner "lark" = spawn "slock"
 		lockSpawner "phaelon" = spawn "/bin/sh ~/git/dotfiles_desktop/scripts/go_standby.sh"
