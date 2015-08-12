@@ -127,6 +127,7 @@ myExtendedWorkspaces "lark" = [ "NSP", "c", "cP", "music", "quassel", "stream", 
 myExtendedWorkspaces "phaelon" = [ "NSP", "music", "quassel", "root", "web" ]
 myExtendedWorkspaces "nukular" = myExtendedWorkspaces "phaelon"
 myExtendedWorkspaces "nurikum" = [ "NSP", "cluster", "clusterP", "quassel", "stream", "root", "web" ]
+myExtendedWorkspaces "jovis" = [ "NSP", "c", "cP", "quassel", "talk", "talkP", "root", "web" ]
 myExtendedWorkspaces _  = ["NSP"]
  
 -- Border colors for unfocused and focused windows, respectively.
@@ -337,6 +338,7 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 	where
 		lockSpawner "lark" = spawn "slock"
 		lockSpawner "phaelon" = spawn "/bin/sh ~/git/dotfiles_desktop/scripts/go_standby.sh"
+		lockSpawner "jovis" = spawn "slock"
 		lockSpawner _ = spawn "xscreensaver-command -lock"
 
 		displayOrder "lark" = [xK_w, xK_q, xK_e]
@@ -446,7 +448,7 @@ myManageHook = manageDocks
 	, className =? "banshee-1"			--> doShift "5:media"
 	, className =? "Ktorrent"			--> doShift "5:media"
 	, className =? "Xchat"				--> doShift "5:media"
-	, className =? "Quasselclient"		--> doShift "quassel"
+	, className =? "quasselclient"		--> doShift "quassel"
 	, title =? "CS188 Pacman"		--> doShift "ai"
 	, resource	=? "desktop_window" 	--> doIgnore
 	, resource	=? "kdesktop"			--> doIgnore 
@@ -520,10 +522,12 @@ myTrayer hostname = "killall trayer; trayer \
 	\--SetDockType  true"
 	where
 		trayWidth "nurikum" = "150"
+        trayWidth "jovis" = "50"
 		trayWidth _ = "100"
 
 		trayMargin "nurikum" = "1700"
 		trayMargin "phaelon" = "1340"
+		trayMargin "jovis" = "1230"
 		trayMargin _ = "1820"
 myXmobar = "/usr/bin/xmobar ~/.xmonad/xmobar"
 

@@ -10,6 +10,8 @@
 # !!!
 # R("margin")["phaelon"] = 1340
 # R("margin")["nurikum"] = 1700
+# R("margin")["jovis"] = 1230
+# R("width")["jovis"] = 50
 # !!!
 
 trayer --edge top --align left --margin {{margin:1820}} --width {{width:100}}\

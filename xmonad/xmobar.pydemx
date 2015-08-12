@@ -13,13 +13,16 @@
 -- R("width", default=1820)
 -- R("width")["phaelon"] = 1340
 -- R("width")["nurikum"] = 1700
+-- R("width")["jovis"] = 1230
 -- 
 -- R("cpus")["nukular"] = "<total0><total1><total2><total3><total4><total5>"
 -- R("cpus")["nurikum"] = "<total0><total1><total2><total3><total4>"
+-- R("cpus")["lark"] = "<total0><total1><total2><total3>"
 -- 
 -- R("wirename", default="eth0")
 -- R("wirename")["lark"] = "enp2s0"
 -- R("wirename")["phaelon"] = "wlp12s0"
+-- R("wirename")["jovis"] = "wls1"
 -- 
 -- def make_network(wirename):
 --     return '\t\t, Run Network "{wirename}" ["-t","<rx> / <tx>","-H","3500","-L","100","-h","#FFB6B0",'\
@@ -28,11 +31,16 @@
 -- R("LAN")["phaelon"] = make_network("eth0") + "\n" + make_network(R("wirename")["phaelon"])
 -- R("padding", default=" ")
 -- R("padding")["lark"] = " "
+-- R("padding")["jovis"] = " "
 -- R("padding")["nurikum"] = " "
 -- R("padding")["phaelon"] = " "
 -- R("info_wl")["phaelon"] = ":: %{0}wi%".format(R("wirename")["phaelon"])
+-- R("info_wl")["jovis"] = ":: %{0}wi%".format(R("wirename")["jovis"])
 -- R("info_ct")["phaelon"] = ""
 -- R("info_ct")["nurikum"] = ""
+-- R("info_bat", default="")
+-- R("info_bat")["phaelon"] = "%battery%"
+-- R("info_bat")["jovis"] = "%battery%"
 -- !!!
 -- Run Cpu ["-L","3","-H","50","--normal","#CEFFAC","--high","#FFB6B0"] 10
 Config { font = "Envy Code R:style=Regular:size=10"
@@ -52,7 +60,7 @@ Config { font = "Envy Code R:style=Regular:size=10"
 		, Run Swap [ "-t", "<usedratio>%"] 10
 -- -- !!! LAN
 -- !!! Wireless
--- !!! Wireless @ phaelon
+-- !!! Wireless @ phaelon,jovis
 		, Run Wireless "{{wirename}}" ["-t","<quality>%","-H","80","-L","20","-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC", "-m", "3", "-c", "{{padding}}"] 5
 -- !!!
 		--  , Run Network "wlan0" ["-t","<rx> / <tx>","-H","3500","-L","100","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC", "-m", "6", "-c", "{{padding}}"] 5
@@ -60,7 +68,7 @@ Config { font = "Envy Code R:style=Regular:size=10"
 		-- , Run Battery ["-t","Bat: <acstatus><watts>W | <left>% / <timeleft>","-H","80","-L","20", "-l","#FFB6B0","-m","#CEFFAC","-h","#FFFFCC", "--", "-p", "blue", ] 600
 		--  , Run Battery ["-t","AC <acstatus>, <left>% / <timeleft>","-H","80","-L","20", "-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC"] 600
 -- !!! Battery
--- !!! Battery @ phaelon
+-- !!! Battery @ phaelon,jovis
 		, Run Battery ["-t","AC <acstatus>, <left>% / <timeleft>","-H","80","-L","20", "-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC"] 600
 -- !!!
 		, Run Date "%a %b %_d %H:%M:%S" "date" 10
@@ -69,7 +77,7 @@ Config { font = "Envy Code R:style=Regular:size=10"
 		, sepChar = "%"
 		, alignSep = "}{"
 		-- , template = "%StdinReader% }{ %multicpu% {{info_ct:%coretemp%   }}%memory% %swap%   %{{wirename}}% {{info_wl}}  <fc=#FFFFCC>%date%</fc>"
-		, template = "%StdinReader% }{ %multicpu% {{info_ct:%coretemp%   }}%memory% %swap%   %dynnetwork% {{info_wl}}  <fc=#FFFFCC>%date%</fc>"
+		, template = "%StdinReader% }{ %multicpu% {{info_ct:%coretemp%   }}%memory% %swap%   %dynnetwork% {{info_wl}}  {{info_bat}}  <fc=#FFFFCC>%date%</fc>"
 	}
 -- !!!
 -- !!!
