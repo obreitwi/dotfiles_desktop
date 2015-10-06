@@ -1,6 +1,7 @@
 ###
-cfg["filename"] = ".Xmodmap"
-cfg["folder"] = "$HOME"
+#### 
+# cfg["filename"] = ".Xmodmap"
+# cfg["folder"] = "$HOME"
 ###
 
 ### vimswap
