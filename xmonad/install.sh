@@ -6,4 +6,6 @@ TGTFLD="$HOME/.xmonad"
 ln -s -f -v $SRCFLD/xmonad.hs $TGTFLD/
 ln -s -f -v $SRCFLD/lib $TGTFLD/
 
+pydemx $SRCFLD/xmobar.pydemx
+
 

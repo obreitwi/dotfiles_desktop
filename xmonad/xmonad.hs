@@ -36,6 +36,7 @@ import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.WorkspaceCompare
 import XMonad.Util.NamedScratchpad
+-- import XMonad.Config.Xfce
 
 import qualified XMonad.StackSet    as W
 import qualified Data.Map           as M
@@ -128,6 +129,7 @@ myExtendedWorkspaces "phaelon" = [ "NSP", "music", "quassel", "root", "web" ]
 myExtendedWorkspaces "nukular" = myExtendedWorkspaces "phaelon"
 myExtendedWorkspaces "nurikum" = [ "NSP", "c", "cP", "music", "stream", "root", "web" ]
 myExtendedWorkspaces "jovis" = [ "NSP", "c", "cP", "quassel", "talk", "talkP", "root", "web" ]
+myExtendedWorkspaces "gordon" = [ "NSP", "root", "web" ]
 myExtendedWorkspaces _  = ["NSP"]
 
 -- Border colors for unfocused and focused windows, respectively.
@@ -232,7 +234,7 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
    , ((modMask .|. shiftMask,      xK_u        ), sendMessage RestoreNextMinimizedWin)
 
    -- Quit xmonad
-   , ((modMask .|. shiftMask,      xK_r        ), io (exitWith ExitSuccess))
+   , ((modMask .|. shiftMask,      xK_r        ), myExitXmonad hostname)
 
    -- Restart xmonad
    , ((modMask,                    xK_r        ), restart "xmonad" True) 
@@ -343,6 +345,7 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
        lockSpawner "lark" = spawn "slock"
        lockSpawner "phaelon" = spawn "/bin/sh ~/git/dotfiles_desktop/scripts/go_standby.sh"
        lockSpawner "jovis" = spawn "slock"
+       lockSpawner "gordon" = spawn "slock"
        lockSpawner _ = spawn "xscreensaver-command -lock"
 
        displayOrder "nurikum" = [xK_w, xK_q, xK_e]
@@ -351,6 +354,8 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
        -- browser "lark" = "chromium --process-per-site --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'" 
        browser "lark" = "chromium --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'"
        browser _ = "chromium"
+       -- myExitXmonad "gordon" = spawn "xfce4-session-logout"
+       myExitXmonad _ = io (exitWith ExitSuccess)
 
 
 ignoredWorkspaces = ["NSP"]
@@ -415,9 +420,11 @@ myLayout hostname = avoidStruts $ minimize $ (mkToggle ( single NBFULL ) $
    tiled ||| Grid (screenRatio hostname) ||| noBorders streamwatching ||| Mirror tiled ||| noBorders Full ||| spiral (6/7)) ||| oddtiled 
  where
    screenRatio "juno" = 16/9
+   screenRatio "gordon" = 1366/768
    screenRatio _ = 16/10
 
    oddRatio "phaelon" = 1 - 400 / 1440
+   oddRatio "gordon" = 1 - 400 / 1366
    oddRatio _ = 1 - 550 / 1920
 
    -- default tiling algorithm partitions the screen into two panes
@@ -535,6 +542,7 @@ myLogHookConfig = xmobarPP {
 
 --  myTrayer = "killall trayer; trayer --edge top --align left --margin 1770 --width 150 --widthtype pixel --height 16 --SetDockType true --expand false --padding 1 --tint 0x000000 --transparent true --alpha 0"
 -- myTrayer = "killall trayer; trayer --edge top --align left --margin 1340 --width 100 --widthtype pixel --height 16 --padding 1 --tint 0x000000 --transparent true --alpha 0"
+-- myTrayer "gordon" = "/bin/true"
 myTrayer hostname = "killall trayer; trayer \
    \--edge top \
    \--align left \
@@ -551,13 +559,20 @@ myTrayer hostname = "killall trayer; trayer \
    where
        trayWidth "nurikum" = "150"
        trayWidth "jovis" = "50"
+       trayWidth "gordon" = "75"
        trayWidth _ = "100"
 
        trayMargin "nurikum" = show (1920 + 1280 - (read (trayWidth "nurikum")))
        trayMargin "phaelon" = "1340"
+       trayMargin "gordon" = "1291"
        trayMargin "jovis" = "1230"
        trayMargin _ = "1820"
-myXmobar = "/usr/bin/xmobar ~/.xmonad/xmobar"
+
+-- myXmobar "gordon" = "/bin/true"
+myXmobar _ = "/usr/bin/xmobar ~/.xmonad/xmobar"
+
+-- myDefaultConfig "gordon" = xfceConfig
+myDefaultConfig _ = defaultConfig
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
@@ -566,7 +581,7 @@ myXmobar = "/usr/bin/xmobar ~/.xmonad/xmobar"
 --
 main = do
    hostname <- getHostName
-   xmproc <- spawnPipe myXmobar
+   xmproc <- spawnPipe $ myXmobar hostname
    trayer <- spawnPipe $ myTrayer hostname
    xmonad $ (defaults hostname) {
        logHook =   (dynamicLogWithPP $ myLogHookConfig{
@@ -585,7 +600,7 @@ main = do
 -- No need to modify this.
 --
 defaults hostname =
-   defaultConfig {
+   (myDefaultConfig hostname) {
      -- simple stuff
        terminal            = myTerminal hostname,
        focusFollowsMouse   = myFocusFollowsMouse,
