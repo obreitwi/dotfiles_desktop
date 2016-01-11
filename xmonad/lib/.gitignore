@@ -1,0 +1,2 @@
+GetHostName.*
+!GetHostName.hs
