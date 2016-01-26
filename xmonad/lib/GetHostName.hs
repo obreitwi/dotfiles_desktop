@@ -13,9 +13,9 @@ getHostName :: IO String
 getHostName = do
   let size = 256
   allocaArray0 size $ \ cstr -> do
-	throwErrnoIfMinus1_ "getHostName" $ c_gethostname cstr (fromIntegral size)
-	peekCString cstr
+    throwErrnoIfMinus1_ "getHostName" $ c_gethostname cstr (fromIntegral size)
+    peekCString cstr
  
 foreign import ccall "gethostname"
-   c_gethostname :: CString -> CSize -> IO CInt
+  c_gethostname :: CString -> CSize -> IO CInt
  

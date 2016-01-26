@@ -126,7 +126,7 @@ myExtendedWorkspaces :: String -> [String]
 myExtendedWorkspaces "lark" = [ "NSP", "c", "cP", "music", "quassel", "stream", "root", "web" ]
 myExtendedWorkspaces "phaelon" = [ "NSP", "music", "quassel", "root", "web" ]
 myExtendedWorkspaces "nukular" = myExtendedWorkspaces "phaelon"
-myExtendedWorkspaces "nurikum" = [ "NSP", "cluster", "clusterP", "quassel", "stream", "root", "web" ]
+myExtendedWorkspaces "nurikum" = [ "NSP", "c", "cP", "stream", "root", "web" ]
 myExtendedWorkspaces "jovis" = [ "NSP", "c", "cP", "quassel", "talk", "talkP", "root", "web" ]
 myExtendedWorkspaces _  = ["NSP"]
 
@@ -298,14 +298,14 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
    -- zip (zip (repeat modMask) [xK_F1..xK_F12]) (map (withNthWorkspace W.greedyView) [0..])
 
    -- Start at 1 instead of 0 because we have the NSP workspace as first
-   zip (zip (repeat modMask) [xK_1..xK_9]) (map (withNthWorkspace W.greedyView) [1..])
+   zip (zip (repeat modMask) [xK_1..xK_9]) (map (withNthWorkspaceFiltered W.greedyView) [0..])
    ++
    -- mod-shift-[F1..F12] Move client to workspace N
-   zip (zip (repeat (modMask .|. shiftMask)) [xK_1..xK_9]) (map (withNthWorkspace W.shift) [1..])
+   zip (zip (repeat (modMask .|. shiftMask)) [xK_1..xK_9]) (map (withNthWorkspaceFiltered W.shift) [0..])
    ++
    -- mod-control-shift-[F1..F12] Copy client to workspace N
-   zip (zip (repeat (controlMask .|. shiftMask)) [xK_1..xK_9]) (map (withNthWorkspace copy) [1..])
-   ++
+   -- zip (zip (repeat (controlMask .|. shiftMask)) [xK_1..xK_9]) (map (withNthWorkspace copy) [1..])
+   -- ++
 
    --
    -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
@@ -345,6 +345,15 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
        displayOrder _ = [xK_q, xK_w, xK_e]
 
 
+ignoredWorkspaces = ["NSP"]
+-- Apply an action to the window stack, while ignoring certain workspaces
+withNthWorkspaceFiltered :: (String -> WindowSet -> WindowSet) -> Int -> X ()
+withNthWorkspaceFiltered job wnum = do
+  sort <- getSortByIndex
+  ws <- gets (filter (\s -> not(s `elem` ignoredWorkspaces)) . map W.tag . sort . W.workspaces . windowset)
+  case drop wnum ws of
+    (w:_) -> windows $ job w
+    [] -> return ()
 
 ------------------------------------------------------------------------
 -- Mouse bindings: default actions bound to mouse events
