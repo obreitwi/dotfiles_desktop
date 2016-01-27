@@ -259,16 +259,16 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
    [ ((modMask,                    xK_i        ), goToSelected defaultGSConfig)
    -- Cycle workspaces With RotView
    -- , ((modMask,                 xK_l        ), moveTo Next AnyWS)
-   , ((modMask,                    xK_l        ), moveTo Next HiddenWS)
+   , ((modMask,                    xK_l        ), moveTo Next hiddenNonIgnoredWS)
    --  , ((modMask,                    xK_l        ), moveTo Next NonEmptyWS) 
    -- , ((modMask,                 xK_h        ), moveTo Prev AnyWS)
-   , ((modMask,                    xK_h        ), moveTo Prev HiddenWS)
+   , ((modMask,                    xK_h        ), moveTo Prev hiddenNonIgnoredWS)
    --  , ((modMask,                    xK_h        ), moveTo Prev NonEmptyWS) 
    -- , ((modMask .|. shiftMask,       xK_l        ), shiftTo Next AnyWS)
-   , ((modMask .|. shiftMask,      xK_l        ), shiftTo Next HiddenWS)
+   , ((modMask .|. shiftMask,      xK_l        ), shiftTo Next hiddenNonIgnoredWS)
    --  , ((modMask,                    xK_l        ), shiftTo Next NonEmptyWS) 
    -- , ((modMask .|. shiftMask,       xK_h        ), shiftTo Prev AnyWS)
-   , ((modMask .|. shiftMask,      xK_h        ), shiftTo Prev HiddenWS)
+   , ((modMask .|. shiftMask,      xK_h        ), shiftTo Prev hiddenNonIgnoredWS)
    {- , ((modMask,                 xK_h        ), shiftTo Prev NonEmptyWS) -}
 
    , ((modMask,                    xK_a        ), toggleWS )
@@ -354,6 +354,17 @@ withNthWorkspaceFiltered job wnum = do
   case drop wnum ws of
     (w:_) -> windows $ job w
     [] -> return ()
+
+hiddenNonIgnoredWS :: WSType
+hiddenNonIgnoredWS = WSIs getWShiddenNonIgnored
+  where
+    getWShiddenNonIgnored :: X (WindowSpace -> Bool)
+    getWShiddenNonIgnored = do
+      hs <- gets (filter_ignored . map W.tag . W.hidden . windowset)
+      return (\w -> W.tag w `elem` hs)
+    filter_ignored = filter (\t -> not (t `elem` ignoredWorkspaces))
+
+    
 
 ------------------------------------------------------------------------
 -- Mouse bindings: default actions bound to mouse events

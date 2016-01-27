@@ -114,7 +114,7 @@ URxvt.keysym.M-quotedbl:  perl:aAtt:undo
 
 ! DESCRIPTION 
 
-! launch links in firefox
+! ! launch links in firefox
 URxvt.keysym.M-u:    perl:url-select:select_next
 ! URxvt.url-select.launcher:   /usr/bin/firefox -new-tab
 URxvt.url-select.launcher:   /usr/bin/chromium
