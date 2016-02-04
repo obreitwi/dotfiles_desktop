@@ -64,8 +64,9 @@ myScratchpads = [
    -- run htop in xterm, find it by title, use default floating window placement
        NS "htop" "urxvtc -e htop" (title =? "htop") manageNotes ,
        NS "shell" "urxvtc -T shell" (title =? "shell") manageNotes ,
+       NS "alsamixer" "urxvtc -e alsamixer" (title =? "alsamixer") manageNotes,
 
-   -- run stardict, find it by class name, place it in the floating window
+   -- run stardict, find it by class name, place it in the floating window    j
    -- 1/6 of screen width from the left, 1/6 of screen height
    -- from the top, 2/3 of screen width by 2/3 of screen height
        --  NS "stardict" "stardict" (className =? "Stardict")
@@ -248,9 +249,10 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
    -- Scratch Pads
    ------------------------------
    [
-   ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes" ),
-   ((modMask .|. shiftMask,        xK_slash        ), namedScratchpadAction myScratchpads "htop" ),
-   ((modMask,                      xK_apostrophe   ), namedScratchpadAction myScratchpads "shell" )
+     ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes" ),
+     ((modMask .|. shiftMask,        xK_slash        ), namedScratchpadAction myScratchpads "htop" ),
+     ((modMask,                      xK_apostrophe   ), namedScratchpadAction myScratchpads "shell" ),
+     ((modMask .|. shiftMask,        xK_apostrophe   ), namedScratchpadAction myScratchpads "alsamixer" )
    ]++
 
    -- Actions
