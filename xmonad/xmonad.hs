@@ -478,7 +478,6 @@ myManageHook = manageDocks
    -- , className  =? "Vlc"                --> doShift "stream"
    -- , title =? "fd://0 - VLC media player" --> doShift "stream"
    ]
-
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
 myFocusFollowsMouse = False
