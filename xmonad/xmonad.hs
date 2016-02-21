@@ -343,7 +343,7 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
        lockSpawner "jovis" = spawn "slock"
        lockSpawner _ = spawn "xscreensaver-command -lock"
 
-       displayOrder "lark" = [xK_w, xK_q, xK_e]
+       -- displayOrder "lark" = [xK_w, xK_q, xK_e]
        displayOrder _ = [xK_q, xK_w, xK_e]
 
 
@@ -463,7 +463,7 @@ myManageHook = manageDocks
    , className =? "Komodo Edit"        --> doShift "1:code"
    , className =? "Emacs"              --> doShift "1:code"
    , className =? "Firefox"            --> doShift "web"
-   , className =? "Chromium"           --> doShift "web"
+   , className =? "chromium"           --> doShift "web"
    , className =? "Thunderbird-bin"    --> doShift "3:msg"
    , className =? "Pidgin"             --> doShift "3:msg"
    , className =? "VirtualBox"         --> doShift "4:vm"
