@@ -1,4 +1,3 @@
-
 -- Originally taken from: http://github.com/vicfryzel/xmonad-config
 
 import GetHostName
@@ -220,7 +219,7 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
    , ((modMask .|. shiftMask,      xK_comma    ), sendMessage (IncMasterN (-1)))
 
    -- Toggle fullscreen
-   , ((modMask,                    xK_p        ), sendMessage $ Toggle FULL)
+   , ((modMask,                    xK_p        ), sendMessage $ Toggle NBFULL )
 
    -- toggle the status bar gap TODO, update this binding with avoidStruts,
    , ((modMask,                    xK_n        ), sendMessage ToggleStruts )
@@ -405,7 +404,7 @@ myTabConfig = defaultTheme {  activeBorderColor = "#7C7C7C"
                            
 -- myLayout = avoidStruts $ minimize (mkToggle ( NOBORDERS ?? FULL ?? EOT ) $ tiled ||| oddtiled ||| Mirror tiled ||| tabbed shrinkText myTabConfig ||| noBorders Full ||| spiral (6/7))
 -- Tabbed layout causes segfault with toggle - RANDOMLY, avoid until known to be fixed
-myLayout hostname = avoidStruts $ minimize (mkToggle ( NOBORDERS ?? FULL ?? EOT ) $
+myLayout hostname = avoidStruts $ minimize $ (mkToggle ( single NBFULL ) $
    tiled ||| Grid (screenRatio hostname) ||| noBorders streamwatching ||| Mirror tiled ||| noBorders Full ||| spiral (6/7)) ||| oddtiled 
  where
    screenRatio "juno" = 16/9
