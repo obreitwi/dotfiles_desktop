@@ -12,11 +12,11 @@
 -- !!!
 -- R("width", default=1820)
 -- R("width")["phaelon"] = 1340
--- R("width")["nurikum"] = 1700
+-- R("width")["nurikum"] = 1770
 -- R("width")["jovis"] = 1230
 -- 
 -- R("cpus")["nukular"] = "<total0><total1><total2><total3><total4><total5>"
--- R("cpus")["nurikum"] = "<total0><total1><total2><total3><total4>"
+-- R("cpus")["nurikum"] = "<total0><total1><total2><total3>"
 -- R("cpus")["lark"] = "<total0><total1><total2><total3>"
 -- 
 -- R("wirename", default="eth0")
@@ -41,19 +41,19 @@
 -- R("info_bat", default="")
 -- R("info_bat")["phaelon"] = "%battery%"
 -- R("info_bat")["jovis"] = "%battery%"
+-- R("xpos")["nurikum"] = 1280
 -- !!!
 -- Run Cpu ["-L","3","-H","50","--normal","#CEFFAC","--high","#FFB6B0"] 10
 Config { font = "Envy Code R:style=Regular:size=10"
 		, bgColor = "#000000"
 		, fgColor = "#ffffff"
-		, position = Static { xpos = 0, ypos = 0, width = {{width}}, height = 16 }
+		, position = Static { xpos = {{xpos:0}}, ypos = 0, width = {{width}}, height = 16 }
 		, lowerOnStart = True
 		, commands = [
 -- !!! MultiCpu
 		Run MultiCpu ["-t","{{cpus:<total0><total1>}}","-L","3","-H","50","--normal","#CEFFAC","--high","#FFB6B0","-w","4", "-c", "{{padding}}"] 10
 -- !!! CoreTemp
 		, Run CoreTemp [ "-t", "<core0>|<core1>C", "-L","40","-H","60","--normal","#CEFFAC","--high","#FFB6B0","-w","2", "-c", "{{padding}}" ] 10
--- !!! CoreTemp @ nurikum
 -- !!!
 		, Run DynNetwork ["-t","<rx> / <tx>","-H","3500","-L","100","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC", "-m", "6", "-c", "{{padding}}"] 10
 		, Run Memory ["-t","<used>M"] 10

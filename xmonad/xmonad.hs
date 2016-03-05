@@ -342,7 +342,7 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
        lockSpawner "jovis" = spawn "slock"
        lockSpawner _ = spawn "xscreensaver-command -lock"
 
-       -- displayOrder "lark" = [xK_w, xK_q, xK_e]
+       displayOrder "nurikum" = [xK_w, xK_q, xK_e]
        displayOrder _ = [xK_q, xK_w, xK_e]
 
 
@@ -545,7 +545,7 @@ myTrayer hostname = "killall trayer; trayer \
        trayWidth "jovis" = "50"
        trayWidth _ = "100"
 
-       trayMargin "nurikum" = "1700"
+       trayMargin "nurikum" = show (1920 + 1280 - (read (trayWidth "nurikum")))
        trayMargin "phaelon" = "1340"
        trayMargin "jovis" = "1230"
        trayMargin _ = "1820"
