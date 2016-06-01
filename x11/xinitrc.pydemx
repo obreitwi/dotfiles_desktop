@@ -58,6 +58,13 @@ autocutsel -selection PRIMARY -fork &
 killall urxvtd
 urxvtd -q -f
 
+### autolock
+### autolock@lark
+# auto lock screen after 10 minutes of idle
+while true; do
+    sinac -w 600 && slock
+done
+###
 
 # Disable TapButtons for trackpad
 # synclient TapButton1=0

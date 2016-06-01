@@ -158,6 +158,9 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
    -- launch gvim
    , ((modMask ,                   xK_g        ), spawnHere "gvim")
 
+   -- launch browser
+   , ((modMask ,                   xK_b        ), spawnHere (browser hostname))
+
    -- clipboard management
    -- from primary to clipboard
    , ((modMask ,                   xK_y        ), spawnHere "lolictrl -spc")
@@ -345,6 +348,9 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
        displayOrder "nurikum" = [xK_w, xK_q, xK_e]
        displayOrder _ = [xK_q, xK_w, xK_e]
 
+       browser "lark" = "chromium --process-per-site --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'"
+       browser _ = "chromium --process-per-site"
+
 
 ignoredWorkspaces = ["NSP"]
 -- Apply an action to the window stack, while ignoring certain workspaces
@@ -470,6 +476,7 @@ myManageHook = manageDocks
    , className =? "Ktorrent"           --> doShift "5:media"
    , className =? "Xchat"              --> doShift "5:media"
    , className =? "quasselclient"      --> doShift "quassel"
+   , className =? "Spotify"            --> doShift "spotify"
    , title =? "CS188 Pacman"       --> doShift "ai"
    , resource  =? "desktop_window"     --> doIgnore
    , resource  =? "kdesktop"           --> doIgnore 
