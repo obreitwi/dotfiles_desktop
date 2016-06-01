@@ -126,7 +126,7 @@ myExtendedWorkspaces :: String -> [String]
 myExtendedWorkspaces "lark" = [ "NSP", "c", "cP", "music", "quassel", "stream", "root", "web" ]
 myExtendedWorkspaces "phaelon" = [ "NSP", "music", "quassel", "root", "web" ]
 myExtendedWorkspaces "nukular" = myExtendedWorkspaces "phaelon"
-myExtendedWorkspaces "nurikum" = [ "NSP", "c", "cP", "stream", "root", "web" ]
+myExtendedWorkspaces "nurikum" = [ "NSP", "c", "cP", "music", "stream", "root", "web" ]
 myExtendedWorkspaces "jovis" = [ "NSP", "c", "cP", "quassel", "talk", "talkP", "root", "web" ]
 myExtendedWorkspaces _  = ["NSP"]
 
