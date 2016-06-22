@@ -348,8 +348,9 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
        displayOrder "nurikum" = [xK_w, xK_q, xK_e]
        displayOrder _ = [xK_q, xK_w, xK_e]
 
-       browser "lark" = "chromium --process-per-site --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'"
-       browser _ = "chromium --process-per-site"
+       -- browser "lark" = "chromium --process-per-site --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'" 
+       browser "lark" = "chromium --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'"
+       browser _ = "chromium"
 
 
 ignoredWorkspaces = ["NSP"]
