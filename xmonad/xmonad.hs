@@ -159,7 +159,7 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
    , ((modMask ,                   xK_g        ), spawnHere "gvim")
 
    -- launch browser
-   , ((modMask ,                   xK_b        ), spawnHere (browser hostname))
+   , ((modMask ,                   xK_b        ), spawn (browser hostname))
 
    -- clipboard management
    -- from primary to clipboard
@@ -183,7 +183,7 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
    , ((modMask .|. shiftMask,      xK_space    ), setLayout $ XMonad.layoutHook conf)
 
    -- Resize viewed windows to the correct size
-   , ((modMask,                    xK_n        ), refresh)
+   , ((modMask,                    xK_v        ), refresh)
 
    -- Move focus to the next window
    , ((modMask,                    xK_Tab      ), windows W.focusDown)
