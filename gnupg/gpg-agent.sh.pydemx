@@ -4,15 +4,15 @@ cfg["permissions"] = 0755
 #!/bin/sh
 
 # Start the GnuPG agent and enable OpenSSH agent emulation
-gnupginf=${HOME}"/.gpg-agent-info"
+# gnupginf=${HOME}"/.gpg-agent-info"
 
 # if pgrep -u "${USER}" gpg-agent >/dev/null 2>&1; then
     # eval `cat $gnupginf`
     # eval `cut -d= -f1 $gnupginf | xargs echo export`
 # else
-eval $(gpg-agent -s --enable-ssh-support --daemon --options=${HOME}/.config/gnupg/gpg-agent.conf)
 export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh
+eval $(gpg-agent -s --enable-ssh-support --daemon --options=${HOME}/.config/gnupg/gpg-agent.conf)
 # fi
 
-unset gnupginf
+# unset gnupginf
 
