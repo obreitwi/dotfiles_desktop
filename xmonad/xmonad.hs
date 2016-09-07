@@ -476,7 +476,10 @@ myManageHook = manageDocks
    , className =? "Komodo Edit"        --> doShift "1:code"
    , className =? "Emacs"              --> doShift "1:code"
    , className =? "Firefox"            --> doShift "web"
-   , className =? "chromium"           --> doShift "web"
+   ,    (className =? "chromium")
+   -- debian variant of chromium
+   <||> (className =? "chromium-browser")
+                                       --> doShift "web"
    , className =? "Thunderbird-bin"    --> doShift "3:msg"
    , className =? "Pidgin"             --> doShift "3:msg"
    , className =? "VirtualBox"         --> doShift "4:vm"
@@ -538,9 +541,8 @@ myLogHookConfig = xmobarPP {
    }  
    where
        noScratchPad ws = if ws == "NSP" then "" else ws
-       
 
---  myTrayer = "killall trayer; trayer --edge top --align left --margin 1770 --width 150 --widthtype pixel --height 16 --SetDockType true --expand false --padding 1 --tint 0x000000 --transparent true --alpha 0"
+-- myTrayer = "killall trayer; trayer --edge top --align left --margin 1770 --width 150 --widthtype pixel --height 16 --SetDockType true --expand false --padding 1 --tint 0x000000 --transparent true --alpha 0"
 -- myTrayer = "killall trayer; trayer --edge top --align left --margin 1340 --width 100 --widthtype pixel --height 16 --padding 1 --tint 0x000000 --transparent true --alpha 0"
 -- myTrayer "gordon" = "/bin/true"
 myTrayer hostname = "killall trayer; trayer \
