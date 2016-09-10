@@ -11,8 +11,12 @@ cfg["permissions"] = 0755
     # eval `cut -d= -f1 $gnupginf | xargs echo export`
 # else
 export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh
-eval $(gpg-agent -s --enable-ssh-support --daemon --options=${HOME}/.config/gnupg/gpg-agent.conf)
+if ! pgrep -x -u "${USER}" gpg-agent >/dev/null 2>&1; then
+    eval $(gpg-agent -s --enable-ssh-support --daemon --options=${HOME}/.config/gnupg/gpg-agent.conf)
+fi
 # fi
 
 # unset gnupginf
+
+# vim: ft=sh
 
