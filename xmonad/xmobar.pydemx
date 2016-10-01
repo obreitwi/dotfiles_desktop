@@ -15,17 +15,20 @@
 -- R("width")["nurikum"] = 1770
 -- R("width")["jovis"] = 1230
 -- R("width")["gordon"] = 1291
+-- R("width")["phaeloff"] = R("width")["gordon"]
 -- 
 -- R("cpus")["nukular"] = "<total0><total1><total2><total3><total4><total5>"
 -- R("cpus")["nurikum"] = "<total0><total1><total2><total3>"
 -- R("cpus")["lark"] = "<total0><total1><total2><total3>"
 -- R("cpus")["gordon"] = "<total0><total1><total2><total3>"
+-- R("cpus")["phaeloff"] = R("cpus")["gordon"]
 -- 
 -- R("wirename", default="eth0")
 -- R("wirename")["lark"] = "enp2s0"
 -- R("wirename")["phaelon"] = "wlp12s0"
 -- R("wirename")["jovis"] = "wls1"
 -- R("wirename")["gordon"] = "wlan0"
+-- R("wirename")["phaeloff"] = "wlp5s0b1"
 -- 
 -- def make_network(wirename):
 --     return '\t\t, Run Network "{wirename}" ["-t","<rx> / <tx>","-H","3500","-L","100","-h","#FFB6B0",'\
@@ -38,15 +41,16 @@
 -- R("padding")["nurikum"] = " "
 -- R("padding")["phaelon"] = " "
 -- R("padding")["gordon"] = " "
--- for hostname in "phaelon jovis gordon".split():
+-- R("padding")["phaeloff"] = R("padding")["gordon"]
+-- laptops = "phaelon jovis gordon phaeloff".split()
+-- for hostname in laptops:
 --     R("info_wl")[hostname] = ":: %{0}wi%".format(R("wirename")[hostname])
 -- R("info_ct")["phaelon"] = ""
 -- R("info_ct")["nurikum"] = ""
 -- R("info_bat", default="")
 -- R("xpos")["nurikum-standalone"] = 1280
--- for hostname in "phaelon jovis gordon".split():
+-- for hostname in laptops:
 --     R("info_bat")[hostname] = "%battery%"
--- R("temps")["gordon"] = "<core0>"
 -- !!!
 -- Run Cpu ["-L","3","-H","50","--normal","#CEFFAC","--high","#FFB6B0"] 10
 Config { font = "Envy Code R:style=Regular:size=10"
@@ -66,7 +70,7 @@ Config { font = "Envy Code R:style=Regular:size=10"
 		, Run Swap [ "-t", "<usedratio>%"] 10
 -- -- !!! LAN
 -- !!! Wireless
--- !!! Wireless @ phaelon,jovis,gordon
+-- !!! Wireless @ phaelon,jovis,gordon,phaeloff
 		, Run Wireless "{{wirename}}" ["-t","<quality>%","-H","80","-L","20","-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC", "-m", "3", "-c", "{{padding}}"] 5
 -- !!!
 		--  , Run Network "wlan0" ["-t","<rx> / <tx>","-H","3500","-L","100","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC", "-m", "6", "-c", "{{padding}}"] 5
@@ -74,7 +78,7 @@ Config { font = "Envy Code R:style=Regular:size=10"
 		-- , Run Battery ["-t","Bat: <acstatus><watts>W | <left>% / <timeleft>","-H","80","-L","20", "-l","#FFB6B0","-m","#CEFFAC","-h","#FFFFCC", "--", "-p", "blue", ] 600
 		--  , Run Battery ["-t","AC <acstatus>, <left>% / <timeleft>","-H","80","-L","20", "-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC"] 600
 -- !!! Battery
--- !!! Battery @ phaelon,jovis,gordon
+-- !!! Battery @ phaelon,jovis,gordon,phaeloff
 		, Run Battery ["-t","AC <acstatus>, <left>% / <timeleft>","-H","80","-L","20", "-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC"] 600
 -- !!!
 		, Run Date "%a %b %_d %H:%M:%S" "date" 10

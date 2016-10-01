@@ -125,8 +125,9 @@ myNumlockMask   = mod2Mask
 myWorkspaces    = [ "1", "2" ]
 myExtendedWorkspaces :: String -> [String]
 myExtendedWorkspaces "lark" = [ "NSP", "c", "cP", "music", "quassel", "stream", "root", "web" ]
-myExtendedWorkspaces "phaelon" = [ "NSP", "music", "quassel", "root", "web" ]
+myExtendedWorkspaces "phaelon" = [ "NSP", "music", "root", "web" ]
 myExtendedWorkspaces "nukular" = myExtendedWorkspaces "phaelon"
+myExtendedWorkspaces "phaeloff" = myExtendedWorkspaces "phaelon"
 myExtendedWorkspaces "nurikum" = [ "NSP", "c", "cP", "music", "stream", "root", "web" ]
 myExtendedWorkspaces "jovis" = [ "NSP", "c", "cP", "quassel", "talk", "talkP", "root", "web" ]
 myExtendedWorkspaces "gordon" = [ "NSP", "root", "web" ]
@@ -342,11 +343,9 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
        , ((modMask, xK_F12), spawn "playerctl play-pause")
    ]
    where
-       lockSpawner "lark" = spawn "slock"
        lockSpawner "phaelon" = spawn "/bin/sh ~/git/dotfiles_desktop/scripts/go_standby.sh"
-       lockSpawner "jovis" = spawn "slock"
-       lockSpawner "gordon" = spawn "slock"
-       lockSpawner _ = spawn "xscreensaver-command -lock"
+       lockSpawner _ = spawn "slock"
+       -- lockSpawner _ = spawn "xscreensaver-command -lock"
 
        displayOrder "nurikum" = [xK_w, xK_q, xK_e]
        displayOrder _ = [xK_q, xK_w, xK_e]
@@ -421,10 +420,12 @@ myLayout hostname = avoidStruts $ minimize $ (mkToggle ( single NBFULL ) $
  where
    screenRatio "juno" = 16/9
    screenRatio "gordon" = 1366/768
+   screenRatio "phaeloff" = screenRatio "gordon"
    screenRatio _ = 16/10
 
    oddRatio "phaelon" = 1 - 400 / 1440
    oddRatio "gordon" = 1 - 400 / 1366
+   oddRatio "phaeloff" = oddRatio "gordon"
    oddRatio _ = 1 - 550 / 1920
 
    -- default tiling algorithm partitions the screen into two panes
@@ -567,6 +568,7 @@ myTrayer hostname = "killall trayer; trayer \
        trayMargin "nurikum" = show (1920 + 1280 - (read (trayWidth "nurikum")))
        trayMargin "phaelon" = "1340"
        trayMargin "gordon" = "1291"
+       trayMargin "phaeloff" = trayMargin "gordon"
        trayMargin "jovis" = "1230"
        trayMargin _ = "1820"
 
