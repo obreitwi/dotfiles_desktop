@@ -27,6 +27,7 @@
 -- R("wirename")["lark"] = "enp2s0"
 -- R("wirename")["phaelon"] = "wlp12s0"
 -- R("wirename")["jovis"] = "wls1"
+-- R("wirename")["gordon"] = "usb0"
 -- R("wirename")["gordon"] = "wlan0"
 -- R("wirename")["phaeloff"] = "wlp5s0b1"
 -- 
@@ -54,42 +55,43 @@
 -- !!!
 -- Run Cpu ["-L","3","-H","50","--normal","#CEFFAC","--high","#FFB6B0"] 10
 Config { font = "Envy Code R:style=Regular:size=10"
-		, bgColor = "#000000"
-		, fgColor = "#ffffff"
-		, position = Static { xpos = {{xpos:0}}, ypos = 0, width = {{width}}, height = 16 }
-		, lowerOnStart = True
-		, commands = [
+    , bgColor = "#000000"
+    , fgColor = "#ffffff"
+    , position = Static { xpos = {{xpos:0}}, ypos = 0, width = {{width}}, height = 16 }
+    , lowerOnStart = True
+    , commands = [
 -- !!! MultiCpu
-		Run MultiCpu ["-t","{{cpus:<total0><total1>}}","-L","3","-H","50","--normal","#CEFFAC","--high","#FFB6B0","-w","4", "-c", "{{padding}}"] 10
+    Run MultiCpu ["-t","{{cpus:<total0><total1>}}","-L","3","-H","50","--normal","#CEFFAC","--high","#FFB6B0","-w","4", "-c", "{{padding}}"] 10
 -- !!! CoreTemp
-		, Run CoreTemp [ "-t", "{{temps:<core0>}}C", "-L","40","-H","60","--normal","#CEFFAC","--high","#FFB6B0","-w","2", "-c", "{{padding}}" ] 10
+    , Run CoreTemp [ "-t", "{{temps:<core0>}}C", "-L","40","-H","60","--normal","#CEFFAC","--high","#FFB6B0","-w","2", "-c", "{{padding}}" ] 10
 -- !!! CoreTemp @ nurikum
 -- !!!
-		, Run DynNetwork ["-t","<rx> / <tx>","-H","3500","-L","100","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC", "-m", "6", "-c", "{{padding}}"] 10
-		, Run Memory ["-t","<used>M"] 10
-		, Run Swap [ "-t", "<usedratio>%"] 10
--- -- !!! LAN
+    , Run DynNetwork ["-t","<rx> / <tx>","-H","3500","-L","100","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC", "-m", "6", "-c", "{{padding}}"] 10
+    , Run Memory ["-t","<used>M"] 10
+    , Run Swap [ "-t", "<usedratio>%"] 10
+-- !!! LAN
+-- !!! LAN @ phaelon,jovis
 -- !!! Wireless
 -- !!! Wireless @ phaelon,jovis,gordon,phaeloff
-		, Run Wireless "{{wirename}}" ["-t","<quality>%","-H","80","-L","20","-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC", "-m", "3", "-c", "{{padding}}"] 5
+    , Run Wireless "{{wirename}}" ["-t","<quality>%","-H","80","-L","20","-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC", "-m", "3", "-c", "{{padding}}"] 5
 -- !!!
-		--  , Run Network "wlan0" ["-t","<rx> / <tx>","-H","3500","-L","100","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC", "-m", "6", "-c", "{{padding}}"] 5
-		--  , Run Wireless "wlan0" ["-t","<quality>%","-H","80","-L","20","-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC", "-m", "3", "-c", "{{padding}}"] 5
-		-- , Run Battery ["-t","Bat: <acstatus><watts>W | <left>% / <timeleft>","-H","80","-L","20", "-l","#FFB6B0","-m","#CEFFAC","-h","#FFFFCC", "--", "-p", "blue", ] 600
-		--  , Run Battery ["-t","AC <acstatus>, <left>% / <timeleft>","-H","80","-L","20", "-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC"] 600
+    --  , Run Network "wlan0" ["-t","<rx> / <tx>","-H","3500","-L","100","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC", "-m", "6", "-c", "{{padding}}"] 5
+    --  , Run Wireless "wlan0" ["-t","<quality>%","-H","80","-L","20","-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC", "-m", "3", "-c", "{{padding}}"] 5
+    -- , Run Battery ["-t","Bat: <acstatus><watts>W | <left>% / <timeleft>","-H","80","-L","20", "-l","#FFB6B0","-m","#CEFFAC","-h","#FFFFCC", "--", "-p", "blue", ] 600
+    --  , Run Battery ["-t","AC <acstatus>, <left>% / <timeleft>","-H","80","-L","20", "-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC"] 600
 -- !!! Battery
 -- !!! Battery @ phaelon,jovis,gordon,phaeloff
-		, Run Battery ["-t","AC <acstatus>, <left>% / <timeleft>","-H","80","-L","20", "-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC"] 600
+    , Run Battery ["-t","AC <acstatus>, <left>% / <timeleft>","-H","80","-L","20", "-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC"] 600
 -- !!!
-		, Run Date "%a %b %_d %H:%M:%S" "date" 10
-		, Run StdinReader
+    , Run Date "%a %b %_d %H:%M:%S" "date" 10
+    , Run StdinReader
         , Run Com "date" ["+%d.%m.%y %H:%M:%S"] "mydate" 10
-		]
-		, sepChar = "%"
-		, alignSep = "}{"
-		-- , template = "%StdinReader% }{ %multicpu% {{info_ct:%coretemp%   }}%memory% %swap%   %{{wirename}}% {{info_wl}}  <fc=#FFFFCC>%date%</fc>"
-		, template = "%StdinReader% }{ %multicpu% {{info_ct:%coretemp%   }}%memory% %swap%   %dynnetwork% {{info_wl}}  {{info_bat}}  <fc=#FFFFCC>%mydate%</fc>"
-	}
+    ]
+    , sepChar = "%"
+    , alignSep = "}{"
+    -- , template = "%StdinReader% }{ %multicpu% {{info_ct:%coretemp%   }}%memory% %swap%   %{{wirename}}% {{info_wl}}  <fc=#FFFFCC>%date%</fc>"
+    , template = "%StdinReader% }{ %multicpu% {{info_ct:%coretemp%   }}%memory% %swap%   %dynnetwork% {{info_wl}}  {{info_bat}}  <fc=#FFFFCC>%mydate%</fc>"
+  }
 -- !!!
 -- !!!
 

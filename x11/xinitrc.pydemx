@@ -5,10 +5,9 @@
 ###
 cd $HOME
 # xsetroot -cursor_name left_ptr &
-setxkbmap us intl -model pc105
-setxkbmap \
+setxkbmap us\
   -variant altgr-intl \
-  -option \
+  -model pc105\
   -option compose:rctrl \
   -option lv3:ralt_switch \
   -option eurosign:e \
@@ -59,11 +58,11 @@ killall urxvtd
 urxvtd -q -f
 
 ### autolock
-### autolock@lark
+### autolock @ lark,gordon
 # auto lock screen after 10 minutes of idle
 while true; do
     sinac -w 600 && slock
-done
+done &
 ###
 
 # Disable TapButtons for trackpad

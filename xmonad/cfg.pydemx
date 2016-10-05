@@ -1,3 +1,5 @@
+#PYDEMXIGNORE
+
 cfg = {"folder" : "~/.xmonad" } 
 
 # vim: ft=python

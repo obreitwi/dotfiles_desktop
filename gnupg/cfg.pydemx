@@ -1,4 +1,5 @@
 #PYDEMXIGNORE
+
 cfg = {
     "folder": "$HOME/.config/gnupg",
 }
