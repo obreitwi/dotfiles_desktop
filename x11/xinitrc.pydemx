@@ -49,8 +49,11 @@ feh  --bg-fill "${HOME}/wallpaper/brisbinxmonadwall.png"
 ###
 
 # xscreensaver &
+killall unclutter
 unclutter &
 # loliclip --daemon
+
+killall autocutsel
 autocutsel -fork &
 autocutsel -selection PRIMARY -fork &
 
