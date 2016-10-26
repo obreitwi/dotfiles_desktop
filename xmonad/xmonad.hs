@@ -124,7 +124,7 @@ myNumlockMask   = mod2Mask
 --  myWorkspaces    = ["1:code","2:pdf1","3:pdf2","4:web","5:vserver","6","7","8","9"]
 myWorkspaces    = [ "1", "2" ]
 myExtendedWorkspaces :: String -> [String]
-myExtendedWorkspaces "lark" = [ "NSP", "c", "cP", "music", "quassel", "stream", "root", "web" ]
+myExtendedWorkspaces "lark" = [ "NSP", "c", "cP", "music", "stream", "root", "web" ]
 myExtendedWorkspaces "phaelon" = [ "NSP", "music", "root", "web" ]
 myExtendedWorkspaces "nukular" = myExtendedWorkspaces "phaelon"
 myExtendedWorkspaces "phaeloff" = myExtendedWorkspaces "phaelon"
@@ -558,7 +558,7 @@ myTrayer hostname = "killall trayer; trayer \
    \--transparent true \
    \--alpha 0 \
    \--expand false \
-   \--SetDockType  true"
+   \--SetDockType  true &; disown"
    where
        trayWidth "nurikum" = "150"
        trayWidth "jovis" = "50"
