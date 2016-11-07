@@ -336,6 +336,11 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
        -- , ((modMask .|. controlMask, xK_h),  shiftPrevScreen) 
    -- ]
    ++
+   [
+       ((modMask, xK_F8), spawn "zsh -c \"xbacklight -set $(($(xbacklight) - 10.0))\"")
+     , ((modMask, xK_F9), spawn "zsh -c \"xbacklight -set $(($(xbacklight) + 10.0))\"")
+   ]
+   ++
    -- Music controller
    [
          ((modMask, xK_F10), spawn "playerctl prev")
@@ -352,6 +357,7 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 
        -- browser "lark" = "chromium --process-per-site --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'" 
        browser "lark" = "chromium --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'"
+       browser "gordon" = "google-chrome"
        browser _ = "chromium"
        -- myExitXmonad "gordon" = spawn "xfce4-session-logout"
        myExitXmonad _ = io (exitWith ExitSuccess)
@@ -480,6 +486,7 @@ myManageHook = manageDocks
    ,    (className =? "chromium")
    -- debian variant of chromium
    <||> (className =? "chromium-browser")
+   <||> (className =? "google-chrome")
                                        --> doShift "web"
    , className =? "Thunderbird-bin"    --> doShift "3:msg"
    , className =? "Pidgin"             --> doShift "3:msg"
