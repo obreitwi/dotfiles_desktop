@@ -484,6 +484,7 @@ myManageHook = manageDocks
    , className =? "Emacs"              --> doShift "1:code"
    , className =? "Firefox"            --> doShift "web"
    ,    (className =? "chromium")
+   <||> (className =? "Chromium")
    -- debian variant of chromium
    <||> (className =? "chromium-browser")
    <||> (className =? "google-chrome")
@@ -553,6 +554,7 @@ myLogHookConfig = xmobarPP {
 -- myTrayer = "killall trayer; trayer --edge top --align left --margin 1770 --width 150 --widthtype pixel --height 16 --SetDockType true --expand false --padding 1 --tint 0x000000 --transparent true --alpha 0"
 -- myTrayer = "killall trayer; trayer --edge top --align left --margin 1340 --width 100 --widthtype pixel --height 16 --padding 1 --tint 0x000000 --transparent true --alpha 0"
 -- myTrayer "gordon" = "/bin/true"
+-- myTrayer hostname = "killall trayer; trayer \
 myTrayer hostname = "killall trayer; trayer \
    \--edge top \
    \--align left \
@@ -565,7 +567,7 @@ myTrayer hostname = "killall trayer; trayer \
    \--transparent true \
    \--alpha 0 \
    \--expand false \
-   \--SetDockType  true &; disown"
+   \--SetDockType  true"
    where
        trayWidth "nurikum" = "150"
        trayWidth "jovis" = "50"

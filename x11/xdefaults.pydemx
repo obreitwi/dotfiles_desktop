@@ -68,6 +68,12 @@ URxvt*scrollTtyKeypress: true
 
 urxvt*saveLines: 120000
 
+!!! font
+URxvt*font: xft:DejaVu Sans Mono for Powerline:style=Regular:size=8
+URxvt*boldFont: xft:DejaVu Sans Mono for Powerline:style=Bold:size=8
+URxvt*letterSpace: -1
+!!!
+
 ! URxvt*font: xft:DejaVu Sans Mono-8
 ! URxvt*letterSpace: -1
 
@@ -79,9 +85,9 @@ urxvt*saveLines: 120000
 ! URxvt*boldFont: xft:Source Code Pro for Powerline:style=BoldForPowerline:size=10
 ! URxvt*letterSpace: -1
 
-URxvt*font: xft:DejaVu Sans Mono for Powerline:style=Regular:size=8
-URxvt*boldFont: xft:DejaVu Sans Mono for Powerline:style=Bold:size=8
-URxvt*letterSpace: -1
+! URxvt*font: xft:DejaVu Sans Mono for Powerline:style=Regular:size=8
+! URxvt*boldFont: xft:DejaVu Sans Mono for Powerline:style=Bold:size=8
+! URxvt*letterSpace: -1
 
 ! URxvt*font: xft:Inconsolata for Powerline:style=Regular:size=11
 ! URxvt*boldFont: xft:Inconsolata for Powerline:style=Bold:size=11
