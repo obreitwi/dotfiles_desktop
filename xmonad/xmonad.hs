@@ -572,6 +572,7 @@ myTrayer hostname = "killall trayer; trayer \
        trayWidth "nurikum" = "150"
        trayWidth "jovis" = "50"
        trayWidth "gordon" = "75"
+       trayWidth "phaeloff" = trayWidth "gordon"
        trayWidth _ = "100"
 
        trayMargin "nurikum" = show (1920 + 1280 - (read (trayWidth "nurikum")))
