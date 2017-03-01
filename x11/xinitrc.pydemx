@@ -8,7 +8,7 @@ cd $HOME
 setxkbmap us\
   -variant altgr-intl \
   -model pc105\
-  -option compose:rctrl \
+  -option compose:menu \
   -option lv3:ralt_switch \
   -option eurosign:e \
   -option nbsp:level3n

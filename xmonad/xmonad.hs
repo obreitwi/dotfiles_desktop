@@ -488,6 +488,7 @@ myManageHook = manageDocks
    -- debian variant of chromium
    <||> (className =? "chromium-browser")
    <||> (className =? "google-chrome")
+   <||> (className =? "Google-chrome")
                                        --> doShift "web"
    , className =? "Thunderbird-bin"    --> doShift "3:msg"
    , className =? "Pidgin"             --> doShift "3:msg"

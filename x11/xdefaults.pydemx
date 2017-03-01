@@ -123,7 +123,13 @@ URxvt.keysym.M-quotedbl:  perl:aAtt:undo
 ! ! launch links in firefox
 URxvt.keysym.M-u:    perl:url-select:select_next
 ! URxvt.url-select.launcher:   /usr/bin/firefox -new-tab
+
+!!! Browser
 URxvt.url-select.launcher:   /usr/bin/chromium
+!!! Browser @ gordon
+URxvt.url-select.launcher:   /usr/bin/google-chrome
+!!!
+
 URxvt.url-select.underline: false
 
 URxvt.keysym.M-k:   perl:clipboard:copy
