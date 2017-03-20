@@ -534,10 +534,12 @@ addExtendedWorkspaces hostname = foldl1 (<+>) $ map addHiddenWorkspace $ myExten
 
 myStartupHook hostname = setWMName "LG3D"
    <+> addExtendedWorkspaces hostname
+   <+> docksStartupHook
 
 -- Minimize windows hook (to restore from taskbar)
 myHandleEventHook =
    minimizeEventHook
+   <+> docksEventHook
    --  <+> debugKeyEvents
 
 myLogHookConfig = xmobarPP {
