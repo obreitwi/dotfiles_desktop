@@ -352,7 +352,7 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
        lockSpawner _ = spawn "slock"
        -- lockSpawner _ = spawn "xscreensaver-command -lock"
 
-       displayOrder "nurikum" = [xK_w, xK_q, xK_e]
+       -- displayOrder "nurikum" = [xK_w, xK_q, xK_e]
        displayOrder _ = [xK_q, xK_w, xK_e]
 
        -- browser "lark" = "chromium --process-per-site --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'" 
@@ -578,7 +578,8 @@ myTrayer hostname = "killall trayer; trayer \
        trayWidth "phaeloff" = "74"
        trayWidth _ = "100"
 
-       trayMargin "nurikum" = show (1920 + 1280 - (read (trayWidth "nurikum")))
+       trayMargin "nurikum" = "1700"
+       trayMargin "nurikum-standalone" = show (1920 + 1280 - (read (trayWidth "nurikum")))
        trayMargin "phaelon" = "1340"
        trayMargin "gordon" = "1291"
        trayMargin "phaeloff" = trayMargin "gordon"

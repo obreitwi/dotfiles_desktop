@@ -12,13 +12,15 @@
 -- !!!
 -- R("width", default=1820)
 -- R("width")["phaelon"] = 1340
--- R("width")["nurikum"] = 1770
+-- R("width")["nurikum"] = 1700
+-- R("width")["nurikum-standalone"] = 1770
 -- R("width")["jovis"] = 1230
 -- R("width")["gordon"] = 1291
 -- R("width")["phaeloff"] = R("width")["gordon"]
 -- 
 -- R("cpus")["nukular"] = "<total0><total1><total2><total3><total4><total5>"
--- R("cpus")["nurikum"] = "<total0><total1><total2><total3>"
+-- R("cpus")["nurikum"] = "<total0><total1><total2><total3><total4>"
+-- R("cpus")["nurikum-standalone"] = "<total0><total1><total2><total3>"
 -- R("cpus")["lark"] = "<total0><total1><total2><total3>"
 -- R("cpus")["gordon"] = "<total0><total1><total2><total3>"
 -- R("cpus")["phaeloff"] = R("cpus")["gordon"]
