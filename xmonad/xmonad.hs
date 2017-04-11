@@ -358,6 +358,7 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
        -- browser "lark" = "chromium --process-per-site --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'" 
        browser "lark" = "chromium --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'"
        browser "gordon" = "google-chrome"
+       browser "phaeloff" = "google-chrome-stable"
        browser _ = "chromium"
        -- myExitXmonad "gordon" = spawn "xfce4-session-logout"
        myExitXmonad _ = io (exitWith ExitSuccess)

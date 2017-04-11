@@ -30,6 +30,15 @@ xrandr --output VGA1 --right-of HDMI1
 ### display@nurikum
 xrandr --output DVI-I-1 --primary
 xrandr --output DVI-I-1 --right-of DVI-I-2
+### display@phaeloff
+if xrandr | grep "HDMI-1 connected"; then
+    xrandr --output LVDS-1 --primary --auto --pos 0x0 --output HDMI-1 --auto \
+    --pos 1368x0 && feh --bg-fill ~/wallpaper/brisbinxmonadwall.png
+fi
+if xrandr | grep "HDMI-0 connected"; then
+    xrandr --output LVDS --primary --auto --pos 0x0 --output HDMI-0 --auto \
+    --pos 1368x0 && feh --bg-fill ~/wallpaper/brisbinxmonadwall.png
+fi
 ###
 
 ### virtualbox
