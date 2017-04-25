@@ -72,9 +72,7 @@ urxvtd -q -f
 ### autolock
 ### autolock @ lark,gordon,phaeloff
 # auto lock screen after 10 minutes of idle
-while true; do
-    sinac -w 600 && slock
-done &
+~/git/dotfiles_desktop/scripts/autolock.sh &
 ###
 
 # Disable TapButtons for trackpad
