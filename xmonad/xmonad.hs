@@ -153,13 +153,16 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 
    -- launch dmenu
    --      , ((modMask,                    xK_semicolon), spawnHere "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
-   , ((modMask,                    xK_m),  spawnHere "gmrun")
+   , ((modMask,                    xK_m),       spawnHere "gmrun")
 
    -- launch gmrun
    -- , ((modMask .|. shiftMask,       xK_p        ), spawnHere "eval \"exec ~/bin/mydmenu\"") 
 
    -- launch gvim
    , ((modMask ,                   xK_g        ), spawnHere "gvim")
+
+   -- launch pavucontrol
+   , ((modMask ,                   xK_c        ), spawnHere "pavucontrol")
 
    -- launch browser
    , ((modMask ,                   xK_b        ), spawn (browser hostname))
