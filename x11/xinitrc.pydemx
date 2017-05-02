@@ -75,6 +75,8 @@ urxvtd -q -f
 ~/git/dotfiles_desktop/scripts/autolock.sh &
 ###
 
+(which udiskie > /dev/null) && udiskie --tray &
+
 # Disable TapButtons for trackpad
 # synclient TapButton1=0
 # synclient TapButton2=0
