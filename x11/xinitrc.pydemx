@@ -23,10 +23,11 @@ keynav &
 
 ### display
 ### display@lark
-xrandr --output VGA1 --mode 1920x1080
+# xrandr --output VGA1 --mode 1920x1080
 xrandr --output HDMI1 --mode 1920x1080
-xrandr --output HDMI1 --primary
-xrandr --output VGA1 --right-of HDMI1
+xrandr --output HDMI2 --mode 1920x1080
+xrandr --output HDMI2 --primary
+xrandr --output HDMI1 --right-of HDMI2
 ### display@nurikum
 xrandr --output DVI-I-1 --primary
 xrandr --output DVI-I-1 --right-of DVI-I-2
