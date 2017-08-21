@@ -124,7 +124,7 @@ myNumlockMask   = mod2Mask
 --  myWorkspaces    = ["1:code","2:pdf1","3:pdf2","4:web","5:vserver","6","7","8","9"]
 myWorkspaces    = [ "1", "2" ]
 myExtendedWorkspaces :: String -> [String]
-myExtendedWorkspaces "lark" = [ "NSP", "c", "cP", "music", "stream", "root", "web" ]
+myExtendedWorkspaces "lark" = [ "NSP", "music", "stream", "root", "web" ]
 myExtendedWorkspaces "phaelon" = [ "NSP", "music", "root", "web" ]
 myExtendedWorkspaces "nukular" = myExtendedWorkspaces "phaelon"
 myExtendedWorkspaces "phaeloff" = myExtendedWorkspaces "phaelon"
@@ -386,7 +386,7 @@ hiddenNonIgnoredWS = WSIs getWShiddenNonIgnored
       return (\w -> W.tag w `elem` hs)
     filter_ignored = filter (\t -> not (t `elem` ignoredWorkspaces))
 
-    
+
 
 ------------------------------------------------------------------------
 -- Mouse bindings: default actions bound to mouse events
