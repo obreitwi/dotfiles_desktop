@@ -67,8 +67,8 @@ killall autocutsel
 autocutsel -fork &
 autocutsel -selection PRIMARY -fork &
 
-killall urxvtd
-urxvtd -q -f
+# killall urxvtd # -o kills urxvtd automatically when X is restarted
+urxvtd -q -o -f
 
 ### autolock
 ### autolock @ lark,gordon,phaeloff
