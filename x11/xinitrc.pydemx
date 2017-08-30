@@ -71,7 +71,7 @@ autocutsel -selection PRIMARY -fork &
 urxvtd -q -o -f
 
 ### autolock
-### autolock @ lark,gordon,phaeloff
+### autolock @ lark,gordon
 # auto lock screen after 10 minutes of idle
 ~/git/dotfiles_desktop/scripts/autolock.sh &
 ###
