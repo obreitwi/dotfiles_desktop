@@ -124,13 +124,14 @@ myNumlockMask   = mod2Mask
 --  myWorkspaces    = ["1:code","2:pdf1","3:pdf2","4:web","5:vserver","6","7","8","9"]
 myWorkspaces    = [ "1", "2" ]
 myExtendedWorkspaces :: String -> [String]
-myExtendedWorkspaces "lark" = [ "NSP", "music", "stream", "root", "web" ]
-myExtendedWorkspaces "phaelon" = [ "NSP", "music", "root", "web" ]
-myExtendedWorkspaces "nukular" = myExtendedWorkspaces "phaelon"
-myExtendedWorkspaces "phaeloff" = myExtendedWorkspaces "phaelon"
-myExtendedWorkspaces "nurikum" = [ "NSP", "c", "cP", "music", "stream", "root", "web" ]
-myExtendedWorkspaces "jovis" = [ "NSP", "c", "cP", "quassel", "talk", "talkP", "root", "web" ]
+myExtendedWorkspaces "abed" = [ "NSP", "music", "stream", "root", "web" ]
 myExtendedWorkspaces "gordon" = [ "NSP", "root", "web" ]
+myExtendedWorkspaces "jovis" = [ "NSP", "c", "cP", "quassel", "talk", "talkP", "root", "web" ]
+myExtendedWorkspaces "lark" = [ "NSP", "music", "stream", "root", "web" ]
+myExtendedWorkspaces "nukular" = myExtendedWorkspaces "phaelon"
+myExtendedWorkspaces "nurikum" = [ "NSP", "c", "cP", "music", "stream", "root", "web" ]
+myExtendedWorkspaces "phaeloff" = myExtendedWorkspaces "phaelon"
+myExtendedWorkspaces "phaelon" = [ "NSP", "music", "root", "web" ]
 myExtendedWorkspaces _  = ["NSP"]
 
 -- Border colors for unfocused and focused windows, respectively.

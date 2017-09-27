@@ -18,6 +18,11 @@ setxkbmap us\
 xrdb ~/.Xdefaults &
 # xcompmgr -c -f -D 6 &
 
+### compton
+### compton @ abed
+compton -b
+###
+
 # ~/bin/keynav &
 keynav &
 
@@ -39,6 +44,12 @@ fi
 if xrandr | grep "HDMI-0 connected"; then
     xrandr --output LVDS --primary --auto --pos 0x0 --output HDMI-0 --auto \
     --pos 1368x0 && feh --bg-fill ~/wallpaper/brisbinxmonadwall.png
+fi
+### display@abed
+if xrandr | grep "HDMI2 connected"; then
+    xrandr --output eDP1 --primary --auto --output HDMI2 --auto --right-of eDP1
+else
+    xrandr --output eDP1 --primary --auto
 fi
 ###
 
@@ -83,12 +94,16 @@ urxvtd -q -o -f
 # synclient TapButton2=0
 # synclient TapButton3=0
 
-# /usr/sbin/trackpad-toggle.sh &
+~/git/dotfiles_desktop/scripts/trackpad-toggle.sh &
 # exec ck-launch-session ~/.xstart
+
 killall gpg-agent
 . ~/.config/gnupg/gpg-agent.sh
 
 # pulseaudio --start &
 
+# try to remove the state file so that things that might have changed during
+# shutdown (e.g. numbre of monitors) gets recognized correctly
+rm -f $HOME/.xmonad/xmonad.state
 exec xmonad
 
