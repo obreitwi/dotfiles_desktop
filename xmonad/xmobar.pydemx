@@ -90,7 +90,7 @@ Config { font = "Envy Code R:style=Regular:size=10"
     , Run Date "%a %b %_d %H:%M:%S" "date" 10
     , Run StdinReader
     , Run Com "date" ["+%d.%m.%y %H:%M:%S"] "mydate" 10
-    , Run Swap [] 10
+    , Run Swap ["-t", "<usedratio>%"] 10
     ]
     , sepChar = "%"
     , alignSep = "}{"

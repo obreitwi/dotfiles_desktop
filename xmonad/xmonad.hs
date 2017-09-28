@@ -167,6 +167,8 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 
    -- launch browser
    , ((modMask ,                   xK_b        ), spawn (browser hostname))
+   -- launch browser with proxy enabled
+   , ((modMask .|. shiftMask,      xK_b        ), spawn (browserProxy hostname))
 
    -- clipboard management
    -- from primary to clipboard
@@ -360,10 +362,15 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
        displayOrder _ = [xK_q, xK_w, xK_e]
 
        -- browser "lark" = "chromium --process-per-site --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'" 
-       browser "lark" = "chromium --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'"
+       browser "lark" = "chromium" ++ proxyString
        browser "gordon" = "google-chrome"
        browser "phaeloff" = "google-chrome-stable"
        browser _ = "chromium"
+
+       proxyString = " --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'"
+
+       browserProxy hostname = (browser hostname) ++ proxyString
+
        -- myExitXmonad "gordon" = spawn "xfce4-session-logout"
        myExitXmonad _ = io (exitWith ExitSuccess)
 

@@ -94,6 +94,16 @@ urxvtd -q -o -f
 # synclient TapButton2=0
 # synclient TapButton3=0
 
+### brightness
+### brightness @ abed
+# if AC on then full brightness, otherwise 25
+if [ $(cat /sys/class/power_supply/AC/online) -eq 1 ]; then
+    xbacklight -set 100
+else
+    xbacklight -set 25
+fi
+###
+
 ~/git/dotfiles_desktop/scripts/trackpad-toggle.sh &
 # exec ck-launch-session ~/.xstart
 
