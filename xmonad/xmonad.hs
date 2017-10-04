@@ -330,8 +330,8 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
    (W.shift, shiftMask)]]
    ++ 
    -- Swap screens
-   [
-       ((modMask, xK_s),  swapNextScreen )
+   [ ((modMask, xK_s),  swapNextScreen )
+   , ((modMask, xK_d),  swapPrevScreen )
    ]
    --
    -- move focus between screens (Not needed anymore because code above works)
@@ -343,8 +343,8 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
    -- ]
    ++
    [
-       ((modMask, xK_F8), spawn "zsh -c \"xbacklight -set $(($(xbacklight) - 10.0))\"")
-     , ((modMask, xK_F9), spawn "zsh -c \"xbacklight -set $(($(xbacklight) + 10.0))\"")
+       ((modMask, xK_F8), spawn "zsh -c \"backlight -10%\"")
+     , ((modMask, xK_F9), spawn "zsh -c \"backlight +10%\"")
    ]
    ++
    -- Music controller
@@ -359,6 +359,7 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
        -- lockSpawner _ = spawn "xscreensaver-command -lock"
 
        -- displayOrder "nurikum" = [xK_w, xK_q, xK_e]
+       displayOrder "abed" = [xK_w, xK_q, xK_e]
        displayOrder _ = [xK_q, xK_w, xK_e]
 
        -- browser "lark" = "chromium --process-per-site --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'" 

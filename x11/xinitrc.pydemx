@@ -46,11 +46,7 @@ if xrandr | grep "HDMI-0 connected"; then
     --pos 1368x0 && feh --bg-fill ~/wallpaper/brisbinxmonadwall.png
 fi
 ### display@abed
-if xrandr | grep "HDMI2 connected"; then
-    xrandr --output eDP1 --primary --auto --output HDMI2 --auto --right-of eDP1
-else
-    xrandr --output eDP1 --primary --auto
-fi
+refresh_monitors # defined in host specific file
 ###
 
 ### virtualbox

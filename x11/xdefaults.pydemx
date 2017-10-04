@@ -68,10 +68,29 @@ URxvt*scrollTtyKeypress: true
 
 urxvt*saveLines: 120000
 
-!!! font
-URxvt*font: xft:DejaVu Sans Mono for Powerline:style=Regular:size=8
-URxvt*boldFont: xft:DejaVu Sans Mono for Powerline:style=Bold:size=8
+!!!
+! R("font", default="DejaVu Sans Mono for Powerline")
+! R("size-small", default="8")
+! R("size-medium", default="10")
+! R("size-big", default="12")
+! R("size-huge", default="16")
+!!!
+!
+!!! set-font
+URxvt*font: xft:{{font}}:style=Regular:size={{size-small}}
+URxvt*boldFont: xft:{{font}}:style=Bold:size={{size-small}}
 URxvt*letterSpace: -1
+!!!
+
+! the following is taken from:
+! https://bbs.archlinux.org/viewtopic.php?pid=1584742#p1584742
+URxvt.resize-font.smaller: M-minus
+URxvt.resize-font.bigger: M-equal
+!!! font-changes
+!URxvt.keysym.M-minus: command:\033]710;xft:{{font}}:size={{size-small}}:style=Regular\007\033]711;xft:{{font}}:size={{font-small}}:style=bold\007
+!URxvt.keysym.M-equal: command:\033]710;xft:{{font}}:size={{size-medium}}:style=Regular\007\033]711;xft:{{font}}:size={{font-medium}}:style=bold\007
+!URxvt.keysym.M-plus: command:\033]710;xft:{{font}}:size={{size-big}}:style=Regular\007\033]711;xft:{{font}}:size={{font-big}}:style=bold\007
+!URxvt.keysym.M-plus: command:\033]710;xft:{{font}}:size={{size-huge}}:style=Regular\007\033]711;xft:{{font}}:size={{font-huge}}:style=bold\007
 !!!
 
 ! URxvt*font: xft:DejaVu Sans Mono-8
@@ -106,7 +125,7 @@ URxvt*letterSpace: -1
 ! fix width
 
 ! URxvt.perl-ext-common: default,keyboard-select,url-select,clipboard,searchable-scrollback<M-slash>,autocomplete-ALL-the-things
-URxvt.perl-ext-common: default,keyboard-select,url-select,clipboard,searchable-scrollback<M-slash>
+URxvt.perl-ext-common: default,keyboard-select,url-select,clipboard,searchable-scrollback<M-slash>,resize-font
 
 ! The following line overwrites the default Meta-s binding and allows to activate keyboard-select directly in backward search mode:
 URxvt.keysym.M-question: perl:keyboard-select:search
