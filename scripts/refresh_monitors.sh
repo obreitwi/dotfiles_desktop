@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+# does not work reliably yet! --obreitwi, 04-10-17 20:49:19
+
 setopt extended_glob
 setopt glob_subst
 

@@ -122,9 +122,11 @@ myNumlockMask   = mod2Mask
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
 --  myWorkspaces    = ["1:code","2:pdf1","3:pdf2","4:web","5:vserver","6","7","8","9"]
-myWorkspaces    = [ "1", "2" ]
+myWorkspaces :: String -> [String]
+myWorkspaces "abed"   = [ "1", "2", "3"]
+myWorkspaces _   = [ "1", "2" ]
 myExtendedWorkspaces :: String -> [String]
-myExtendedWorkspaces "abed" = [ "NSP", "music", "stream", "root", "web" ]
+myExtendedWorkspaces "abed" = [ "NSP", "chat", "stream", "root", "web" ]
 myExtendedWorkspaces "gordon" = [ "NSP", "root", "web" ]
 myExtendedWorkspaces "jovis" = [ "NSP", "c", "cP", "quassel", "talk", "talkP", "root", "web" ]
 myExtendedWorkspaces "lark" = [ "NSP", "music", "stream", "root", "web" ]
@@ -341,6 +343,20 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
        -- , ((modMask .|. controlMask, xK_l),  shiftNextScreen)
        -- , ((modMask .|. controlMask, xK_h),  shiftPrevScreen) 
    -- ]
+   ++
+   [
+     -- launch browsers (not working)
+      {-
+       -   ((modMask, xK_F7),
+       -       spawnOn "chat" (browser hostname)
+       -     >> spawnOn "stream" (browser hostname)
+       -     >> spawnOn "web" (browser hostname))
+       - , ((modMask .|. shiftMask, xK_F7),
+       -       spawnOn "chat" (browserProxy hostname ++ " web.whatsapp.com https://brainscales-r.kip.uni-heidelberg.de:6443/visions/")
+       -     >> spawnOn "stream" (browserProxy hostname)
+       -     >> spawnOn "web" (browserProxy hostname))
+       -}
+   ]
    ++
    [
        ((modMask, xK_F8), spawn "zsh -c \"backlight -10%\"")
@@ -638,7 +654,7 @@ defaults hostname =
        borderWidth         = myBorderWidth,
        modMask             = myModMask,
        --  numlockMask         = myNumlockMask,
-       workspaces          = myWorkspaces,
+       workspaces          = myWorkspaces hostname,
        normalBorderColor   = myNormalBorderColor,
        focusedBorderColor  = myFocusedBorderColor,
 
