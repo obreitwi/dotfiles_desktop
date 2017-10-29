@@ -33,7 +33,7 @@ import XMonad.Layout.Minimize
 import XMonad.Layout.SimpleDecoration
 import XMonad.Layout.GridVariants
 import XMonad.Util.Run(spawnPipe)
-import XMonad.Util.EZConfig(additionalKeys)
+import XMonad.Util.EZConfig(additionalKeysP)
 import XMonad.Util.WorkspaceCompare
 import XMonad.Util.NamedScratchpad
 -- import XMonad.Config.Xfce
@@ -359,8 +359,10 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
    ]
    ++
    [
-       ((modMask, xK_F8), spawn "zsh -c \"backlight -10%\"")
-     , ((modMask, xK_F9), spawn "zsh -c \"backlight +10%\"")
+       -- ((modMask, xK_F8), spawn "zsh -c \"backlight -10%\"")
+     -- , ((modMask, xK_F9), spawn "zsh -c \"backlight +10%\"")
+       -- ((modMask, xK_XF86MonBrightnessDown), spawn "zsh -c \"backlight -10%\"")
+     -- , ((modMask, xK_XF86MonBrightnessUp), spawn "zsh -c \"backlight +10%\"")
    ]
    ++
    -- Music controller
@@ -391,6 +393,10 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
        -- myExitXmonad "gordon" = spawn "xfce4-session-logout"
        myExitXmonad _ = io (exitWith ExitSuccess)
 
+myAdditionalKeys conf hostname = additionalKeysP conf [
+         ("M-<XF86MonBrightnessDown>", spawn "zsh -c \"backlight -10%\"")
+       , ("M-<XF86MonBrightnessUp>", spawn "zsh -c \"backlight +10%\"")
+   ]
 
 ignoredWorkspaces = ["NSP"]
 -- Apply an action to the window stack, while ignoring certain workspaces
@@ -668,6 +674,7 @@ defaults hostname =
        startupHook         = myStartupHook hostname,
        handleEventHook     = myHandleEventHook
    }
+   `myAdditionalKeys` hostname
 
 
 -- vim: ft=haskell
