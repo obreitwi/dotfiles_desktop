@@ -1,0 +1,14 @@
+###
+#### 
+# cfg["filename"] = "backlight.service"
+# cfg["folder"] = "/etc/systemd/system"
+###
+
+[Unit]
+Description=Set backlight upon boot
+
+[Service]
+ExecStart=/etc/profile.d/backlight.sh
+
+[Install]
+WantedBy=multi-user.target
