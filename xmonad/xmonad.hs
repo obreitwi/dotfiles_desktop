@@ -18,6 +18,7 @@ import XMonad.Actions.CycleWS
 import XMonad.Actions.GridSelect
 import XMonad.Actions.DynamicWorkspaces
 import XMonad.Actions.CopyWindow
+import XMonad.Actions.Minimize
 import XMonad.Actions.SpawnOn
 -- import XMonad.Actions.UpdatePointer 
 import qualified XMonad.Actions.FlexibleResize as Flex
@@ -58,13 +59,14 @@ myXPConfig          =  myXPConfig_nC {
 -- myTerminal       = "sakura"  
 --  myTerminal      = "gnome-terminal"
 myTerminal _        = "urxvtc"
+-- myTerminal _        = "urxvt"
 
 
-myScratchpads = [
+getScratchpads hostname = [
    -- run htop in xterm, find it by title, use default floating window placement
-       NS "htop" "urxvtc -e htop" (title =? "htop") manageNotes ,
-       NS "shell" "urxvtc -T shell" (title =? "shell") manageNotes ,
-       NS "alsamixer" "urxvtc -e alsamixer" (title =? "alsamixer") manageNotes,
+       NS "htop" (myTerminal hostname ++ " -e htop") (title =? "htop") manageNotes ,
+       NS "shell" (myTerminal hostname ++ " -T shell") (title =? "shell") manageNotes ,
+       NS "alsamixer" (myTerminal hostname ++ " -e alsamixer") (title =? "alsamixer") manageNotes,
 
    -- run stardict, find it by class name, place it in the floating window    j
    -- 1/6 of screen width from the left, 1/6 of screen height
@@ -142,6 +144,10 @@ myNormalBorderColor     = "#7c7c7c"
 {- myFocusedBorderColor = "#ffb6b0" -}
 myFocusedBorderColor    = "#ff0000"
 
+
+spawnerProg "abed" = "rofi -show run"
+spawnerProg _ = "gmrun"
+
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here
 --
@@ -156,7 +162,7 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 
    -- launch dmenu
    --      , ((modMask,                    xK_semicolon), spawnHere "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
-   , ((modMask,                    xK_m),       spawnHere "gmrun")
+   , ((modMask,                    xK_m),       spawnHere (spawnerProg hostname))
 
    -- launch gmrun
    -- , ((modMask .|. shiftMask,       xK_p        ), spawnHere "eval \"exec ~/bin/mydmenu\"") 
@@ -183,7 +189,7 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 
    -- take screenshot
    -- , ((modMask .|. controlMask,    xK_p        ), spawnHere "import `date +screen_%F_%H-%M.png`")
-  , ((modMask .|. controlMask,    xK_p        ), spawnHere "scrot -s $(date +screen_%F_%H-%M.png)")
+  , ((modMask .|. controlMask,    xK_p        ), spawnHere "maim -u -s $(date +screen_%F_%H-%M.png)")
 
    -- close focused window 
    , ((modMask .|. shiftMask,      xK_c        ), kill)
@@ -241,7 +247,7 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 
    -- Minimize windows
    , ((modMask,                    xK_u        ), withFocused minimizeWindow )
-   , ((modMask .|. shiftMask,      xK_u        ), sendMessage RestoreNextMinimizedWin)
+   , ((modMask .|. shiftMask,      xK_u        ), withLastMinimized maximizeWindow)
 
    -- Quit xmonad
    , ((modMask .|. shiftMask,      xK_r        ), myExitXmonad hostname)
@@ -394,6 +400,8 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
        -- myExitXmonad "gordon" = spawn "xfce4-session-logout"
        myExitXmonad _ = io (exitWith ExitSuccess)
 
+       myScratchpads = getScratchpads hostname
+
 myAdditionalKeys conf hostname = additionalKeysP conf [
          ("M-<XF86MonBrightnessDown>", spawn "zsh -c \"backlight -10%\"")
        , ("M-<XF86MonBrightnessUp>", spawn "zsh -c \"backlight +10%\"")
@@ -502,9 +510,9 @@ myLayout hostname = avoidStruts $ minimize $ (mkToggle ( single NBFULL ) $
 -- To match on the WM_NAME, you can use 'title' in the same way that
 -- 'className' and 'resource' are used below.
 --
-myManageHook = manageDocks
+myManageHook hostname = manageDocks
    <+> manageSpawn
-   <+> namedScratchpadManageHook myScratchpads
+   <+> (namedScratchpadManageHook $ getScratchpads hostname)
    <+> composeAll
    [ className =? "MPlayer"            --> doFloat
    , className =? "Smplayer"           --> doFloat
@@ -623,7 +631,7 @@ myTrayer hostname = "killall trayer; trayer \
        trayMargin _ = "1820"
 
 -- myXmobar "gordon" = "/bin/true"
-myXmobar _ = "/usr/bin/xmobar ~/.xmonad/xmobar"
+myXmobar _ = "~/.stack/bin/xmobar ~/.xmonad/xmobar"
 
 -- myDefaultConfig "gordon" = xfceConfig
 myDefaultConfig _ = defaultConfig
@@ -671,7 +679,7 @@ defaults hostname =
 
      -- hooks, layouts
        layoutHook          = smartBorders $ myLayout hostname,
-       manageHook          = myManageHook,
+       manageHook          = myManageHook hostname,
        startupHook         = myStartupHook hostname,
        handleEventHook     = myHandleEventHook
    }

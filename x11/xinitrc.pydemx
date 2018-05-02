@@ -103,7 +103,7 @@ fi
 ~/git/dotfiles_desktop/scripts/trackpad-toggle.sh &
 # exec ck-launch-session ~/.xstart
 
-killall gpg-agent
+# killall gpg-agent
 . ~/.config/gnupg/gpg-agent.sh
 
 # pulseaudio --start &

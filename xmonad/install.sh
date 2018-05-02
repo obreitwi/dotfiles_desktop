@@ -7,6 +7,7 @@ mkdir -v $TGTFLD
 
 ln -s -f -v $SRCFLD/xmonad.hs $TGTFLD/
 ln -s -f -v $SRCFLD/lib $TGTFLD/
+ln -s -f -v $SRCFLD/build $TGTFLD/
 
 pydemx $SRCFLD/xmobar.pydemx
 

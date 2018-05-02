@@ -2,13 +2,13 @@
 #### 
 # cfg["filename"] = "backlight.sh"
 # cfg["folder"] = "/etc/profile.d"
-# cfg["permissions"] = 755
+# cfg["permissions"] = 0755
 ###
 #!/bin/sh
 # if AC on then full brightness, otherwise 25
 if [ $(cat /sys/class/power_supply/AC/online) -eq 1 ]; then
-    backlight 100%
+    /usr/bin/backlight 100%
 else
-    backlight 25%
+    /usr/bin/backlight 25%
 fi
 

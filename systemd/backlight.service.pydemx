@@ -2,6 +2,7 @@
 #### 
 # cfg["filename"] = "backlight.service"
 # cfg["folder"] = "/etc/systemd/system"
+# cfg["permissions"] = 0644
 ###
 
 [Unit]
@@ -9,6 +10,9 @@ Description=Set backlight upon boot
 
 [Service]
 ExecStart=/etc/profile.d/backlight.sh
+Type=oneshot
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=graphical.target
+
+# vim: ft=systemd
