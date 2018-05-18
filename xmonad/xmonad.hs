@@ -33,6 +33,7 @@ import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.Minimize
 import XMonad.Layout.SimpleDecoration
 import XMonad.Layout.GridVariants
+import XMonad.Layout.IndependentScreens(countScreens)
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeysP)
 import XMonad.Util.WorkspaceCompare
@@ -152,7 +153,8 @@ spawnerProg _ = "gmrun"
 -- Key bindings. Add, modify or remove key bindings here
 --
 
-myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
+-- TODO fix nScreens being passed here explicitly, i.e. rewrite config :o)
+myKeys hostname nScreens conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 
    -- launch a terminal
    [ ((modMask .|. shiftMask,      xK_Return   ), spawnHere $ XMonad.terminal conf)
@@ -335,7 +337,7 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
    -- changed to q,w,e because then r stands for the reloading it does
    --
    [((m .|. modMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
-   | (key, sc) <- zip (displayOrder hostname) [0..], (f, m) <- [(W.view, 0),
+   | (key, sc) <- zip (displayOrder hostname nScreens) [0..], (f, m) <- [(W.view, 0),
    (W.shift, shiftMask)]]
    ++ 
    -- Swap screens
@@ -384,8 +386,9 @@ myKeys hostname conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
        -- lockSpawner _ = spawn "xscreensaver-command -lock"
 
        -- displayOrder "nurikum" = [xK_w, xK_q, xK_e]
-       displayOrder "abed" = [xK_w, xK_q, xK_e]
-       displayOrder _ = [xK_q, xK_w, xK_e]
+       displayOrder "abed" 2 = [xK_q, xK_w]
+       displayOrder "abed" _ = [xK_w, xK_q, xK_e]
+       displayOrder _ _ = [xK_q, xK_w, xK_e]
 
        -- browser "lark" = "chromium --process-per-site --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'" 
        browser "lark" = "chromium" ++ proxyString
@@ -643,9 +646,10 @@ myDefaultConfig _ = defaultConfig
 --
 main = do
    hostname <- getHostName
+   nScreens <- countScreens
    xmproc <- spawnPipe $ myXmobar hostname
    trayer <- spawnPipe $ myTrayer hostname
-   xmonad $ (defaults hostname) {
+   xmonad $ (defaults hostname nScreens) {
        logHook =   (dynamicLogWithPP $ myLogHookConfig{
                    ppOutput = hPutStrLn xmproc
        })
@@ -661,7 +665,8 @@ main = do
 -- 
 -- No need to modify this.
 --
-defaults hostname =
+-- TODO: fix nScreens being passed here explicitly, i.e. restructure config :o)
+defaults hostname nScreens =
    (myDefaultConfig hostname) {
      -- simple stuff
        terminal            = myTerminal hostname,
@@ -674,7 +679,7 @@ defaults hostname =
        focusedBorderColor  = myFocusedBorderColor,
 
      -- key bindings
-       keys                = myKeys hostname,
+       keys                = myKeys hostname nScreens,
        mouseBindings       = myMouseBindings,
 
      -- hooks, layouts
