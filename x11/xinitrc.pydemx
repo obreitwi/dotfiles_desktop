@@ -91,7 +91,7 @@ urxvtd -q -o -f
 # synclient TapButton3=0
 
 ### brightness
-### brightness @ abed
+### brightness @ abed-diabled
 # if AC on then full brightness, otherwise 25
 if [ $(cat /sys/class/power_supply/AC/online) -eq 1 ]; then
     xbacklight -set 100

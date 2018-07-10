@@ -9,7 +9,7 @@
 Description=Set backlight upon boot
 
 [Path]
-PathExists=/sys/class/backlight
+PathExists=/sys/class/backlight/intel_backlight/brightness
 Unit=backlight.service
 
 [Install]
