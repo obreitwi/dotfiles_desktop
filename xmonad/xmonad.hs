@@ -203,7 +203,7 @@ myKeys hostname nScreens conf@(XConfig {XMonad.modMask = modMask}) = M.fromList 
    , ((modMask .|. shiftMask,      xK_space    ), setLayout $ XMonad.layoutHook conf)
 
    -- Resize viewed windows to the correct size
-   , ((modMask,                    xK_v        ), refresh)
+   , ((modMask,                    xK_v        ), spawnHere "nemo $HOME")
 
    -- Move focus to the next window
    , ((modMask,                    xK_Tab      ), windows W.focusDown)

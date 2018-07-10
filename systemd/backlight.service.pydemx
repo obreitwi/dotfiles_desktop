@@ -6,13 +6,10 @@
 ###
 
 [Unit]
-Description=Set backlight upon boot
+Description=Set backlight
 
 [Service]
-ExecStart=/etc/profile.d/backlight.sh
+ExecStart=/usr/local/bin/backlight.sh
 Type=oneshot
-
-[Install]
-WantedBy=graphical.target
 
 # vim: ft=systemd

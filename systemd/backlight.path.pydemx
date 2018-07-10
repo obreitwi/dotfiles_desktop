@@ -1,0 +1,18 @@
+###
+#### 
+# cfg["filename"] = "backlight.path"
+# cfg["folder"] = "/etc/systemd/system"
+# cfg["permissions"] = 0644
+###
+
+[Unit]
+Description=Set backlight upon boot
+
+[Path]
+PathExists=/sys/class/backlight
+Unit=backlight.service
+
+[Install]
+WantedBy=graphical.target
+
+# vim: ft=systemd
