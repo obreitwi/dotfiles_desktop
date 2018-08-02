@@ -1,0 +1,10 @@
+###
+#### 
+# cfg["folder"] = "~/.config/pulse"
+###
+#!/usr/bin/pulseaudio -nF
+
+.include /etc/pulse/default.pa
+
+load-module module-remap-sink sink_name=nubert-reverse-stereo master=alsa_output.usb-BurrBrown_from_Texas_Instruments_USB_AUDIO_DAC-00.analog-stereo channels=2 master_channel_map=front-right,front-left channel_map=front-left,front-right
+# set-default-sink nubert-reverse-stereo
