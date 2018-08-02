@@ -56,7 +56,9 @@
 -- R("info_bat", default="")
 -- R("xpos")["nurikum-standalone"] = 1280
 -- for hostname in laptops:
---     R("info_bat")[hostname] = "%battery%"
+--     R("info_bat")[hostname] = " %battery%"
+-- 
+-- R("swap_widget")["abed"] = ""
 -- !!!
 -- Run Cpu ["-L","3","-H","50","--normal","#CEFFAC","--high","#FFB6B0"] 10
 Config { font = "Envy Code R:style=Regular:size=10"
@@ -90,12 +92,15 @@ Config { font = "Envy Code R:style=Regular:size=10"
     , Run Date "%a %b %_d %H:%M:%S" "date" 10
     , Run StdinReader
     , Run Com "date" ["+%d.%m.%y %H:%M:%S"] "mydate" 10
+-- !!! Swap
     , Run Swap ["-t", "<usedratio>%"] 10
+-- !!! Swap @ abed
+-- !!!
     ]
     , sepChar = "%"
     , alignSep = "}{"
     -- , template = "%StdinReader% }{ %multicpu% {{info_ct:%coretemp%   }}%memory% %swap%   %{{wirename}}% {{info_wl}}  <fc=#FFFFCC>%date%</fc>"
-    , template = "%StdinReader% }{ %multicpu% {{info_ct:%coretemp%   }}%memory% %swap%   %dynnetwork% {{info_wl}}  {{info_bat}}  <fc=#FFFFCC>%mydate%</fc>"
+    , template = "%StdinReader% }{ %multicpu% {{info_ct:%coretemp%   }}%memory%{{swap_widget: %swap%}}   %dynnetwork% {{info_wl}}  {{info_bat}}  <fc=#FFFFCC>%mydate%</fc>"
   }
 -- !!!
 -- !!!

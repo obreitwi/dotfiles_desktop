@@ -2,6 +2,8 @@
 
 import GetHostName
 
+import Control.Monad.Trans.Reader
+
 import System.IO
 import System.Exit
 import XMonad
@@ -165,6 +167,9 @@ myKeys hostname nScreens conf@(XConfig {XMonad.modMask = modMask}) = M.fromList 
    -- launch dmenu
    --      , ((modMask,                    xK_semicolon), spawnHere "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
    , ((modMask,                    xK_m),       spawnHere (spawnerProg hostname))
+
+   -- refresh montiros
+   , ((modMask,                    xK_x),       spawn "$HOME/.local/bin/refresh_monitors")
 
    -- launch gmrun
    -- , ((modMask .|. shiftMask,       xK_p        ), spawnHere "eval \"exec ~/bin/mydmenu\"") 
