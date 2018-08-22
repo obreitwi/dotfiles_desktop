@@ -6,10 +6,15 @@
 ###
 
 [Unit]
+# taken from systemd-backlight@.service
 Description=Set backlight
 
 [Service]
-ExecStart=/usr/local/bin/backlight.sh
 Type=oneshot
+ExecStart=/usr/local/bin/backlight.sh
+
+[Install]
+# use sound target because then all brightness control exists under /sys
+WantedBy=sound.target
 
 # vim: ft=systemd

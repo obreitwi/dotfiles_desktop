@@ -13,6 +13,7 @@ PathExists=/sys/class/backlight/intel_backlight/brightness
 Unit=backlight.service
 
 [Install]
-WantedBy=graphical.target
+# WantedBy=graphical.target
+WantedBy=multi-user.target
 
 # vim: ft=systemd
