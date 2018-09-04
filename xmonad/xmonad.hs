@@ -187,9 +187,9 @@ myKeys hostname nScreens conf@(XConfig {XMonad.modMask = modMask}) = M.fromList 
 
    -- clipboard management
    -- from primary to clipboard
-   , ((modMask ,                   xK_y        ), spawnHere "lolictrl -spc")
+   , ((modMask ,                   xK_y        ), spawnHere "xcmenuctrl -spc")
    -- from clipboard to primary 
-   , ((modMask .|. shiftMask,      xK_y        ), spawnHere "lolictrl -scp")
+   , ((modMask .|. shiftMask,      xK_y        ), spawnHere "xcmenuctrl -scp")
 
    -- launch gvim
    , ((modMask ,                   xK_g        ), spawn "gvim")
@@ -610,7 +610,7 @@ myLogHookConfig = xmobarPP {
 -- myTrayer = "killall trayer; trayer --edge top --align left --margin 1340 --width 100 --widthtype pixel --height 16 --padding 1 --tint 0x000000 --transparent true --alpha 0"
 -- myTrayer "gordon" = "/bin/true"
 -- myTrayer hostname = "killall trayer; trayer \
-myTrayer hostname = "killall trayer; trayer \
+myTrayer hostname = "killall -9 trayer; trayer \
    \--edge top \
    \--align left \
    \--margin " ++ (trayMargin hostname) ++ " \
