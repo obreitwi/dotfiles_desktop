@@ -56,7 +56,7 @@
 -- R("info_bat", default="")
 -- R("xpos")["nurikum-standalone"] = 1280
 -- for hostname in laptops:
---     R("info_bat")[hostname] = " %battery%"
+--     R("info_bat")[hostname] = " %battery%%draining%"
 -- 
 -- R("swap_widget")["abed"] = ""
 -- !!!
@@ -88,8 +88,9 @@ Config { font = "Envy Code R:style=Regular:size=10"
 -- !!! Battery
 -- !!! Battery @ abed,phaelon,jovis,gordon,phaeloff
     , Run Battery ["-t","AC <acstatus>, <left>% / <timeleft>","-H","80","-L","20", "-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC"] 600
+    , Run Com "bash" ["-c", "awk '!/^0$/ { print \" @ \" $1/1000 \" mW\"}'  /sys/class/power_supply/*/power_now"] "draining" 20
 -- !!!
-    , Run Date "%a %b %_d %H:%M:%S" "date" 10
+    -- , Run Date "%a %b %_d %H:%M:%S" "date" 10
     , Run StdinReader
     , Run Com "date" ["+%d.%m.%y %H:%M:%S"] "mydate" 10
 -- !!! Swap
