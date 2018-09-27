@@ -81,7 +81,7 @@ getScratchpads hostname = [
    ]
    where
        role = stringProperty "WM_WINDOW_ROLE"
-       spawnNotes = "gvim --role notes +VimwikiMakeDiaryNote"
+       spawnNotes = "cd ~/.vimwiki && gvim --role notes +VimwikiMakeDiaryNote"
        findNotes = role =? "notes"
        manageNotes = customFloating $ W.RationalRect l t w h
            where
