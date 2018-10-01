@@ -81,14 +81,15 @@ getScratchpads hostname = [
    ]
    where
        role = stringProperty "WM_WINDOW_ROLE"
-       spawnNotes = "cd ~/.vimwiki && gvim --role notes +VimwikiMakeDiaryNote"
+       spawnNotes = "cd ~/.vimwiki && gvim --role notes +VimwikiMakeDiaryNote '+set columns=" ++ (show numCols) ++  "'"
        findNotes = role =? "notes"
        manageNotes = customFloating $ W.RationalRect l t w h
-           where
-               l = 0.35
-               t = 0.05
-               w = 0.65
-               h = 0.85
+       l = 0.35
+       t = 0.05
+       w = 1.0 - l
+       h = 0.85
+       -- TODO: Get real screen size from Reader when implemented
+       numCols = flip (-) 2 $ floor $ 1920.0 * w / 7.0
 
 -- Width of the window border in pixels.
 --
@@ -155,8 +156,8 @@ spawnerProg _ = "gmrun"
 -- Key bindings. Add, modify or remove key bindings here
 --
 
--- TODO fix nScreens being passed here explicitly, i.e. rewrite config :o)
-myKeys hostname nScreens conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
+-- TODO fix numScreens being passed here explicitly, i.e. rewrite config :o)
+myKeys hostname numScreens conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 
    -- launch a terminal
    [ ((modMask .|. shiftMask,      xK_Return   ), spawnHere $ XMonad.terminal conf)
@@ -342,7 +343,7 @@ myKeys hostname nScreens conf@(XConfig {XMonad.modMask = modMask}) = M.fromList 
    -- changed to q,w,e because then r stands for the reloading it does
    --
    [((m .|. modMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
-   | (key, sc) <- zip (displayOrder hostname nScreens) [0..], (f, m) <- [(W.view, 0),
+   | (key, sc) <- zip (displayOrder hostname numScreens) [0..], (f, m) <- [(W.view, 0),
    (W.shift, shiftMask)]]
    ++ 
    -- Swap screens
@@ -651,10 +652,10 @@ myDefaultConfig _ = defaultConfig
 --
 main = do
    hostname <- getHostName
-   nScreens <- countScreens
+   numScreens <- countScreens
    xmproc <- spawnPipe $ myXmobar hostname
    trayer <- spawnPipe $ myTrayer hostname
-   xmonad $ (defaults hostname nScreens) {
+   xmonad $ (defaults hostname numScreens) {
        logHook =   (dynamicLogWithPP $ myLogHookConfig{
                    ppOutput = hPutStrLn xmproc
        })
@@ -670,8 +671,8 @@ main = do
 -- 
 -- No need to modify this.
 --
--- TODO: fix nScreens being passed here explicitly, i.e. restructure config :o)
-defaults hostname nScreens =
+-- TODO: fix numScreens being passed here explicitly, i.e. restructure config :o)
+defaults hostname numScreens =
    (myDefaultConfig hostname) {
      -- simple stuff
        terminal            = myTerminal hostname,
@@ -684,7 +685,7 @@ defaults hostname nScreens =
        focusedBorderColor  = myFocusedBorderColor,
 
      -- key bindings
-       keys                = myKeys hostname nScreens,
+       keys                = myKeys hostname numScreens,
        mouseBindings       = myMouseBindings,
 
      -- hooks, layouts
