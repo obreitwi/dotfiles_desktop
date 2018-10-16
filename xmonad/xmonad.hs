@@ -2,7 +2,7 @@
 
 import GetHostName
 
-import Control.Monad.Trans.Reader
+import qualified Control.Monad.Trans.Reader as R
 
 import System.IO
 import System.Exit
@@ -22,10 +22,10 @@ import XMonad.Actions.DynamicWorkspaces
 import XMonad.Actions.CopyWindow
 import XMonad.Actions.Minimize
 import XMonad.Actions.SpawnOn
--- import XMonad.Actions.UpdatePointer 
+-- import XMonad.Actions.UpdatePointer
 import qualified XMonad.Actions.FlexibleResize as Flex
 -- does not work with xK1..xK_0 mappings :(
---  import qualified XMonad.Actions.DynamicWorkspaceOrder as DO 
+--  import qualified XMonad.Actions.DynamicWorkspaceOrder as DO
 import XMonad.Layout.NoBorders
 import XMonad.Layout.FixedColumn
 import XMonad.Layout.Spiral
@@ -45,12 +45,20 @@ import XMonad.Util.NamedScratchpad
 import qualified XMonad.StackSet    as W
 import qualified Data.Map           as M
 
+data MyConfig = MyConfig
+  { hostname :: String
+  , numScreens :: Int
+  }
+
+setHostname :: String -> MyConfig -> MyConfig
+setHostname newHostname oldConfig = oldConfig { hostname = newHostname }
+
 -- WORKAROUND C-c hanging prompt
-myXPConfig_nC       =  defaultXPConfig { 
+myXPConfig_nC       =  defaultXPConfig {
                        promptKeymap = M.fromList [((controlMask,xK_c), quit)] `M.union` promptKeymap defaultXPConfig
                        {- , autoComplete = Just 500000 -}
                }
-myXPConfig          =  myXPConfig_nC { 
+myXPConfig          =  myXPConfig_nC {
                        --  promptKeymap = M.fromList [((controlMask,xK_c), quit)] `M.union` promptKeymap defaultXPConfig ,
                        autoComplete = Just 300000
                }
@@ -59,18 +67,16 @@ myXPConfig          =  myXPConfig_nC {
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
--- myTerminal       = "sakura"  
---  myTerminal      = "gnome-terminal"
-myTerminal _        = "urxvtc"
--- myTerminal _        = "urxvt"
+getTerminal :: R.Reader MyConfig String
+getTerminal = return "urxvtc"
 
-
-getScratchpads hostname = [
+getScratchpads = do
+  term <- getTerminal
+  return [
    -- run htop in xterm, find it by title, use default floating window placement
-       NS "htop" (myTerminal hostname ++ " -e htop") (title =? "htop") manageNotes ,
-       NS "shell" (myTerminal hostname ++ " -T shell") (title =? "shell") manageNotes ,
-       NS "alsamixer" (myTerminal hostname ++ " -e alsamixer") (title =? "alsamixer") manageNotes,
-
+       NS "htop" (term ++ " -e htop") (title =? "htop") manageNotes ,
+       NS "shell" (term ++ " -T shell") (title =? "shell") manageNotes ,
+       NS "alsamixer" (term ++ " -e alsamixer") (title =? "alsamixer") manageNotes,
    -- run stardict, find it by class name, place it in the floating window    j
    -- 1/6 of screen width from the left, 1/6 of screen height
    -- from the top, 2/3 of screen width by 2/3 of screen height
@@ -100,7 +106,7 @@ myBorderWidth   = 1
 -- ("right alt"), which does not conflict with emacs keybindings. The
 -- "windows key" is usually mod4Mask.
 --
---  myModMask       = mod1Mask 
+--  myModMask       = mod1Mask
 myModMask       = mod4Mask
 
 -- The mask for the numlock key. Numlock status is "masked" from the
@@ -128,19 +134,28 @@ myNumlockMask   = mod2Mask
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
 --  myWorkspaces    = ["1:code","2:pdf1","3:pdf2","4:web","5:vserver","6","7","8","9"]
-myWorkspaces :: String -> [String]
-myWorkspaces "abed"   = [ "1", "2", "3"]
-myWorkspaces _   = [ "1", "2" ]
-myExtendedWorkspaces :: String -> [String]
-myExtendedWorkspaces "abed" = [ "NSP", "chat", "stream", "root", "web" ]
-myExtendedWorkspaces "gordon" = [ "NSP", "root", "web" ]
-myExtendedWorkspaces "jovis" = [ "NSP", "c", "cP", "quassel", "talk", "talkP", "root", "web" ]
-myExtendedWorkspaces "lark" = [ "NSP", "music", "stream", "root", "web" ]
-myExtendedWorkspaces "nukular" = myExtendedWorkspaces "phaelon"
-myExtendedWorkspaces "nurikum" = [ "NSP", "c", "cP", "music", "stream", "root", "web" ]
-myExtendedWorkspaces "phaeloff" = myExtendedWorkspaces "phaelon"
-myExtendedWorkspaces "phaelon" = [ "NSP", "music", "root", "web" ]
-myExtendedWorkspaces _  = ["NSP"]
+getWorkspaces :: R.Reader MyConfig [String]
+getWorkspaces = do
+  host <- R.asks hostname
+  if host == "abed" then
+    return [ "1", "2", "3"]
+  else
+    return [ "1", "2" ]
+
+getExtendedWorkspaces :: R.Reader MyConfig [String]
+getExtendedWorkspaces = do
+    host <- R.asks hostname
+    return $ extws host
+  where
+    extws "abed" = [ "NSP", "chat", "stream", "root", "web" ]
+    extws "gordon" = [ "NSP", "root", "web" ]
+    extws "jovis" = [ "NSP", "c", "cP", "quassel", "talk", "talkP", "root", "web" ]
+    extws "lark" = [ "NSP", "music", "stream", "root", "web" ]
+    extws "nukular" = extws "phaelon"
+    extws "nurikum" = [ "NSP", "c", "cP", "music", "stream", "root", "web" ]
+    extws "phaeloff" = extws "phaelon"
+    extws "phaelon" = [ "NSP", "music", "root", "web" ]
+    extws _  = ["NSP"]
 
 -- Border colors for unfocused and focused windows, respectively.
 --
@@ -148,273 +163,306 @@ myNormalBorderColor     = "#7c7c7c"
 {- myFocusedBorderColor = "#ffb6b0" -}
 myFocusedBorderColor    = "#ff0000"
 
+------------------------------------------------------------------------
+-- Helper functions and programs used in key bindings
+--
 
-spawnerProg "abed" = "rofi -show run"
-spawnerProg _ = "gmrun"
+getSpawnerProg :: R.Reader MyConfig String
+getSpawnerProg = do
+    host <- R.asks hostname
+    return $ prg host
+  where
+     prg "abed" = "rofi -show run"
+     prg _ = "gmrun"
+
+
+getProxyString = return " --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'"
+
+browser :: R.Reader MyConfig String
+browser = do
+    host <- R.asks hostname
+    myProxyString <- getProxyString
+    return $ brs host myProxyString
+  where
+    brs "lark" mps = "chromium" ++ mps
+    brs "gordon" _ = "google-chrome"
+    brs "phaeloff" _ = "google-chrome-stable"
+    brs _ _ = "chromium"
+-- browser "lark" = "chromium --process-per-site --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'"
+
+browserProxy = do
+  browserNoProxy <- browser
+  myProxyString <- getProxyString
+  return $ browserNoProxy ++ myProxyString
+
+-- exitXmonad "gordon" = spawn "xfce4-session-logout"
+exitXmonad = return $ io (exitWith ExitSuccess)
+
+lockSpawner = do
+    host <- R.asks hostname
+    if host == "phaelon" then
+      return $ spawn "/bin/sh ~/git/dotfiles_desktop/scripts/go_standby.sh"
+    else
+     return $ spawn "slock"
+-- lockSpawner _ = spawn "xscreensaver-command -lock"
+
+-- displayOrder "nurikum" = [xK_w, xK_q, xK_e]
+getDisplayOrder = do
+    host <- R.asks hostname
+    numScreens <- R.asks numScreens
+    return $ hlp host numScreens
+  where
+    hlp "abed" 2 = [xK_w, xK_e] -- same as if there were three monitors
+    hlp "abed" _ = [xK_w, xK_q, xK_e]
+    hlp _ _ = [xK_q, xK_w, xK_e]
 
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here
 --
+getKeys :: R.Reader MyConfig (XConfig Layout -> M.Map (KeyMask, KeySym) (X ()))
+getKeys = do
+  myBrowser <- browser
+  myBrowserProxy <- browserProxy
+  myDisplayOrder <- getDisplayOrder
+  myExitXmonad <- exitXmonad
+  myLockSpawner <- lockSpawner
+  myScratchpads <- getScratchpads
+  mySpawnerProg <- getSpawnerProg
+  return $ \ (conf@(XConfig {XMonad.modMask = modMask})) ->
+    M.fromList $
+    -- launch a terminal
+    [ ((modMask .|. shiftMask,      xK_Return   ), spawnHere $ XMonad.terminal conf)
 
--- TODO fix numScreens being passed here explicitly, i.e. rewrite config :o)
-myKeys hostname numScreens conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
+    -- lock screensaver
+    , ((modMask .|. controlMask,    xK_l        ), myLockSpawner)
 
-   -- launch a terminal
-   [ ((modMask .|. shiftMask,      xK_Return   ), spawnHere $ XMonad.terminal conf)
+    -- launch dmenu
+    --      , ((modMask,                    xK_semicolon), spawnHere "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
+    , ((modMask,                    xK_m),       spawnHere mySpawnerProg)
 
-   -- lock screensaver
-   , ((modMask .|. controlMask,    xK_l        ), lockSpawner hostname) 
+    -- refresh montiros
+    , ((modMask,                    xK_x),       spawn "$HOME/.local/bin/refresh_monitors")
 
-   -- launch dmenu
-   --      , ((modMask,                    xK_semicolon), spawnHere "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
-   , ((modMask,                    xK_m),       spawnHere (spawnerProg hostname))
+    -- launch gmrun
+    -- , ((modMask .|. shiftMask,       xK_p        ), spawnHere "eval \"exec ~/bin/mydmenu\"")
 
-   -- refresh montiros
-   , ((modMask,                    xK_x),       spawn "$HOME/.local/bin/refresh_monitors")
+    -- launch gvim
+    , ((modMask ,                   xK_g        ), spawnHere "gvim")
 
-   -- launch gmrun
-   -- , ((modMask .|. shiftMask,       xK_p        ), spawnHere "eval \"exec ~/bin/mydmenu\"") 
+    -- launch pavucontrol
+    , ((modMask ,                   xK_c        ), spawnHere "pavucontrol")
 
-   -- launch gvim
-   , ((modMask ,                   xK_g        ), spawnHere "gvim")
+    -- launch browser
+    , ((modMask ,                   xK_b        ), spawn myBrowser)
+    -- launch browser with proxy enabled
+    , ((modMask .|. shiftMask,      xK_b        ), spawn myBrowserProxy)
 
-   -- launch pavucontrol
-   , ((modMask ,                   xK_c        ), spawnHere "pavucontrol")
+    -- clipboard management
+    -- from primary to clipboard
+    , ((modMask ,                   xK_y        ), spawnHere "xcmenuctrl -spc")
+    -- from clipboard to primary
+    , ((modMask .|. shiftMask,      xK_y        ), spawnHere "xcmenuctrl -scp")
 
-   -- launch browser
-   , ((modMask ,                   xK_b        ), spawn (browser hostname))
-   -- launch browser with proxy enabled
-   , ((modMask .|. shiftMask,      xK_b        ), spawn (browserProxy hostname))
+    -- launch gvim
+    , ((modMask ,                   xK_g        ), spawn "gvim")
 
-   -- clipboard management
-   -- from primary to clipboard
-   , ((modMask ,                   xK_y        ), spawnHere "xcmenuctrl -spc")
-   -- from clipboard to primary 
-   , ((modMask .|. shiftMask,      xK_y        ), spawnHere "xcmenuctrl -scp")
+    -- take screenshot
+    -- , ((modMask .|. controlMask,    xK_p        ), spawnHere "import `date +screen_%F_%H-%M.png`")
+    , ((modMask .|. controlMask,    xK_p        ), spawnHere "maim -u -s $(date +screen_%F_%H-%M.png)")
 
-   -- launch gvim
-   , ((modMask ,                   xK_g        ), spawn "gvim")
+    -- close focused window
+    , ((modMask .|. shiftMask,      xK_c        ), kill)
 
-   -- take screenshot
-   -- , ((modMask .|. controlMask,    xK_p        ), spawnHere "import `date +screen_%F_%H-%M.png`")
-  , ((modMask .|. controlMask,    xK_p        ), spawnHere "maim -u -s $(date +screen_%F_%H-%M.png)")
+     -- Rotate through the available layout algorithms
+    , ((modMask,                    xK_space    ), sendMessage NextLayout)
 
-   -- close focused window 
-   , ((modMask .|. shiftMask,      xK_c        ), kill)
+    --  Reset the layouts on the current workspace to default
+    , ((modMask .|. shiftMask,      xK_space    ), setLayout $ XMonad.layoutHook conf)
 
-    -- Rotate through the available layout algorithms
-   , ((modMask,                    xK_space    ), sendMessage NextLayout)
+    -- Resize viewed windows to the correct size
+    , ((modMask,                    xK_v        ), spawnHere "nemo $HOME")
 
-   --  Reset the layouts on the current workspace to default
-   , ((modMask .|. shiftMask,      xK_space    ), setLayout $ XMonad.layoutHook conf)
+    -- Move focus to the next window
+    , ((modMask,                    xK_Tab      ), windows W.focusDown)
 
-   -- Resize viewed windows to the correct size
-   , ((modMask,                    xK_v        ), spawnHere "nemo $HOME")
+    -- Move focus to the next window
+    , ((modMask,                    xK_j        ), windows W.focusDown)
 
-   -- Move focus to the next window
-   , ((modMask,                    xK_Tab      ), windows W.focusDown)
+    -- Move focus to the previous window
+    , ((modMask,                    xK_k        ), windows W.focusUp)
 
-   -- Move focus to the next window
-   , ((modMask,                    xK_j        ), windows W.focusDown)
+    -- Move focus to the master window
+    -- , ((modMask,                 xK_m        ), windows W.focusMaster)
 
-   -- Move focus to the previous window
-   , ((modMask,                    xK_k        ), windows W.focusUp)
+    -- Swap the focused window and the master window
+    , ((modMask,                    xK_Return   ), windows W.swapMaster)
 
-   -- Move focus to the master window
-   -- , ((modMask,                 xK_m        ), windows W.focusMaster)
+    -- Swap the focused window with the next window
+    , ((modMask .|. shiftMask,      xK_j        ), windows W.swapDown)
 
-   -- Swap the focused window and the master window
-   , ((modMask,                    xK_Return   ), windows W.swapMaster)
+    -- Swap the focused window with the previous window
+    , ((modMask .|. shiftMask,      xK_k        ), windows W.swapUp )
 
-   -- Swap the focused window with the next window
-   , ((modMask .|. shiftMask,      xK_j        ), windows W.swapDown)
+    -- Shrink the master area
+    , ((modMask,                    xK_comma    ), sendMessage Shrink)
 
-   -- Swap the focused window with the previous window
-   , ((modMask .|. shiftMask,      xK_k        ), windows W.swapUp )
+    -- Expand the master area
+    , ((modMask,                    xK_period   ), sendMessage Expand)
 
-   -- Shrink the master area
-   , ((modMask,                    xK_comma    ), sendMessage Shrink)
+    -- Push window back into tiling
+    , ((modMask,                    xK_t        ), withFocused $ windows . W.sink)
 
-   -- Expand the master area
-   , ((modMask,                    xK_period   ), sendMessage Expand)
+    -- Increment the number of windows in the master area
+    , ((modMask .|. shiftMask,      xK_period   ), sendMessage (IncMasterN 1))
 
-   -- Push window back into tiling
-   , ((modMask,                    xK_t        ), withFocused $ windows . W.sink)
+    -- Deincrement the number of windows in the master area
+    , ((modMask .|. shiftMask,      xK_comma    ), sendMessage (IncMasterN (-1)))
 
-   -- Increment the number of windows in the master area
-   , ((modMask .|. shiftMask,      xK_period   ), sendMessage (IncMasterN 1))
+    -- Toggle fullscreen
+    , ((modMask,                    xK_p        ), sendMessage $ Toggle NBFULL )
 
-   -- Deincrement the number of windows in the master area
-   , ((modMask .|. shiftMask,      xK_comma    ), sendMessage (IncMasterN (-1)))
+    -- toggle the status bar gap TODO, update this binding with avoidStruts,
+    , ((modMask,                    xK_n        ), sendMessage ToggleStruts )
 
-   -- Toggle fullscreen
-   , ((modMask,                    xK_p        ), sendMessage $ Toggle NBFULL )
+    -- Minimize windows
+    , ((modMask,                    xK_u        ), withFocused minimizeWindow )
+    , ((modMask .|. shiftMask,      xK_u        ), withLastMinimized maximizeWindow)
 
-   -- toggle the status bar gap TODO, update this binding with avoidStruts,
-   , ((modMask,                    xK_n        ), sendMessage ToggleStruts )
+    -- Quit xmonad
+    , ((modMask .|. shiftMask,      xK_r        ), myExitXmonad)
 
-   -- Minimize windows
-   , ((modMask,                    xK_u        ), withFocused minimizeWindow )
-   , ((modMask .|. shiftMask,      xK_u        ), withLastMinimized maximizeWindow)
+    -- Restart xmonad
+    , ((modMask,                    xK_r        ), restart "xmonad" True)
+    ] ++
 
-   -- Quit xmonad
-   , ((modMask .|. shiftMask,      xK_r        ), myExitXmonad hostname)
+    -- Prompts
+    ------------------------------
+    -- Switch to window
+    [
+    ((modMask,                      xK_o        ), windowPromptGoto myXPConfig )
+    -- SSH prompt
+    --, (( modMask,                 xK_s        ), sshPrompt myXPConfig)
+    -- Does not really work as expected, put on hold
+    ] ++
 
-   -- Restart xmonad
-   , ((modMask,                    xK_r        ), restart "xmonad" True) 
-   ] ++
-   
-   -- Prompts
-   ------------------------------
-   -- Switch to window
-   [ 
-   ((modMask,                      xK_o        ), windowPromptGoto myXPConfig )
-   -- SSH prompt
-   --, (( modMask,                 xK_s        ), sshPrompt myXPConfig)
-   -- Does not really work as expected, put on hold
-   ] ++
+    -- Scratch Pads
+    ------------------------------
+    [
+      ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes" ),
+      ((modMask .|. shiftMask,        xK_slash        ), namedScratchpadAction myScratchpads "htop" ),
+      ((modMask,                      xK_apostrophe   ), namedScratchpadAction myScratchpads "shell" ),
+      ((modMask .|. shiftMask,        xK_apostrophe   ), namedScratchpadAction myScratchpads "alsamixer" )
+    ]++
 
-   -- Scratch Pads
-   ------------------------------
-   [
-     ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes" ),
-     ((modMask .|. shiftMask,        xK_slash        ), namedScratchpadAction myScratchpads "htop" ),
-     ((modMask,                      xK_apostrophe   ), namedScratchpadAction myScratchpads "shell" ),
-     ((modMask .|. shiftMask,        xK_apostrophe   ), namedScratchpadAction myScratchpads "alsamixer" )
-   ]++
+    -- Actions
+    ------------------------------
+    -- Gridselect
+    [ ((modMask,                    xK_i        ), goToSelected defaultGSConfig)
+    -- Cycle workspaces With RotView
+    -- , ((modMask,                 xK_l        ), moveTo Next AnyWS)
+    , ((modMask,                    xK_l        ), moveTo Next hiddenNonIgnoredWS)
+    --  , ((modMask,                    xK_l        ), moveTo Next NonEmptyWS)
+    -- , ((modMask,                 xK_h        ), moveTo Prev AnyWS)
+    , ((modMask,                    xK_h        ), moveTo Prev hiddenNonIgnoredWS)
+    --  , ((modMask,                    xK_h        ), moveTo Prev NonEmptyWS)
+    -- , ((modMask .|. shiftMask,       xK_l        ), shiftTo Next AnyWS)
+    , ((modMask .|. shiftMask,      xK_l        ), shiftTo Next hiddenNonIgnoredWS)
+    --  , ((modMask,                    xK_l        ), shiftTo Next NonEmptyWS)
+    -- , ((modMask .|. shiftMask,       xK_h        ), shiftTo Prev AnyWS)
+    , ((modMask .|. shiftMask,      xK_h        ), shiftTo Prev hiddenNonIgnoredWS)
+    {- , ((modMask,                 xK_h        ), shiftTo Prev NonEmptyWS) -}
 
-   -- Actions
-   ------------------------------
-   -- Gridselect
-   [ ((modMask,                    xK_i        ), goToSelected defaultGSConfig)
-   -- Cycle workspaces With RotView
-   -- , ((modMask,                 xK_l        ), moveTo Next AnyWS)
-   , ((modMask,                    xK_l        ), moveTo Next hiddenNonIgnoredWS)
-   --  , ((modMask,                    xK_l        ), moveTo Next NonEmptyWS) 
-   -- , ((modMask,                 xK_h        ), moveTo Prev AnyWS)
-   , ((modMask,                    xK_h        ), moveTo Prev hiddenNonIgnoredWS)
-   --  , ((modMask,                    xK_h        ), moveTo Prev NonEmptyWS) 
-   -- , ((modMask .|. shiftMask,       xK_l        ), shiftTo Next AnyWS)
-   , ((modMask .|. shiftMask,      xK_l        ), shiftTo Next hiddenNonIgnoredWS)
-   --  , ((modMask,                    xK_l        ), shiftTo Next NonEmptyWS) 
-   -- , ((modMask .|. shiftMask,       xK_h        ), shiftTo Prev AnyWS)
-   , ((modMask .|. shiftMask,      xK_h        ), shiftTo Prev hiddenNonIgnoredWS)
-   {- , ((modMask,                 xK_h        ), shiftTo Prev NonEmptyWS) -}
+    , ((modMask,                    xK_a        ), toggleWS )
+    ] ++
+    --
+    -- Add and delete new worksspaces dynamically
+    --
+    [
+      ((modMask .|. shiftMask,      xK_n        ), removeWorkspace)
+    , ((modMask,                    xK_semicolon), selectWorkspace myXPConfig)
+    -- control modifier disables auto completion
+    , ((modMask .|. controlMask,    xK_semicolon), selectWorkspace myXPConfig_nC)
+    , ((modMask .|. shiftMask,      xK_semicolon), withWorkspace myXPConfig (windows . W.shift))
+    , ((modMask .|. shiftMask .|. controlMask,      xK_semicolon), withWorkspace myXPConfig_nC (windows . W.shift))
+    --  , ((modMask .|. shiftMask,      xK_y        ), withWorkspace myXPConfig (windows . copy))
+    , ((modMask .|. shiftMask,      xK_m        ), renameWorkspace myXPConfig_nC)
+    ] ++
 
-   , ((modMask,                    xK_a        ), toggleWS )
-   ] ++
-   --
-   -- Add and delete new worksspaces dynamically
-   --
-   [
-     ((modMask .|. shiftMask,      xK_n        ), removeWorkspace)
-   , ((modMask,                    xK_semicolon), selectWorkspace myXPConfig)
-   -- control modifier disables auto completion
-   , ((modMask .|. controlMask,    xK_semicolon), selectWorkspace myXPConfig_nC)
-   , ((modMask .|. shiftMask,      xK_semicolon), withWorkspace myXPConfig (windows . W.shift))
-   , ((modMask .|. shiftMask .|. controlMask,      xK_semicolon), withWorkspace myXPConfig_nC (windows . W.shift))
-   --  , ((modMask .|. shiftMask,      xK_y        ), withWorkspace myXPConfig (windows . copy))
-   , ((modMask .|. shiftMask,      xK_m        ), renameWorkspace myXPConfig_nC)
-   ] ++
+    --
+    -- mod-[1..9], Switch to workspace N mod-shift-[1..9], Move client to
+    -- workspace N
+    --
+    --      [((m .|. modMask, k), windows $ f i) | (i, k) <- zip (XMonad.workspaces
+    --      conf) [xK_1 .. xK_9] , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+    --      ++
+    -- mod-[1..0] Switch to workspace N
+    -- zip (zip (repeat modMask) [xK_F1..xK_F12]) (map (withNthWorkspace W.greedyView) [0..])
 
-   --
-   -- mod-[1..9], Switch to workspace N mod-shift-[1..9], Move client to
-   -- workspace N
-   --
-   --      [((m .|. modMask, k), windows $ f i) | (i, k) <- zip (XMonad.workspaces
-   --      conf) [xK_1 .. xK_9] , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
-   --      ++
-   -- mod-[1..0] Switch to workspace N
-   -- zip (zip (repeat modMask) [xK_F1..xK_F12]) (map (withNthWorkspace W.greedyView) [0..])
+    -- Start at 1 instead of 0 because we have the NSP workspace as first
+    zip (zip (repeat modMask) [xK_1..xK_9]) (map (withNthWorkspaceFiltered W.greedyView) [0..])
+    ++
+    -- mod-shift-[F1..F12] Move client to workspace N
+    zip (zip (repeat (modMask .|. shiftMask)) [xK_1..xK_9]) (map (withNthWorkspaceFiltered W.shift) [0..])
+    ++
+    -- mod-control-shift-[F1..F12] Copy client to workspace N
+    -- zip (zip (repeat (controlMask .|. shiftMask)) [xK_1..xK_9]) (map (withNthWorkspace copy) [1..])
+    -- ++
 
-   -- Start at 1 instead of 0 because we have the NSP workspace as first
-   zip (zip (repeat modMask) [xK_1..xK_9]) (map (withNthWorkspaceFiltered W.greedyView) [0..])
-   ++
-   -- mod-shift-[F1..F12] Move client to workspace N
-   zip (zip (repeat (modMask .|. shiftMask)) [xK_1..xK_9]) (map (withNthWorkspaceFiltered W.shift) [0..])
-   ++
-   -- mod-control-shift-[F1..F12] Copy client to workspace N
-   -- zip (zip (repeat (controlMask .|. shiftMask)) [xK_1..xK_9]) (map (withNthWorkspace copy) [1..])
-   -- ++
+    --
+    -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
+    -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
+    -- changed to q,w,e because then r stands for the reloading it does
+    --
+    [((m .|. modMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
+    | (key, sc) <- zip myDisplayOrder [0..], (f, m) <- [(W.view, 0),
+    (W.shift, shiftMask)]]
+    ++
+    -- Swap screens
+    [ ((modMask, xK_s),  swapNextScreen )
+    , ((modMask, xK_d),  swapPrevScreen )
+    ]
+    --
+    -- move focus between screens (Not needed anymore because code above works)
+    -- [
+          -- ((modMask .|. controlMask, xK_k),  prevScreen)
+        -- , ((modMask .|. controlMask, xK_j),  nextScreen)
+        -- , ((modMask .|. controlMask, xK_l),  shiftNextScreen)
+        -- , ((modMask .|. controlMask, xK_h),  shiftPrevScreen)
+    -- ]
+    ++
+    [
+      -- launch browsers (not working)
+       {-
+        -   ((modMask, xK_F7),
+        -       spawnOn "chat" (browser hostname)
+        -     >> spawnOn "stream" (browser hostname)
+        -     >> spawnOn "web" (browser hostname))
+        - , ((modMask .|. shiftMask, xK_F7),
+        -       spawnOn "chat" (browserProxy hostname ++ " web.whatsapp.com https://brainscales-r.kip.uni-heidelberg.de:6443/visions/")
+        -     >> spawnOn "stream" (browserProxy hostname)
+        -     >> spawnOn "web" (browserProxy hostname))
+        -}
+    ]
+    ++
+    [
+        -- ((modMask, xK_F8), spawn "zsh -c \"backlight -10%\"")
+      -- , ((modMask, xK_F9), spawn "zsh -c \"backlight +10%\"")
+        -- ((modMask, xK_XF86MonBrightnessDown), spawn "zsh -c \"backlight -10%\"")
+      -- , ((modMask, xK_XF86MonBrightnessUp), spawn "zsh -c \"backlight +10%\"")
+    ]
+    ++
+    -- Music controller
+    [
+          ((modMask, xK_F10), spawn "playerctl prev")
+        , ((modMask, xK_F11), spawn "playerctl next")
+        , ((modMask, xK_F12), spawn "playerctl play-pause")
+    ]
 
-   --
-   -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
-   -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
-   -- changed to q,w,e because then r stands for the reloading it does
-   --
-   [((m .|. modMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
-   | (key, sc) <- zip (displayOrder hostname numScreens) [0..], (f, m) <- [(W.view, 0),
-   (W.shift, shiftMask)]]
-   ++ 
-   -- Swap screens
-   [ ((modMask, xK_s),  swapNextScreen )
-   , ((modMask, xK_d),  swapPrevScreen )
-   ]
-   --
-   -- move focus between screens (Not needed anymore because code above works)
-   -- [
-         -- ((modMask .|. controlMask, xK_k),  prevScreen)
-       -- , ((modMask .|. controlMask, xK_j),  nextScreen)
-       -- , ((modMask .|. controlMask, xK_l),  shiftNextScreen)
-       -- , ((modMask .|. controlMask, xK_h),  shiftPrevScreen) 
-   -- ]
-   ++
-   [
-     -- launch browsers (not working)
-      {-
-       -   ((modMask, xK_F7),
-       -       spawnOn "chat" (browser hostname)
-       -     >> spawnOn "stream" (browser hostname)
-       -     >> spawnOn "web" (browser hostname))
-       - , ((modMask .|. shiftMask, xK_F7),
-       -       spawnOn "chat" (browserProxy hostname ++ " web.whatsapp.com https://brainscales-r.kip.uni-heidelberg.de:6443/visions/")
-       -     >> spawnOn "stream" (browserProxy hostname)
-       -     >> spawnOn "web" (browserProxy hostname))
-       -}
-   ]
-   ++
-   [
-       -- ((modMask, xK_F8), spawn "zsh -c \"backlight -10%\"")
-     -- , ((modMask, xK_F9), spawn "zsh -c \"backlight +10%\"")
-       -- ((modMask, xK_XF86MonBrightnessDown), spawn "zsh -c \"backlight -10%\"")
-     -- , ((modMask, xK_XF86MonBrightnessUp), spawn "zsh -c \"backlight +10%\"")
-   ]
-   ++
-   -- Music controller
-   [
-         ((modMask, xK_F10), spawn "playerctl prev")
-       , ((modMask, xK_F11), spawn "playerctl next")
-       , ((modMask, xK_F12), spawn "playerctl play-pause")
-   ]
-   where
-       lockSpawner "phaelon" = spawn "/bin/sh ~/git/dotfiles_desktop/scripts/go_standby.sh"
-       lockSpawner _ = spawn "slock"
-       -- lockSpawner _ = spawn "xscreensaver-command -lock"
-
-       -- displayOrder "nurikum" = [xK_w, xK_q, xK_e]
-       displayOrder "abed" 2 = [xK_w, xK_e] -- same as if there were three monitors
-       displayOrder "abed" _ = [xK_w, xK_q, xK_e]
-       displayOrder _ _ = [xK_q, xK_w, xK_e]
-
-       -- browser "lark" = "chromium --process-per-site --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'" 
-       browser "lark" = "chromium" ++ proxyString
-       browser "gordon" = "google-chrome"
-       browser "phaeloff" = "google-chrome-stable"
-       browser _ = "chromium"
-
-       proxyString = " --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'"
-
-       browserProxy hostname = (browser hostname) ++ proxyString
-
-       -- myExitXmonad "gordon" = spawn "xfce4-session-logout"
-       myExitXmonad _ = io (exitWith ExitSuccess)
-
-       myScratchpads = getScratchpads hostname
-
-myAdditionalKeys conf hostname = additionalKeysP conf [
-         ("M-<XF86MonBrightnessDown>", spawn "zsh -c \"backlight -10%\"")
-       , ("M-<XF86MonBrightnessUp>", spawn "zsh -c \"backlight +10%\"")
-   ]
+getAdditionalKeys = do
+   return $ \ conf -> additionalKeysP conf
+     [ ("M-<XF86MonBrightnessDown>", spawn "zsh -c \"backlight -10%\"")
+     , ("M-<XF86MonBrightnessUp>", spawn "zsh -c \"backlight +10%\"")
+     ]
 
 ignoredWorkspaces = ["NSP"]
 -- Apply an action to the window stack, while ignoring certain workspaces
@@ -471,12 +519,14 @@ myTabConfig = defaultTheme {  activeBorderColor = "#7C7C7C"
                            , inactiveBorderColor = "#7C7C7C"
                            , inactiveTextColor = "#EEEEEE"
                            , inactiveColor = "#000000" }
-                           
+
 -- myLayout = avoidStruts $ minimize (mkToggle ( NOBORDERS ?? FULL ?? EOT ) $ tiled ||| oddtiled ||| Mirror tiled ||| tabbed shrinkText myTabConfig ||| noBorders Full ||| spiral (6/7))
 -- Tabbed layout causes segfault with toggle - RANDOMLY, avoid until known to be fixed
-myLayout hostname = avoidStruts $ minimize $ (mkToggle ( single NBFULL ) $
-   tiled ||| Grid (screenRatio hostname) ||| noBorders streamwatching ||| Mirror tiled ||| noBorders Full ||| spiral (6/7)) ||| oddtiled 
- where
+getLayout = do
+    host <- R.asks hostname
+    return $ avoidStruts $ minimize $ (mkToggle ( single NBFULL ) $
+      tiled ||| Grid (screenRatio host) ||| noBorders streamwatching ||| Mirror tiled ||| noBorders Full ||| spiral (6/7)) ||| (oddtiled host)
+  where
    screenRatio "juno" = 16/9
    screenRatio "gordon" = 1366/768
    screenRatio "phaeloff" = screenRatio "gordon"
@@ -489,9 +539,9 @@ myLayout hostname = avoidStruts $ minimize $ (mkToggle ( single NBFULL ) $
 
    -- default tiling algorithm partitions the screen into two panes
    tiled       = Tall nmaster delta ratio
-   
+
    -- Another tiling algorithm where the master pane is larger
-   oddtiled    = Tall nmaster delta $ oddRatio hostname
+   oddtiled h  = Tall nmaster delta $ oddRatio h
 
    streamwatching = Tall nmaster delta ( 1280 / 1920 )
 
@@ -519,9 +569,11 @@ myLayout hostname = avoidStruts $ minimize $ (mkToggle ( single NBFULL ) $
 -- To match on the WM_NAME, you can use 'title' in the same way that
 -- 'className' and 'resource' are used below.
 --
-myManageHook hostname = manageDocks
+getManageHook = do
+  myScratchpads <- getScratchpads
+  return $ manageDocks
    <+> manageSpawn
-   <+> (namedScratchpadManageHook $ getScratchpads hostname)
+   <+> (namedScratchpadManageHook $ myScratchpads)
    <+> composeAll
    [ className =? "MPlayer"            --> doFloat
    , className =? "Smplayer"           --> doFloat
@@ -553,8 +605,8 @@ myManageHook hostname = manageDocks
    , className =? "Spotify"            --> doShift "spotify"
    , title =? "CS188 Pacman"       --> doShift "ai"
    , resource  =? "desktop_window"     --> doIgnore
-   , resource  =? "kdesktop"           --> doIgnore 
-   , resource  =? "xfce4-notifyd"      --> doIgnore 
+   , resource  =? "kdesktop"           --> doIgnore
+   , resource  =? "xfce4-notifyd"      --> doIgnore
    -- , className  =? "Vlc"                --> doShift "stream"
    -- , title =? "fd://0 - VLC media player" --> doShift "stream"
    ]
@@ -583,11 +635,15 @@ myFocusFollowsMouse = False
 --
 -- By default, do nothing.
 --  myStartupHook = return ()
-addExtendedWorkspaces hostname = foldl1 (<+>) $ map addHiddenWorkspace $ myExtendedWorkspaces hostname
+getAddExtendedWorkspaces = do
+    myExtendedWorkspaces <- getExtendedWorkspaces
+    return $ foldl1 (<+>) $ map addHiddenWorkspace $ myExtendedWorkspaces
 
-myStartupHook hostname = setWMName "LG3D"
-   <+> addExtendedWorkspaces hostname
-   <+> docksStartupHook
+getStartupHook = do
+  myAddExtendedWorkspaces <- getAddExtendedWorkspaces
+  return $ setWMName "LG3D"
+     <+> myAddExtendedWorkspaces
+     <+> docksStartupHook
 
 -- Minimize windows hook (to restore from taskbar)
 myHandleEventHook =
@@ -597,13 +653,13 @@ myHandleEventHook =
 
 myLogHookConfig = xmobarPP {
        ppTitle = xmobarColor "#FFB6B0" "" . shorten 100
-       --  , ppCurrent = xmobarColor "#CEFFAC" "" 
+       --  , ppCurrent = xmobarColor "#CEFFAC" ""
        , ppCurrent = xmobarColor "#0CC6DA" ""
        , ppHidden = ppHidden xmobarPP . noScratchPad
        , ppHiddenNoWindows = xmobarColor "#777777" "" . noScratchPad
        , ppSep = "   "
        --  , ppSort = DO.getSortByOrder
-   }  
+   }
    where
        noScratchPad ws = if ws == "NSP" then "" else ws
 
@@ -611,39 +667,53 @@ myLogHookConfig = xmobarPP {
 -- myTrayer = "killall trayer; trayer --edge top --align left --margin 1340 --width 100 --widthtype pixel --height 16 --padding 1 --tint 0x000000 --transparent true --alpha 0"
 -- myTrayer "gordon" = "/bin/true"
 -- myTrayer hostname = "killall trayer; trayer \
-myTrayer hostname = "killall -9 trayer; trayer \
-   \--edge top \
-   \--align left \
-   \--margin " ++ (trayMargin hostname) ++ " \
-   \--width " ++ (trayWidth hostname) ++ " \
-   \--widthtype pixel \
-   \--height 16 \
-   \--padding 1 \
-   \--tint 0x000000 \
-   \--transparent true \
-   \--alpha 0 \
-   \--expand false \
-   \--SetDockType  true"
-   where
-       trayWidth "nurikum" = "150"
-       trayWidth "jovis" = "50"
-       trayWidth "gordon" = "75"
-       trayWidth "phaeloff" = "74"
-       trayWidth _ = "100"
+getTrayer = do
+  myTrayMargin <- trayMargin
+  myTrayWidth <- trayWidth
+  return $ "killall -9 trayer; trayer \
+     \--edge top \
+     \--align left \
+     \--margin " ++ myTrayMargin ++ " \
+     \--width " ++ myTrayWidth ++ " \
+     \--widthtype pixel \
+     \--height 16 \
+     \--padding 1 \
+     \--tint 0x000000 \
+     \--transparent true \
+     \--alpha 0 \
+     \--expand false \
+     \--SetDockType  true"
 
-       trayMargin "nurikum" = "1700"
-       trayMargin "nurikum-standalone" = show (1920 + 1280 - (read (trayWidth "nurikum")))
-       trayMargin "phaelon" = "1340"
-       trayMargin "gordon" = "1291"
-       trayMargin "phaeloff" = trayMargin "gordon"
-       trayMargin "jovis" = "1230"
-       trayMargin _ = "1820"
+trayWidth = do
+    host <- R.asks hostname
+    return $ width host
+  where
+    width "nurikum" = "150"
+    width "jovis" = "50"
+    width "gordon" = "75"
+    width "phaeloff" = "74"
+    width _ = "100"
 
--- myXmobar "gordon" = "/bin/true"
-myXmobar _ = "~/.stack/bin/xmobar ~/.xmonad/xmobar"
+trayMargin = do
+    host <- R.asks hostname
+    widthNurikum <- R.withReader (setHostname "nurikum") trayWidth
+    widthGordon <- R.withReader (setHostname "gordon") trayWidth
+    return $ margin widthNurikum widthGordon host
+  where
+    -- TODO: this is ugly, fix it!
+    margin _ _ "nurikum" = "1700"
+    margin widthNurikum _ "nurikum-standalone" = show (1920 + 1280 - (read widthNurikum))
+    margin _ _ "phaelon" = "1340"
+    margin _ _ "gordon" = "1291"
+    margin _ widthGordon "phaeloff" = widthGordon
+    margin _ _ "jovis" = "1230"
+    margin _ _ _ = "1820"
+
+getXmobar :: R.Reader MyConfig String
+getXmobar = return $ "~/.stack/bin/xmobar ~/.xmonad/xmobar"
 
 -- myDefaultConfig "gordon" = xfceConfig
-myDefaultConfig _ = defaultConfig
+getDefaultConfig = return defaultConfig
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
@@ -653,48 +723,60 @@ myDefaultConfig _ = defaultConfig
 main = do
    hostname <- getHostName
    numScreens <- countScreens
-   xmproc <- spawnPipe $ myXmobar hostname
-   trayer <- spawnPipe $ myTrayer hostname
-   xmonad $ (defaults hostname numScreens) {
+   let myConfig = MyConfig {
+       hostname = hostname, numScreens = numScreens }
+       myXmobar = R.runReader getXmobar myConfig
+       myTrayer = R.runReader getTrayer myConfig
+   xmproc <- spawnPipe $ myXmobar
+   trayer <- spawnPipe $ myTrayer
+   let defaults = R.runReader getDefaults myConfig
+   xmonad $ defaults {
        logHook =   (dynamicLogWithPP $ myLogHookConfig{
                    ppOutput = hPutStrLn xmproc
        })
        -- >> updatePointer (Relative 0.99 0.99)
        --  , manageHook = manageDocks <+> manageSpawn <+> myManageHook
-       --  , startupHook = setWMName "LG3D" 
+       --  , startupHook = setWMName "LG3D"
        -- , startupHook = myStartupHook
    }
 
 -- A structure containing your configuration settings, overriding
--- fields in the default config. Any you don't override, will 
+-- fields in the default config. Any you don't override, will
 -- use the defaults defined in xmonad/XMonad/Config.hs
--- 
+--
 -- No need to modify this.
 --
 -- TODO: fix numScreens being passed here explicitly, i.e. restructure config :o)
-defaults hostname numScreens =
-   (myDefaultConfig hostname) {
+getDefaults = do
+   myAdditionalKeys <- getAdditionalKeys
+   myDefaultConfig <- getDefaultConfig
+   myKeys <- getKeys
+   myLayout <- getLayout
+   myManageHook <- getManageHook
+   myStartupHook <- getStartupHook
+   myTerminal <- getTerminal
+   myWorkspaces <- getWorkspaces
+   return $ myAdditionalKeys $ myDefaultConfig {
      -- simple stuff
-       terminal            = myTerminal hostname,
+       terminal            = myTerminal,
        focusFollowsMouse   = myFocusFollowsMouse,
        borderWidth         = myBorderWidth,
        modMask             = myModMask,
        --  numlockMask         = myNumlockMask,
-       workspaces          = myWorkspaces hostname,
+       workspaces          = myWorkspaces,
        normalBorderColor   = myNormalBorderColor,
        focusedBorderColor  = myFocusedBorderColor,
 
      -- key bindings
-       keys                = myKeys hostname numScreens,
+       keys                = myKeys,
        mouseBindings       = myMouseBindings,
 
      -- hooks, layouts
-       layoutHook          = smartBorders $ myLayout hostname,
-       manageHook          = myManageHook hostname,
-       startupHook         = myStartupHook hostname,
+       layoutHook          = smartBorders $ myLayout,
+       manageHook          = myManageHook,
+       startupHook         = myStartupHook,
        handleEventHook     = myHandleEventHook
    }
-   `myAdditionalKeys` hostname
 
 
 -- vim: ft=haskell
