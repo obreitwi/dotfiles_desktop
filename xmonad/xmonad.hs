@@ -147,7 +147,7 @@ getExtendedWorkspaces = do
     host <- R.asks hostname
     return $ extws host
   where
-    extws "abed" = [ "NSP", "chat", "stream", "root", "web" ]
+    extws "abed" = [ "NSP", "music", "stream", "root", "web" ]
     extws "gordon" = [ "NSP", "root", "web" ]
     extws "jovis" = [ "NSP", "c", "cP", "quassel", "talk", "talkP", "root", "web" ]
     extws "lark" = [ "NSP", "music", "stream", "root", "web" ]
@@ -457,6 +457,11 @@ getKeys = do
         , ((modMask, xK_F11), spawn "playerctl next")
         , ((modMask, xK_F12), spawn "playerctl play-pause")
     ]
+    ++
+    -- Reset monitor configuration to use all available monitors
+    [
+          ((modMask .|. controlMask, xK_F12), spawn "zsh -i -c monitors_all")
+    ]
 
 getAdditionalKeys = do
    return $ \ conf -> additionalKeysP conf
@@ -602,8 +607,8 @@ getManageHook = do
    , className =? "Ktorrent"           --> doShift "5:media"
    , className =? "Xchat"              --> doShift "5:media"
    , className =? "quasselclient"      --> doShift "quassel"
-   , className =? "Spotify"            --> doShift "spotify"
-   , title =? "CS188 Pacman"       --> doShift "ai"
+   , className =? "spotify"            --> doShift "music"
+   , title =? "CS188 Pacman"           --> doShift "ai"
    , resource  =? "desktop_window"     --> doIgnore
    , resource  =? "kdesktop"           --> doIgnore
    , resource  =? "xfce4-notifyd"      --> doIgnore
