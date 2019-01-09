@@ -715,7 +715,7 @@ trayMargin = do
     margin _ _ _ = "1820"
 
 getXmobar :: R.Reader MyConfig String
-getXmobar = return $ "~/.stack/bin/xmobar ~/.xmonad/xmobar"
+getXmobar = return $ "~/.xmonad/bin/xmobar ~/.xmonad/xmobar"
 
 -- myDefaultConfig "gordon" = xfceConfig
 getDefaultConfig = return defaultConfig
