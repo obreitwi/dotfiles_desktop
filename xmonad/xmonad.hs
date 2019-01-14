@@ -267,8 +267,8 @@ getKeys = do
     , ((modMask ,                   xK_g        ), spawn "gvim")
 
     -- take screenshot
-    -- , ((modMask .|. controlMask,    xK_p        ), spawnHere "import `date +screen_%F_%H-%M.png`")
-    , ((modMask .|. controlMask,    xK_p        ), spawnHere "maim -u -s $(date +screen_%F_%H-%M.png)")
+    -- , ((modMask .|. controlMask,    xK_p        ), spawnHere "import `date +screens/screen_%F_%H-%M.png`")
+    , ((modMask .|. controlMask,    xK_p        ), spawnHere "maim -u -s $(date +screens/screen_%F_%H-%M.png)")
 
     -- close focused window
     , ((modMask .|. shiftMask,      xK_c        ), kill)
