@@ -1,0 +1,12 @@
+
+[xmobar-git]
+checkout = git clone 'https://github.com/jaor/xmobar' 'xmobar-git'
+
+[xmonad-contrib-git]
+checkout = git clone 'https://github.com/xmonad/xmonad-contrib' 'xmonad-contrib-git'
+
+[xmonad-git]
+checkout = git clone 'https://github.com/xmonad/xmonad' 'xmonad-git'
+
+[xmonad-utils]
+checkout = git clone 'https://github.com/LeifW/xmonad-utils' 'xmonad-utils'
