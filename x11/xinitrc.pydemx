@@ -46,7 +46,14 @@ if xrandr | grep "HDMI-0 connected"; then
     --pos 1368x0 && feh --bg-fill ~/wallpaper/brisbinxmonadwall.png
 fi
 ### display@abed
-refresh_monitors # defined in host specific file
+lid_state="$(awk '$1 ~ /state:/ { print $2 }'  /proc/acpi/button/lid/LID/state)"
+if [ "${lid_state}" = "open" ]; then
+    # if lid is open, only show screen on laptop
+    monitors_laptop
+else
+    # if lid is closed, pick defaults
+    refresh_monitors # defined in host specific file
+fi
 ###
 
 ### virtualbox
