@@ -13,15 +13,13 @@ ExecStart=/bin/bash -c "while true; do \
     pscircle --output-width=$(echo 'scale=0; ${SCREEN_WIDTH} * ${SCALE} / 1' | bc) \
              --output-height=$(echo 'scale=0; ${SCREEN_HEIGHT} * ${SCALE} / 1' | bc) \
              --background-image-scale=$(echo 'scale=5; 1. / ${SCALE}' | bc) \
-             --tree-anchor-proc-name=xmonad-x86_64-linux \
-             --tree-anchor-proc-angle=$(echo '90./360. * 2*3.14159265358' | bc -l) \
+             --tree-anchor-proc-name=xinit \
+             --tree-anchor-proc-angle=$(echo '0./360. * 2*3.14159265358' | bc -l) \
              --collapse-threads=1 \
              --root-pid=1 \
              --show-root=1 \
-             --tree-rotation-angle=$(echo '250./360. * 2*3.14159265358' | bc -l) \
-             --tree-rotate=1 \
              --tree-radius-increment=175 \
-             --tree-font-color=EEEEEE66 \
+             --tree-font-color=EEEEEE88 \
              --tree-font-size=20 \
              --tree-center=-600.0:0.0 \
              --output=/tmp/wallpaper.png \
