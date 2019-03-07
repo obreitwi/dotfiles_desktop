@@ -1,25 +1,34 @@
 [Unit]
 Description=Runs pscircle to continuously update desktop wallpaper 
 
+; NOTE: --tree-anchor-proc-name/--tree-anchor-proc-angle seem to not work
+; sometimes (despite --tree-rotate not set)
+
 [Service]
 Environment=DISPLAY=:0
-Environment=SCALE=1.6
+Environment=SCALE=1.8
+Environment=SCREEN_WIDTH=1920
+Environment=SCREEN_HEIGHT=1200
 ExecStart=/bin/bash -c "while true; do \
-    pscircle --output-width=$(echo 'scale=0; 1920 * ${SCALE} / 1' | bc) \
-             --output-height=$(echo 'scale=0; 1200 * ${SCALE} / 1' | bc) \
+    pscircle --output-width=$(echo 'scale=0; ${SCREEN_WIDTH} * ${SCALE} / 1' | bc) \
+             --output-height=$(echo 'scale=0; ${SCREEN_HEIGHT} * ${SCALE} / 1' | bc) \
              --background-image-scale=$(echo 'scale=5; 1. / ${SCALE}' | bc) \
+             --tree-anchor-proc-name=xmonad-x86_64-linux \
+             --tree-anchor-proc-angle=$(echo '90./360. * 2*3.14159265358' | bc -l) \
              --collapse-threads=1 \
              --root-pid=1 \
              --show-root=1 \
+             --tree-rotation-angle=$(echo '250./360. * 2*3.14159265358' | bc -l) \
+             --tree-rotate=1 \
              --tree-radius-increment=175 \
-             --tree-anchor-proc-name=xinit \
-             --tree-font-color=EEEEEE88 \
+             --tree-font-color=EEEEEE66 \
              --tree-font-size=20 \
-             --tree-center=-400.0:0.0 \
+             --tree-center=-600.0:0.0 \
              --output=/tmp/wallpaper.png \
              --background-image=${HOME}/wallpaper/brisbinxmonadwall.png; \
              feh --bg-fill /tmp/wallpaper.png; sleep 30; \
          done"
+ExecStopPost=feh --bg-fill "${HOME}/wallpaper/brisbinxmonadwall.png"
 
 [Install]
 WantedBy=default.target

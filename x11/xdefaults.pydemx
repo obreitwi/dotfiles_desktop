@@ -18,7 +18,7 @@ Xft.lcdfilter:  lcddefault
 
 ! Transpacrency --------------------------------------------------------------
 urxvt*transparent: true
-urxvt*shading: 100
+urxvt*shading: 50
 
 ! real trans
 URxvt*depth: 32
