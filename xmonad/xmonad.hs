@@ -37,7 +37,7 @@ import XMonad.Layout.Minimize
 import XMonad.Layout.SimpleDecoration
 import XMonad.Layout.GridVariants
 import XMonad.Layout.IndependentScreens(countScreens)
-import XMonad.Util.Run(spawnPipe, unsafeSpawn)
+import XMonad.Util.Run(spawnPipe, safeSpawn, unsafeSpawn)
 import XMonad.Util.SpawnOnce(spawnOnce)
 import XMonad.Util.EZConfig(additionalKeysP)
 import XMonad.Util.WorkspaceCompare
@@ -45,6 +45,7 @@ import XMonad.Util.NamedScratchpad
 -- import XMonad.Config.Xfce
 
 import qualified XMonad.StackSet    as W
+import qualified Data.List          as L
 import qualified Data.Map           as M
 
 data MyConfig = MyConfig
@@ -678,22 +679,30 @@ myPP = xmobarPP {
 -- myTrayer = "killall trayer; trayer --edge top --align left --margin 1340 --width 100 --widthtype pixel --height 16 --padding 1 --tint 0x000000 --transparent true --alpha 0"
 -- myTrayer "gordon" = "/bin/true"
 -- myTrayer hostname = "killall trayer; trayer \
-getTrayer = do
-  myTrayMargin <- trayMargin
-  myTrayWidth <- trayWidth
-  return $ "killall -9 trayer; trayer \
-     \--edge top \
-     \--align left \
-     \--margin " ++ myTrayMargin ++ " \
-     \--width " ++ myTrayWidth ++ " \
-     \--widthtype pixel \
-     \--height 16 \
-     \--padding 1 \
-     \--tint 0x000000 \
-     \--transparent true \
-     \--alpha 0 \
-     \--expand false \
-     \--SetDockType  true"
+getSpawnTrayer :: R.Reader MyConfig (IO ())
+getSpawnTrayer = do
+    trayWidth <- trayWidth
+    return $ do
+      killTrayer
+      numScreens <- countScreens
+      mapM_ (spawnSingleTrayer trayWidth) [0..numScreens-1]
+  where
+    spawnSingleTrayer width sId = unsafeSpawn $ "trayer \
+       \--monitor " ++ (show sId) ++ " \
+       \--edge top \
+       \--align right \
+       \--width " ++ width ++ " \
+       \--widthtype pixel \
+       \--height 16 \
+       \--padding 1 \
+       \--tint 0x000000 \
+       \--transparent true \
+       \--alpha 0 \
+       \--expand false \
+       \--SetDockType true 2>&1 | systemd-cat -t trayer"
+
+    killTrayer :: IO ()
+    killTrayer = unsafeSpawn "killall -9 trayer"
 
 trayWidth = do
     host <- R.asks hostname
@@ -741,8 +750,8 @@ main = do
    numScreens <- countScreens
    let myConfig = MyConfig {
        hostname = hostname, numScreens = numScreens }
-       myTrayer = R.runReader getTrayer myConfig
-   trayer <- spawnPipe $ myTrayer
+       spawnTrayer = R.runReader getSpawnTrayer myConfig
+   spawnTrayer
    let defaults = R.runReader getDefaults myConfig
    xmonad $ defaults {
        logHook =   (multiPP myPP myPP)
