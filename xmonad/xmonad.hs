@@ -7,6 +7,7 @@ import qualified Control.Monad.Trans.Reader as R
 import System.IO
 import System.Exit
 import XMonad
+import XMonad.Hooks.DynamicBars
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.SetWMName
@@ -36,7 +37,8 @@ import XMonad.Layout.Minimize
 import XMonad.Layout.SimpleDecoration
 import XMonad.Layout.GridVariants
 import XMonad.Layout.IndependentScreens(countScreens)
-import XMonad.Util.Run(spawnPipe)
+import XMonad.Util.Run(spawnPipe, unsafeSpawn)
+import XMonad.Util.SpawnOnce(spawnOnce)
 import XMonad.Util.EZConfig(additionalKeysP)
 import XMonad.Util.WorkspaceCompare
 import XMonad.Util.NamedScratchpad
@@ -646,27 +648,31 @@ getAddExtendedWorkspaces = do
 
 getStartupHook = do
   myAddExtendedWorkspaces <- getAddExtendedWorkspaces
+  spawnXmobar <- getSpawnXmobar
   return $ setWMName "LG3D"
      <+> myAddExtendedWorkspaces
      <+> docksStartupHook
+     <+> dynStatusBarStartup spawnXmobar killXmobar
 
 -- Minimize windows hook (to restore from taskbar)
-myHandleEventHook =
-   minimizeEventHook
-   <+> docksEventHook
-   --  <+> debugKeyEvents
+getHandleEventHook = do
+   spawnXmobar <- getSpawnXmobar
+   return $ minimizeEventHook
+        <+> docksEventHook
+        <+> dynStatusBarEventHook spawnXmobar killXmobar
+   --   <+> debugKeyEvents
 
-myLogHookConfig = xmobarPP {
-       ppTitle = xmobarColor "#FFB6B0" "" . shorten 100
-       --  , ppCurrent = xmobarColor "#CEFFAC" ""
-       , ppCurrent = xmobarColor "#0CC6DA" ""
-       , ppHidden = ppHidden xmobarPP . noScratchPad
-       , ppHiddenNoWindows = xmobarColor "#777777" "" . noScratchPad
-       , ppSep = "   "
-       --  , ppSort = DO.getSortByOrder
-   }
-   where
-       noScratchPad ws = if ws == "NSP" then "" else ws
+myPP = xmobarPP {
+     ppTitle = xmobarColor "#FFB6B0" "" . shorten 100
+     --  , ppCurrent = xmobarColor "#CEFFAC" ""
+     , ppCurrent = xmobarColor "#0CC6DA" ""
+     , ppHidden = ppHidden xmobarPP . noScratchPad
+     , ppHiddenNoWindows = xmobarColor "#777777" "" . noScratchPad
+     , ppSep = "   "
+     --  , ppSort = DO.getSortByOrder
+ }
+ where
+     noScratchPad ws = if ws == "NSP" then "" else ws
 
 -- myTrayer = "killall trayer; trayer --edge top --align left --margin 1770 --width 150 --widthtype pixel --height 16 --SetDockType true --expand false --padding 1 --tint 0x000000 --transparent true --alpha 0"
 -- myTrayer = "killall trayer; trayer --edge top --align left --margin 1340 --width 100 --widthtype pixel --height 16 --padding 1 --tint 0x000000 --transparent true --alpha 0"
@@ -714,8 +720,13 @@ trayMargin = do
     margin _ _ "jovis" = "1230"
     margin _ _ _ = "1820"
 
-getXmobar :: R.Reader MyConfig String
-getXmobar = return $ "~/.xmonad/bin/xmobar ~/.xmonad/xmobar"
+getSpawnXmobar :: R.Reader MyConfig (ScreenId -> IO Handle)
+getSpawnXmobar = return $ \(S sId) ->
+    spawnPipe $ "~/.xmonad/bin/xmobar -x " ++ (show sId) ++ " ~/.xmonad/xmobar"
+
+killXmobar :: IO ()
+-- killXmobar = unsafeSpawn "killall xmobar"
+killXmobar = return ()
 
 -- myDefaultConfig "gordon" = xfceConfig
 getDefaultConfig = return defaultConfig
@@ -730,15 +741,11 @@ main = do
    numScreens <- countScreens
    let myConfig = MyConfig {
        hostname = hostname, numScreens = numScreens }
-       myXmobar = R.runReader getXmobar myConfig
        myTrayer = R.runReader getTrayer myConfig
-   xmproc <- spawnPipe $ myXmobar
    trayer <- spawnPipe $ myTrayer
    let defaults = R.runReader getDefaults myConfig
    xmonad $ defaults {
-       logHook =   (dynamicLogWithPP $ myLogHookConfig{
-                   ppOutput = hPutStrLn xmproc
-       })
+       logHook =   (multiPP myPP myPP)
        -- >> updatePointer (Relative 0.99 0.99)
        --  , manageHook = manageDocks <+> manageSpawn <+> myManageHook
        --  , startupHook = setWMName "LG3D"
@@ -751,7 +758,6 @@ main = do
 --
 -- No need to modify this.
 --
--- TODO: fix numScreens being passed here explicitly, i.e. restructure config :o)
 getDefaults = do
    myAdditionalKeys <- getAdditionalKeys
    myDefaultConfig <- getDefaultConfig
@@ -761,6 +767,7 @@ getDefaults = do
    myStartupHook <- getStartupHook
    myTerminal <- getTerminal
    myWorkspaces <- getWorkspaces
+   myHandleEventHook <- getHandleEventHook
    return $ myAdditionalKeys $ myDefaultConfig {
      -- simple stuff
        terminal            = myTerminal,

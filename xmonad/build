@@ -1,5 +1,6 @@
 #!/bin/sh
-exec stack ghc --stack-root $HOME/.xmonad/.stack -- \
+#exec stack ghc --stack-root $HOME/.xmonad/.stack -- \
+exec stack ghc -- \
   --make xmonad.hs \
   -i \
   -ilib \
