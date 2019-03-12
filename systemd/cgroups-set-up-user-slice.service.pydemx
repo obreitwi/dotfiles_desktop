@@ -1,0 +1,29 @@
+###
+#### 
+# cfg["filename"] = "cgroups-set-up-user-slice.service"
+# cfg["folder"] = "/etc/systemd/system"
+# cfg["permissions"] = 0644
+#
+# import subprocess as sp
+# total_memory = int(
+#   sp.check_output("free -b | awk '$1 ~ /Mem:/ { print $2 }'",
+#                   shell=True).strip())
+#
+# R("memory.high", int(round(total_memory * 0.95)))
+# R("memory.max",  int(round(total_memory)))
+###
+
+[Unit]
+Description=Set memory.high/memory.max for user.slice memory cgroup
+
+[Service]
+Type=oneshot
+ExecStart=bash -c "echo {{memory.max}} > /sys/fs/cgroup/user.slice/memory.max"
+ExecStart=bash -c "echo {{memory.high}} > /sys/fs/cgroup/user.slice/memory.high"
+ExecStop=bash -c "echo max > /sys/fs/cgroup/user.slice/memory.max"
+ExecStop=bash -c "echo max > /sys/fs/cgroup/user.slice/memory.high"
+
+[Install]
+WantedBy=multi-user.target
+
+# vim: ft=systemd
