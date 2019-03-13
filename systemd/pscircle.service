@@ -24,8 +24,9 @@ ExecStart=/bin/bash -c "while true; do \
              --tree-center=-600.0:0.0 \
              --output=/tmp/wallpaper.png \
              --background-image=${HOME}/wallpaper/brisbinxmonadwall.png; \
-             feh --bg-fill /tmp/wallpaper.png; sleep 30; \
-         done"
+             feh --bg-fill /tmp/wallpaper.png; \
+        [ $(cat /sys/class/power_supply/AC/online) -eq 1 ] && sleep 10 || sleep 90; \
+    done"
 ExecStopPost=feh --bg-fill "${HOME}/wallpaper/brisbinxmonadwall.png"
 
 [Install]
