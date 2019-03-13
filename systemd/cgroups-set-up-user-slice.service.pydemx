@@ -22,6 +22,7 @@ ExecStart=bash -c "echo {{memory.max}} > /sys/fs/cgroup/user.slice/memory.max"
 ExecStart=bash -c "echo {{memory.high}} > /sys/fs/cgroup/user.slice/memory.high"
 ExecStop=bash -c "echo max > /sys/fs/cgroup/user.slice/memory.max"
 ExecStop=bash -c "echo max > /sys/fs/cgroup/user.slice/memory.high"
+RemainAfterExit=yes
 
 [Install]
 WantedBy=multi-user.target
