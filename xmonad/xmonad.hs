@@ -57,12 +57,12 @@ setHostname :: String -> MyConfig -> MyConfig
 setHostname newHostname oldConfig = oldConfig { hostname = newHostname }
 
 -- WORKAROUND C-c hanging prompt
-myXPConfig_nC       =  defaultXPConfig {
-                       promptKeymap = M.fromList [((controlMask,xK_c), quit)] `M.union` promptKeymap defaultXPConfig
+myXPConfig_nC       =  def {
+                       promptKeymap = M.fromList [((controlMask,xK_c), quit)] `M.union` promptKeymap def
                        {- , autoComplete = Just 500000 -}
                }
 myXPConfig          =  myXPConfig_nC {
-                       --  promptKeymap = M.fromList [((controlMask,xK_c), quit)] `M.union` promptKeymap defaultXPConfig ,
+                       --  promptKeymap = M.fromList [((controlMask,xK_c), quit)] `M.union` promptKeymap def ,
                        autoComplete = Just 300000
                }
 
@@ -244,7 +244,7 @@ getKeys = do
     , ((modMask,                    xK_m),       spawnHere mySpawnerProg)
 
     -- refresh montiros
-    , ((modMask,                    xK_x),       spawn "$HOME/.local/bin/refresh_monitors")
+    , ((modMask,                    xK_x),       spawnHere "nemo")
 
     -- launch gmrun
     -- , ((modMask .|. shiftMask,       xK_p        ), spawnHere "eval \"exec ~/bin/mydmenu\"")
@@ -260,11 +260,13 @@ getKeys = do
     -- launch browser with proxy enabled
     , ((modMask .|. shiftMask,      xK_b        ), spawn myBrowserProxy)
 
-    -- clipboard management
-    -- from primary to clipboard
-    , ((modMask ,                   xK_y        ), spawnHere "xcmenuctrl -spc")
-    -- from clipboard to primary
-    , ((modMask .|. shiftMask,      xK_y        ), spawnHere "xcmenuctrl -scp")
+    {-
+     - -- clipboard management
+     - -- from primary to clipboard
+     - , ((modMask ,                   xK_y        ), spawnHere "xcmenuctrl -spc")
+     - -- from clipboard to primary
+     - , ((modMask .|. shiftMask,      xK_y        ), spawnHere "xcmenuctrl -scp")
+     -}
 
     -- launch gvim
     , ((modMask ,                   xK_g        ), spawn "gvim")
@@ -342,7 +344,7 @@ getKeys = do
     ------------------------------
     -- Switch to window
     [
-    ((modMask,                      xK_o        ), windowPromptGoto myXPConfig )
+    ((modMask,                      xK_o        ), windowPrompt myXPConfig Goto allWindows )
     -- SSH prompt
     --, (( modMask,                 xK_s        ), sshPrompt myXPConfig)
     -- Does not really work as expected, put on hold
@@ -360,7 +362,7 @@ getKeys = do
     -- Actions
     ------------------------------
     -- Gridselect
-    [ ((modMask,                    xK_i        ), goToSelected defaultGSConfig)
+    [ ((modMask,                    xK_i        ), goToSelected def)
     -- Cycle workspaces With RotView
     -- , ((modMask,                 xK_l        ), moveTo Next AnyWS)
     , ((modMask,                    xK_l        ), moveTo Next hiddenNonIgnoredWS)
@@ -463,7 +465,8 @@ getKeys = do
     ++
     -- Reset monitor configuration to use all available monitors
     [
-          ((modMask .|. controlMask, xK_F12), spawn "zsh -i -c monitors_all")
+          ((modMask .|. controlMask, xK_F11), spawn "zsh -i -c monitors_refresh")
+        , ((modMask .|. controlMask, xK_F12), spawn "zsh -i -c monitors_all")
     ]
 
 getAdditionalKeys = do
@@ -521,12 +524,12 @@ myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
 -- The available layouts.  Note that each layout is separated by |||,
 -- which denotes layout choice.
 --
-myTabConfig = defaultTheme {  activeBorderColor = "#7C7C7C"
-                           , activeTextColor = "#CEFFAC"
-                           , activeColor = "#000000"
-                           , inactiveBorderColor = "#7C7C7C"
-                           , inactiveTextColor = "#EEEEEE"
-                           , inactiveColor = "#000000" }
+myTabConfig = def {  activeBorderColor = "#7C7C7C"
+                  , activeTextColor = "#CEFFAC"
+                  , activeColor = "#000000"
+                  , inactiveBorderColor = "#7C7C7C"
+                  , inactiveTextColor = "#EEEEEE"
+                  , inactiveColor = "#000000" }
 
 -- myLayout = avoidStruts $ minimize (mkToggle ( NOBORDERS ?? FULL ?? EOT ) $ tiled ||| oddtiled ||| Mirror tiled ||| tabbed shrinkText myTabConfig ||| noBorders Full ||| spiral (6/7))
 -- Tabbed layout causes segfault with toggle - RANDOMLY, avoid until known to be fixed
@@ -738,7 +741,7 @@ killXmobar :: IO ()
 killXmobar = return ()
 
 -- myDefaultConfig "gordon" = xfceConfig
-getDefaultConfig = return defaultConfig
+getDefaultConfig = return def
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
