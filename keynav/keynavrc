@@ -26,7 +26,7 @@
 
 ctrl+semicolon start
 Escape end
-Caps_Lock end
+# CapsLock end
 ctrl+bracketleft end
 h cut-left
 j cut-down
