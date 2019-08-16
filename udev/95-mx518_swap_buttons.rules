@@ -1,0 +1,3 @@
+
+# swap mouse buttons when MX518 is connected
+ACTION=="add", SUBSYSTEM=="usb", ENV{PRODUCT}=="46d/c08e/4000", RUN+="/usr/bin/xmodmap -e 'pointer = 1 8 3 6 7 10 11 2 9 12 4 5'"
