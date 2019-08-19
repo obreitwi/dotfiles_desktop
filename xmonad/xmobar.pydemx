@@ -61,7 +61,7 @@
 -- R("swap_widget")["abed"] = ""
 -- !!!
 -- Run Cpu ["-L","3","-H","50","--normal","#CEFFAC","--high","#FFB6B0"] 10
-Config { font = "Envy Code R:style=Regular:size=10"
+Config { font = "xft:Envy Code R:style=Regular:size=8"
     , bgColor = "#000000"
     , fgColor = "#ffffff"
     -- , position = Static { xpos = {{xpos:0}}, ypos = 0, width = {{width}}, height = 16 }

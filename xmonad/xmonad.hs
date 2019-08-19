@@ -57,9 +57,10 @@ setHostname :: String -> MyConfig -> MyConfig
 setHostname newHostname oldConfig = oldConfig { hostname = newHostname }
 
 -- WORKAROUND C-c hanging prompt
-myXPConfig_nC       =  def {
-                       promptKeymap = M.fromList [((controlMask,xK_c), quit)] `M.union` promptKeymap def
-                       {- , autoComplete = Just 500000 -}
+myXPConfig_nC       =  def
+               { promptKeymap = M.fromList [((controlMask,xK_c), quit)] `M.union` promptKeymap def
+               , font = "xft:Envy Code R:style=Regular:size=8"
+                 {- , autoComplete = Just 500000 -}
                }
 myXPConfig          =  myXPConfig_nC {
                        --  promptKeymap = M.fromList [((controlMask,xK_c), quit)] `M.union` promptKeymap def ,
