@@ -47,12 +47,13 @@ if xrandr | grep "HDMI-0 connected"; then
 fi
 ### display@abed
 lid_state="$(awk '$1 ~ /state:/ { print $2 }'  /proc/acpi/button/lid/LID/state)"
-if [ "${lid_state}" = "open" ]; then
+current_provider="$(xrandr --listproviders | tr ' ' '\n' | grep "^name:" | cut -d : -f 2)"
+if [ "${lid_state}" = "open" ] && [ "${current_provider}" != "NVIDIA-0"  ]; then
     # if lid is open, only show screen on laptop
     monitors_laptop
 else
     # if lid is closed, pick defaults
-    refresh_monitors # defined in host specific file
+    refresh_monitors  # defined in host specific file
 fi
 ###
 

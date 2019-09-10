@@ -17,6 +17,7 @@ Xft.lcdfilter:  lcddefault
 
 
 ! Transpacrency --------------------------------------------------------------
+urxvt*inheritPixmap: true
 urxvt*transparent: true
 urxvt*shading: 50
 
@@ -48,8 +49,11 @@ URxvt.color10 : #55FF55
 URxvt.color3  : #AA5500
 URxvt.color11 : #FFFF55
 ! blue
-URxvt.color4  : #0000AA
-URxvt.color12 : #5555FF
+! URxvt.color4  : #0000AA
+! URxvt.color12 : #5555FF
+! more readable
+URxvt.color4  : #4444FF
+URxvt.color12 : #7777FF
 ! magenta
 URxvt.color5  : #AA00AA
 URxvt.color13 : #FF55FF
