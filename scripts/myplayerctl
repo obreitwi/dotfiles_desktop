@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Simple wrapper around playerctl that pre-selects the target.
+#
+# Currently the rules are as follows:
+# 1. If running, choose spotify.
+# 2. Otherwise choose whatever.
+#
+# TODO: Investigate whether or not we can map chromium.instance<PID> to the
+#       website being displayed. Currently, it points to the process running
+#       the flash plugin.
+
+target="$( (playerctl -l | grep spotify) 2>/dev/null || (playerctl -l | head -n 1) )"
+
+exec playerctl $([ -n "${target}" ] && echo "-p ${target}" ) "${@}"

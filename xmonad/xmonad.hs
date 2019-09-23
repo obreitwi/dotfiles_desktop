@@ -459,9 +459,9 @@ getKeys = do
     ++
     -- Music controller
     [
-          ((modMask, xK_F10), spawn "playerctl prev")
-        , ((modMask, xK_F11), spawn "playerctl next")
-        , ((modMask, xK_F12), spawn "playerctl play-pause")
+          ((modMask, xK_F10), spawn "myplayerctl prev")
+        , ((modMask, xK_F11), spawn "myplayerctl next")
+        , ((modMask, xK_F12), spawn "myplayerctl play-pause")
     ]
     ++
     -- Reset monitor configuration to use all available monitors
