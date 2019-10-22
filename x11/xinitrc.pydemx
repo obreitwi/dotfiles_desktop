@@ -120,7 +120,7 @@ systemctl --user import-environment DISPLAY
 
 # check if mx518 is connected and if so swap buttons
 if lsusb -v 2>/dev/null | awk 'BEGIN { rc=1 } $1 == "idVendor" { vendor = $2 } $1 == "idProduct" && vendor == "0x046d" && $2 == "0xc08e" { rc=0 } END { exit rc }'; then
-    xmodmap -e 'pointer = 1 8 3 6 7 10 11 2 9 12 4 5'
+    xmodmap -e 'pointer = 1 9 3 6 7 10 11 2 8 12 4 5'
 fi
 
 
