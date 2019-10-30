@@ -216,7 +216,7 @@ getDisplayOrder = do
     numScreens <- R.asks numScreens
     return $ hlp host numScreens
   where
-    hlp "abed" 2 = [xK_w, xK_e] -- same as if there were three monitors
+    -- hlp "abed" 2 = [xK_w, xK_e] -- same as if there were three monitors
     -- hlp "abed" _ = [xK_w, xK_q, xK_e]
     hlp _ _ = [xK_q, xK_w, xK_e]
 
