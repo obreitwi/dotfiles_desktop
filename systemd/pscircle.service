@@ -1,13 +1,12 @@
 [Unit]
 Description=Runs pscircle to continuously update desktop wallpaper 
 
-; NOTE: --tree-anchor-proc-name/--tree-anchor-proc-angle seem to not work
-; sometimes (despite --tree-rotate not set)
-
 [Service]
 Environment=DISPLAY=:0
 ExecStart="%h/.config/systemd/user/run_pscircle.sh"
 ExecStopPost=feh --bg-fill "${HOME}/wallpaper/brisbinxmonadwall.png"
+Restart=on-failure
+RestartSec=5s
 
 [Install]
 WantedBy=default.target

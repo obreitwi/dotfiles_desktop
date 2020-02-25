@@ -11,6 +11,9 @@ SCREEN_WIDTH=1920
 SCREEN_HEIGHT=1200
 
 generate_image() {
+    # NOTE: --tree-anchor-proc-name/--tree-anchor-proc-angle seem to not work
+    # sometimes (despite --tree-rotate not set)
+
     pscircle --output-width="$(echo "scale=0; ${SCREEN_WIDTH} * ${SCALE} / 1" | bc)" \
              --output-height="$(echo "scale=0; ${SCREEN_HEIGHT} * ${SCALE} / 1" | bc)" \
              --background-image-scale="$(echo "scale=5; 1. / ${SCALE}" | bc)" \
