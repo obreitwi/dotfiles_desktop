@@ -35,8 +35,6 @@ generate_image() {
 while true; do
     generate_image
 
-    xrandr | grep -q 1080x1920
-
     if xrandr | grep -q 1080x1920; then
         # the second screen is rotated
         convert "${PATH_IMAGE}" -rotate 90 "${PATH_IMAGE_ROT}"
