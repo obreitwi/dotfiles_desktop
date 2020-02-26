@@ -319,10 +319,10 @@ getKeys = do
     , ((modMask,                    xK_t        ), withFocused $ windows . W.sink)
 
     -- Increment the number of windows in the master area
-    , ((modMask .|. shiftMask,      xK_period   ), sendMessage (IncMasterN 1))
+    , ((modMask .|. shiftMask,      xK_comma   ), sendMessage (IncMasterN 1))
 
     -- Deincrement the number of windows in the master area
-    , ((modMask .|. shiftMask,      xK_comma    ), sendMessage (IncMasterN (-1)))
+    , ((modMask .|. shiftMask,      xK_period    ), sendMessage (IncMasterN (-1)))
 
     -- Toggle fullscreen
     , ((modMask,                    xK_p        ), sendMessage $ Toggle NBFULL )
