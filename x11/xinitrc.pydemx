@@ -20,7 +20,7 @@ xrdb ~/.Xdefaults &
 
 ### compton
 ### compton @ abed
-compton -b
+picom -b
 ###
 
 # ~/bin/keynav &
