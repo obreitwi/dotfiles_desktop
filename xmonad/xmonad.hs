@@ -78,22 +78,23 @@ getScratchpads = do
   term <- getTerminal
   return [
    -- run htop in xterm, find it by title, use default floating window placement
-       NS "htop" (term ++ " -e htop") (title =? "htop") manageNotes ,
-       NS "shell" (term ++ " -T shell") (title =? "shell") manageNotes ,
-       NS "alsamixer" (term ++ " -e alsamixer") (title =? "alsamixer") manageNotes,
+       NS "alsamixer" (term ++ " -e alsamixer") (title =? "alsamixer") defaultOverlay,
+       NS "htop" (term ++ " -e htop") (title =? "htop") defaultOverlay ,
+       NS "shell" (term ++ " -T shell") (title =? "shell") defaultOverlay ,
+       NS "nvim-ghost" (term ++ " -e nvim +GhostStart '+set titlestring=nvim-ghost' '+set title'") (title =? "nvim-ghost") defaultOverlay,
    -- run stardict, find it by class name, place it in the floating window    j
    -- 1/6 of screen width from the left, 1/6 of screen height
    -- from the top, 2/3 of screen width by 2/3 of screen height
        --  NS "stardict" "stardict" (className =? "Stardict")
            --  (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)) ,
    -- run gvim, find by role, don't float with nonFloating
-       NS "notes" spawnNotes findNotes manageNotes
+       NS "notes" spawnNotes findNotes defaultOverlay
    ]
    where
        role = stringProperty "WM_WINDOW_ROLE"
        spawnNotes = "cd ~/.vimwiki && gvim --role notes +VimwikiMakeDiaryNote '+set columns=" ++ (show numCols) ++  "'"
        findNotes = role =? "notes"
-       manageNotes = customFloating $ W.RationalRect l t w h
+       defaultOverlay = customFloating $ W.RationalRect l t w h
        l = 0.35
        t = 0.05
        w = 1.0 - l
@@ -251,7 +252,7 @@ getKeys = do
     -- , ((modMask .|. shiftMask,       xK_p        ), spawnHere "eval \"exec ~/bin/mydmenu\"")
 
     -- launch gvim
-    , ((modMask ,                   xK_g        ), spawnHere "gvim")
+    -- , ((modMask ,                   xK_g        ), spawnHere "gvim")
 
     -- launch pavucontrol
     , ((modMask ,                   xK_c        ), spawnHere "pavucontrol")
@@ -357,7 +358,8 @@ getKeys = do
       ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes" ),
       ((modMask .|. shiftMask,        xK_slash        ), namedScratchpadAction myScratchpads "htop" ),
       ((modMask,                      xK_apostrophe   ), namedScratchpadAction myScratchpads "shell" ),
-      ((modMask .|. shiftMask,        xK_apostrophe   ), namedScratchpadAction myScratchpads "alsamixer" )
+      ((modMask .|. shiftMask,        xK_apostrophe   ), namedScratchpadAction myScratchpads "alsamixer" ),
+      ((modMask,                      xK_g            ), namedScratchpadAction myScratchpads "nvim-ghost" )
     ]++
 
     -- Actions
