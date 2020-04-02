@@ -1,0 +1,31 @@
+font:
+    size: 8
+
+# copying from urxvt config
+colors:
+    primary:
+        background: '#000000'
+        foreground: '#ffffff'
+    normal:
+        black:      '#000000'
+        red:        '#AA0000'
+        green:      '#00AA00'
+        yellow:     '#AA5500'
+        blue:       '#4444FF'
+        magenta:    '#AA00AA'
+        cyan:       '#00AAAA'
+        white:      '#AAAAAA'
+    bright:
+        black:      '#555555'
+        red:        '#FF5555'
+        green:      '#55FF55'
+        yellow:     '#FFFF55'
+        blue:       '#6666FF'
+        magenta:    '#FF55FF'
+        cyan:       '#55FFFF'
+        white:      '#FFFFFF'
+
+background_opacity: 0.0
+
+key_bindings:
+    - { key: Return,   mods: Control|Shift, action: SpawnNewInstance }
