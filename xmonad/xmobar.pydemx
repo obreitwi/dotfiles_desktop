@@ -21,6 +21,7 @@
 -- R("cpus")["abed"] = "<total0><total1><total2><total3>"
 -- R("cpus")["gordon"] = "<total0><total1><total2><total3>"
 -- R("cpus")["lark"] = "<total0><total1><total2><total3>"
+-- R("cpus")["mucku"] = "<total0><total1><total2><total3><total4><total5><total6><total7><total8><total9><total10><total11><total12><total13><total14><total15>"
 -- R("cpus")["nukular"] = "<total0><total1><total2><total3><total4><total5>"
 -- R("cpus")["nurikum"] = "<total0><total1><total2><total3><total4>"
 -- R("cpus")["nurikum-standalone"] = "<total0><total1><total2><total3>"
@@ -31,6 +32,7 @@
 -- R("wirename")["gordon"] = "wlan0"
 -- R("wirename")["jovis"] = "wls1"
 -- R("wirename")["lark"] = "enp2s0"
+-- R("wirename")["mucku"] = "enp5s0"
 -- R("wirename")["phaeloff"] = "wlp5s0b1"
 -- R("wirename")["phaelon"] = "wlp12s0"
 -- R("wirename", default="eth0")
@@ -41,6 +43,7 @@
 -- R("LAN", default=make_network("{{wirename}}"))
 -- R("LAN")["phaelon"] = make_network("eth0") + "\n" + make_network(R("wirename")["phaelon"])
 -- R("padding")["abed"] = " "
+-- R("padding")["mucku"] = " "
 -- R("padding")["gordon"] = " "
 -- R("padding")["jovis"] = " "
 -- R("padding")["lark"] = " "
@@ -73,6 +76,8 @@ Config { font = "xft:Envy Code R:style=Bold:size=8"
 -- !!! CoreTemp
     , Run CoreTemp [ "-t", "{{temps:<core0>}}C", "-L","40","-H","60","--normal","#CEFFAC","--high","#FFB6B0","-w","2", "-c", "{{padding}}" ] 10
 -- !!! CoreTemp @ nurikum
+-- !!! CoreTemp @ mucku
+    , Run CoreTemp [ "-t", "{{temps:<Tdie>}}C", "-L","40","-H","60","--normal","#CEFFAC","--high","#FFB6B0","-w","2", "-c", "{{padding}}" ] 10
 -- !!!
     , Run DynNetwork ["-t","<rx> / <tx>","-H","3500","-L","100","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC", "-m", "6", "-c", "{{padding}}"] 10
     , Run Memory ["-t","<used>M"] 10

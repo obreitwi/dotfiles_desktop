@@ -156,6 +156,7 @@ getExtendedWorkspaces = do
     extws "gordon" = [ "NSP", "root", "web" ]
     extws "jovis" = [ "NSP", "c", "cP", "quassel", "talk", "talkP", "root", "web" ]
     extws "lark" = [ "NSP", "music", "stream", "root", "web" ]
+    extws "mucku" = [ "NSP", "music", "stream", "voice", "root", "web" ]
     extws "nukular" = extws "phaelon"
     extws "nurikum" = [ "NSP", "c", "cP", "music", "stream", "root", "web" ]
     extws "phaeloff" = extws "phaelon"
