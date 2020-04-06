@@ -179,6 +179,7 @@ getSpawnerProg = do
     return $ prg host
   where
      prg "abed" = "rofi -show run"
+     prg "mucku" = "rofi -show run"
      prg _ = "gmrun"
 
 

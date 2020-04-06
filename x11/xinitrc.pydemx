@@ -66,6 +66,10 @@ VBoxClient-all &
 
 xmodmap ~/.Xmodmap &
 
+if test -x "$(which autorandr)"; then
+    autorandr --load default
+fi
+
 file_exec_xmodmap="${HOME}/.local/bin/user_exec_xmodmap.sh"
 if [ -f "${file_exec_xmodmap}" ]; then
     "${file_exec_xmodmap}" &
