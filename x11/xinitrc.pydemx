@@ -66,6 +66,11 @@ VBoxClient-all &
 
 xmodmap ~/.Xmodmap &
 
+file_exec_xmodmap="${HOME}/.local/bin/user_exec_xmodmap.sh"
+if [ -f "${file_exec_xmodmap}" ]; then
+    "${file_exec_xmodmap}" &
+fi
+
 # xbindkeys &
 # xcompmgr -c -f -D 6 &
 
