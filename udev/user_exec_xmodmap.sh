@@ -10,9 +10,10 @@ update_xmodmap() {
     xmodmap "${HOME}/.Xmodmap"
 }
 
-
-trap update_xmodmap USR1
+# trap update_xmodmap USR1
 
 while true; do
-    :
+    kill -STOP $$
+    update_xmodmap
 done
+

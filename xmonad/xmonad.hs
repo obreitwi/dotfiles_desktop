@@ -692,7 +692,7 @@ getSpawnTrayer = do
       numScreens <- countScreens
       mapM_ (spawnSingleTrayer trayWidth) [0..numScreens-1]
   where
-    spawnSingleTrayer width sId = unsafeSpawn $ "trayer \
+    spawnSingleTrayer width sId = unsafeSpawn $ "sleep 1 && trayer \
        \--monitor " ++ (show sId) ++ " \
        \--edge top \
        \--align right \

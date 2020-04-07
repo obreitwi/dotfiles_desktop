@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+sudo -v
+
 sourcedir="$(dirname "$(readlink -m "${BASH_SOURCE[0]}")")"
 
 install -v -m 555 "${sourcedir}/user_exec_xmodmap.sh" "${HOME}/.local/bin"
