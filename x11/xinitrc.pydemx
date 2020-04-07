@@ -4,15 +4,30 @@
 # cfg["filename"] = ".xinitrc"
 ###
 cd $HOME
-# xsetroot -cursor_name left_ptr &
-setxkbmap us\
-  -variant altgr-intl \
-  -model pc105\
-  -option compose:menu \
-  -option lv3:ralt_switch \
-  -option eurosign:e \
-  -option nbsp:level3n
-# -option terminate:ctrl_alt_bkspc \
+
+file_update_keyboard="${HOME}/.local/bin/restore_keyboard_settings_user.sh"
+if [ -f "${file_update_keyboard}" ]; then
+    "${file_update_keyboard}" &
+
+    pid_kb_update=$!
+
+    # let the updater run once
+    (sleep 2 && kill -CONT ${pid_kb_update}) &
+
+    unset pid_kb_update
+else
+    # xsetroot -cursor_name left_ptr &
+    setxkbmap us\
+      -variant altgr-intl \
+      -model pc105\
+      -option compose:menu \
+      -option lv3:ralt_switch \
+      -option eurosign:e \
+      -option nbsp:level3n
+    # -option terminate:ctrl_alt_bkspc \
+
+    xmodmap ~/.Xmodmap &
+fi
 
 # xrdb ~/.Xresources &
 xrdb ~/.Xdefaults &
@@ -64,15 +79,8 @@ VBoxClient-all &
 
 # keynav needs to be started first because otherwise the keycode for capslock is not found
 
-xmodmap ~/.Xmodmap &
-
 if test -x "$(which autorandr)"; then
     autorandr --load default
-fi
-
-file_exec_xmodmap="${HOME}/.local/bin/user_exec_xmodmap.sh"
-if [ -f "${file_exec_xmodmap}" ]; then
-    "${file_exec_xmodmap}" &
 fi
 
 # xbindkeys &

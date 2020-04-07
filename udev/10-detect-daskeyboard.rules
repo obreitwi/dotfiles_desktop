@@ -1,1 +1,1 @@
-ACTION=="add", ATTRS{name}=="daskeyboard", RUN="/usr/local/bin/exec_xmodmap.sh"
+ACTION=="add", ATTRS{name}=="daskeyboard", RUN="/usr/local/bin/restore_keyboard_settings.sh"

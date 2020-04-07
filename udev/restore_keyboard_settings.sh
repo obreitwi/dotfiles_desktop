@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PID_FILE=/tmp/exec_xmodmap_pid
+PID_FILE=/tmp/update_keyboard_settings_pid
 LOCKFILE="${PID_FILE}"
 
 get_modtime() {
