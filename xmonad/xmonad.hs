@@ -79,6 +79,7 @@ getScratchpads = do
   return [
    -- run htop in xterm, find it by title, use default floating window placement
        NS "alsamixer" (term ++ " -e alsamixer") (title =? "alsamixer") defaultOverlay,
+       NS "bashtop" (term ++ " -name bashtop -e bashtop") (title =? "bashtop") defaultOverlay,
        NS "htop" (term ++ " -e htop") (title =? "htop") defaultOverlay ,
        NS "shell" (term ++ " -T shell") (title =? "shell") defaultOverlay ,
        NS "neovide-ghost" "neovide +GhostStart '+set titlestring=neovide-ghost' '+set title'" (title =? "neovide-ghost") defaultOverlay,
@@ -358,6 +359,7 @@ getKeys = do
       ((modMask .|. shiftMask,        xK_slash        ), namedScratchpadAction myScratchpads "htop" ),
       ((modMask,                      xK_apostrophe   ), namedScratchpadAction myScratchpads "shell" ),
       ((modMask .|. shiftMask,        xK_apostrophe   ), namedScratchpadAction myScratchpads "alsamixer" ),
+      ((modMask,                      xK_backslash    ), namedScratchpadAction myScratchpads "bashtop" ),
       ((modMask,                      xK_g            ), namedScratchpadAction myScratchpads "neovide-ghost" )
     ]++
 
