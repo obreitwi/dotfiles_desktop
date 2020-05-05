@@ -53,8 +53,8 @@ while true; do
 
     # check if we are on AC power and adjust sleep duration
     if [ "$(cat /sys/class/power_supply/AC/online)" -eq 1 ];then 
-        sleep 20
+        sleep 30
     else
-        sleep 120
+        sleep 180
     fi
 done
