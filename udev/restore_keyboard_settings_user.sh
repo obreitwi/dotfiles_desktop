@@ -4,6 +4,18 @@ PID_FILE=/tmp/update_keyboard_settings_pid
 
 echo $$ > "${PID_FILE}"
 
+ensure_exists() {
+    if ! which "$1" >/dev/null; then
+        echo "ERROR: $1 missing!" >&2
+    fi
+}
+
+ensure_exists setxkbmap
+ensure_exists xdotool
+ensure_exists xmodmap
+ensure_exists xset
+ensure_exists logger
+
 update_xmodmap() {
     logger -i -t "$(basename "$0")" "Executing xmodmap update"
     xmodmap "${HOME}/.Xmodmap"
@@ -26,6 +38,11 @@ while true; do
     kill -STOP $$
     sleep 1
     update_xkbmap
+    sleep 1
     update_xmodmap
+    sleep 1
+    if xset -q | grep -q "Caps Lock:   on"; then
+        xdotool key Caps_Lock
+    fi
 done
 
