@@ -36,11 +36,11 @@ update_xkbmap() {
 
 while true; do
     kill -STOP $$
-    sleep 1
+    sleep 0.1
     update_xkbmap
-    sleep 1
+    sleep 0.1
     update_xmodmap
-    sleep 1
+    sleep 0.1
     if xset -q | grep -q "Caps Lock:   on"; then
         xdotool key Caps_Lock
     fi
