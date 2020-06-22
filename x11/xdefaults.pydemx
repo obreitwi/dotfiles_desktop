@@ -6,7 +6,11 @@
 
 ! Xf settings ---------------------------------------------------------------
 
+!!! dpi-settings
 Xft.dpi:        96
+!!! dpi-settings@mucku
+Xft.dpi:        94
+!!!
 Xft.antialias:  true
 Xft.rgba:       rgb
 Xft.hinting:    true
