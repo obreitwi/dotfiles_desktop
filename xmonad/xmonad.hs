@@ -93,8 +93,9 @@ getScratchpads = do
    ]
    where
        role = stringProperty "WM_WINDOW_ROLE"
-       spawnNotes = "cd ~/.vimwiki && neovide --role notes +VimwikiMakeDiaryNote '+set columns=" ++ (show numCols) ++  "'"
-       findNotes = role =? "notes"
+       spawnNotes = "cd ~/.vimwiki && neovide '+set titlestring=notes' '+set title' +VimwikiMakeDiaryNote '+set columns=" ++ (show numCols) ++  "'"
+       -- findNotes = role =? "notes"
+       findNotes = title =? "notes"
        defaultOverlay = customFloating $ W.RationalRect l t w h
        l = 0.35
        t = 0.05
