@@ -1,1 +1,1 @@
-SUBSYSTEM=="video4linux", KERNEL=="video[0-9]*", SUBSYSTEMS=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="08ca", ATTRS{serial}=="EEDE22B3", RUN="/usr/bin/v4l2-ctl -d $devnode -c backlight_compensation=2"
+SUBSYSTEM=="video4linux", KERNEL=="video[0-9]*", SUBSYSTEMS=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="08ca", ATTRS{serial}=="EEDE22B3", RUN="bash -c 'sleep 5 && /usr/bin/v4l2-ctl -d $devnode -c backlight_compensation=2'"
