@@ -38,6 +38,9 @@ xrdb ~/.Xdefaults &
 picom -b
 ###
 
+# increase repeat rate
+xset rate 200 75
+
 # ~/bin/keynav &
 keynav &
 
