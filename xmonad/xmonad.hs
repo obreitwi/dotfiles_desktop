@@ -36,7 +36,7 @@ import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.Minimize
 import XMonad.Layout.SimpleDecoration
 import XMonad.Layout.GridVariants
-import XMonad.Layout.IndependentScreens(countScreens)
+import XMonad.Layout.IndependentScreens(countScreens, withScreens)
 import XMonad.Util.Run(spawnPipe, safeSpawn, unsafeSpawn)
 import XMonad.Util.SpawnOnce(spawnOnce)
 import XMonad.Util.EZConfig(additionalKeysP)
@@ -152,13 +152,15 @@ getWorkspaces = do
 getExtendedWorkspaces :: R.Reader MyConfig [String]
 getExtendedWorkspaces = do
     host <- R.asks hostname
+    -- ns <- R.asks numScreens
+    -- return $ withScreens (S ns) $ extws host
     return $ extws host
   where
-    extws "abed" = [ "NSP", "music", "stream", "root", "web" ]
+    extws "abed" = [ "NSP", "games", "music", "stream", "root", "web" ]
     extws "gordon" = [ "NSP", "root", "web" ]
     extws "jovis" = [ "NSP", "c", "cP", "quassel", "talk", "talkP", "root", "web" ]
     extws "lark" = [ "NSP", "music", "stream", "root", "web" ]
-    extws "mucku" = [ "NSP", "music", "stream", "voice", "root", "web" ]
+    extws "mucku" = [ "NSP", "games", "music", "stream", "voice", "root", "web" ]
     extws "nukular" = extws "phaelon"
     extws "nurikum" = [ "NSP", "c", "cP", "music", "stream", "root", "web" ]
     extws "phaeloff" = extws "phaelon"
@@ -619,6 +621,7 @@ getManageHook = do
    , className =? "Xchat"              --> doShift "5:media"
    , className =? "quasselclient"      --> doShift "quassel"
    , className =? "spotify"            --> doShift "music"
+   , className =? "Steam"              --> doShift "games"
    , title =? "CS188 Pacman"           --> doShift "ai"
    , resource  =? "desktop_window"     --> doIgnore
    , resource  =? "kdesktop"           --> doIgnore
