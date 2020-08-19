@@ -7,6 +7,7 @@ default-cache-ttl 86400
 max-cache-ttl 86400
 default-cache-ttl-ssh 86400
 max-cache-ttl-ssh 86400
+auto-expand-secmem
 
 # Environment file
 # write-env-file ~/.gpg-agent-info
