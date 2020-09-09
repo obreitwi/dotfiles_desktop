@@ -76,22 +76,25 @@ getTerminal = return "urxvtc"
 
 getScratchpads = do
   term <- getTerminal
-  return [
-   -- run htop in xterm, find it by title, use default floating window placement
-       NS "alsamixer" (term ++ " -e alsamixer") (title =? "alsamixer") defaultOverlay,
-       NS "bashtop" (term ++ " -name bashtop -e bashtop") (title =? "bashtop") defaultOverlay,
-       NS "htop" (term ++ " -e htop") (title =? "htop") defaultOverlay ,
-       NS "shell" (term ++ " -T shell") (title =? "shell") defaultOverlay ,
-       NS "neovide-ghost" "neovide +GhostStart '+set titlestring=neovide-ghost' '+set title'" (title =? "neovide-ghost") defaultOverlay,
-   -- run stardict, find it by class name, place it in the floating window    j
-   -- 1/6 of screen width from the left, 1/6 of screen height
-   -- from the top, 2/3 of screen width by 2/3 of screen height
+  return 
+    [  NS "alsamixer" (term ++ " -e alsamixer") (title =? "alsamixer") defaultOverlay
+    ,  NS "bashtop" (term ++ " -name bashtop -e bashtop") (title =? "bashtop") defaultOverlay
+    ,  NS "htop" (term ++ " -e htop") (title =? "htop") defaultOverlay
+    -- run htop in xterm, find it by title, use default floating window placement
+    ,  NS "shell" (term ++ " -T shell") (title =? "shell") defaultOverlay
+    ,  NS "nvim-ghost" (term ++ " -T nvim-ghost -e nvim  +GhostStart") (title =? "nvim-ghost") defaultOverlay
+    ,  NS "neovide-ghost" "neovide +GhostStart '+set titlestring=neovide-ghost' '+set title'" (title =? "neovide-ghost") defaultOverlay
+       -- run stardict, find it by class name, place it in the floating window
+       -- 1/6 of screen width from the left, 1/6 of screen height
+       -- from the top, 2/3 of screen width by 2/3 of screen height
        --  NS "stardict" "stardict" (className =? "Stardict")
-           --  (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)) ,
-   -- run gvim, find by role, don't float with nonFloating
-       NS "notes" spawnNotes findNotes defaultOverlay
-   ]
-   where
+       --  (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)) ,
+    -- run gvim, find by role, don't float with nonFloating
+    ,  NS "notes" spawnNotes findNotes defaultOverlay
+       -- NS "notes-neovide" spawnNotes_neovide findNotes_neovide defaultOverlay
+    ]
+  where
+       -- unfortunately neovide is not yet running as expected (does not allow floating and resizing) -> keep gvim for now
        role = stringProperty "WM_WINDOW_ROLE"
        spawnNotes = "cd ~/.vimwiki && neovide '+set titlestring=notes' '+set title' +VimwikiMakeDiaryNote '+set columns=" ++ (show numCols) ++  "'"
        -- findNotes = role =? "notes"
@@ -101,8 +104,9 @@ getScratchpads = do
        t = 0.05
        w = 1.0 - l
        h = 0.85
-       -- TODO: Get real screen size from Reader when implemented
-       numCols = flip (-) 2 $ floor $ 1920.0 * w / 7.0
+       numCols = 206
+       -- TODO: get width from env
+       -- numCols = flip (-) 2 $ floor $ 1920.0 * w / 7.0
 
 -- Width of the window border in pixels.
 --
@@ -359,11 +363,12 @@ getKeys = do
     ------------------------------
     [
       ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes" ),
+      ((modMask .|. controlMask,      xK_slash        ), namedScratchpadAction myScratchpads "notes_neovide" ),
       ((modMask .|. shiftMask,        xK_slash        ), namedScratchpadAction myScratchpads "htop" ),
       ((modMask,                      xK_apostrophe   ), namedScratchpadAction myScratchpads "shell" ),
       ((modMask .|. shiftMask,        xK_apostrophe   ), namedScratchpadAction myScratchpads "alsamixer" ),
       ((modMask,                      xK_backslash    ), namedScratchpadAction myScratchpads "bashtop" ),
-      ((modMask,                      xK_g            ), namedScratchpadAction myScratchpads "neovide-ghost" )
+      ((modMask,                      xK_g            ), namedScratchpadAction myScratchpads "nvim-ghost" )
     ]++
 
     -- Actions
