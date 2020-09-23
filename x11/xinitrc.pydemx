@@ -147,5 +147,5 @@ fi
 # try to remove the state file so that things that might have changed during
 # shutdown (e.g. numbre of monitors) gets recognized correctly
 rm -f $HOME/.xmonad/xmonad.state
-exec xmonad
+exec ~/.xmonad/bin/xmonad-x86_64-linux
 

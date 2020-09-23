@@ -1,6 +1,6 @@
 -- Originally taken from: http://github.com/vicfryzel/xmonad-config
 
-import GetHostName
+import GetHostname
 
 import qualified Control.Monad.Trans.Reader as R
 
@@ -757,7 +757,7 @@ getDefaultConfig = return def
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 main = do
-   hostname <- getHostName
+   hostname <- getHostname
    numScreens <- countScreens
    let myConfig = MyConfig {
        hostname = hostname, numScreens = numScreens }

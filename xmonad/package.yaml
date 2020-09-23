@@ -1,0 +1,27 @@
+name: xmonad-settings-obreitwi
+version: 0.1.0
+synopsis: xmonad settings
+github: obreitw/dotfiles_desktop
+author: Oliver Breitwieser
+maintainer: oliver@breitwieser.eu
+copyright: © Oliver Breitwieser
+license: MIT
+dependencies:
+  - X11
+  - base
+  - xmonad
+  - xmonad-contrib
+  - containers
+  - transformers
+executables:
+  xmonad:
+    main: xmonad.hs
+    ghc-options:
+      - -Wall
+      - -fwarn-tabs
+      - -threaded
+      - -O2
+      - -with-rtsopts=-N4
+    source-dirs:
+      - .
+      - lib

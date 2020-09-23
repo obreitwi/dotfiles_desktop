@@ -16,3 +16,4 @@ xmonad.errors
 xmonad.hi
 xmonad.o
 stack.yaml.lock
+xmonad-settings-obreitwi.cabal
