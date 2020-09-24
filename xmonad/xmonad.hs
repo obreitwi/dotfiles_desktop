@@ -3,6 +3,7 @@
 import GetHostname
 
 import qualified Control.Monad.Trans.Reader as R
+import Control.Monad (when)
 
 import System.IO
 import System.Exit
@@ -231,6 +232,16 @@ getDisplayOrder = do
     -- hlp "abed" _ = [xK_w, xK_q, xK_e]
     hlp _ _ = [xK_q, xK_w, xK_e]
 
+
+toWorkspaceTag :: String -> X ()
+toWorkspaceTag tag = do
+  s <- gets windowset
+  when (W.tagMember tag s) $
+    if W.currentTag s /= tag then
+      windows $ W.greedyView tag
+    else
+      toggleWSnoNSP
+
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here
 --
@@ -389,7 +400,7 @@ getKeys = do
     , ((modMask .|. shiftMask,      xK_h        ), shiftTo Prev hiddenNonIgnoredWS)
     {- , ((modMask,                 xK_h        ), shiftTo Prev NonEmptyWS) -}
 
-    , ((modMask,                    xK_a        ), toggleWS )
+    , ((modMask,                    xK_a        ), toggleWSnoNSP )
     ] ++
     --
     -- Add and delete new worksspaces dynamically
@@ -403,6 +414,11 @@ getKeys = do
     , ((modMask .|. shiftMask .|. controlMask,      xK_semicolon), withWorkspace myXPConfig_nC (windows . W.shift))
     --  , ((modMask .|. shiftMask,      xK_y        ), withWorkspace myXPConfig (windows . copy))
     , ((modMask .|. shiftMask,      xK_m        ), renameWorkspace myXPConfig_nC)
+    ] ++
+
+    -- special workspaces
+    [
+      ((modMask,                    xK_z        ), toWorkspaceTag "stream")
     ] ++
 
     --
@@ -431,8 +447,9 @@ getKeys = do
     -- changed to q,w,e because then r stands for the reloading it does
     --
     [((m .|. modMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
-    | (key, sc) <- zip myDisplayOrder [0..], (f, m) <- [(W.view, 0),
-    (W.shift, shiftMask)]]
+      | (key, sc) <- zip myDisplayOrder [0..]
+      , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
+    ]
     ++
     -- Swap screens
     [ ((modMask, xK_s),  swapNextScreen )
@@ -488,6 +505,8 @@ getAdditionalKeys = do
      ]
 
 ignoredWorkspaces = ["NSP"]
+toggleWSnoNSP = toggleWS' ignoredWorkspaces
+
 -- Apply an action to the window stack, while ignoring certain workspaces
 withNthWorkspaceFiltered :: (String -> WindowSet -> WindowSet) -> Int -> X ()
 withNthWorkspaceFiltered job wnum = do
