@@ -45,6 +45,8 @@ xset rate 200 75
 keynav &
 
 ### display
+# simply let autorandr detect the current configuration
+autorandr
 ### display@lark
 # xrandr --output VGA1 --mode 1920x1080
 xrandr --output HDMI1 --mode 1920x1080
@@ -63,7 +65,7 @@ if xrandr | grep "HDMI-0 connected"; then
     xrandr --output LVDS --primary --auto --pos 0x0 --output HDMI-0 --auto \
     --pos 1368x0 && feh --bg-fill ~/wallpaper/brisbinxmonadwall.png
 fi
-### display@abed
+### display@abed-disabled
 lid_state="$(awk '$1 ~ /state:/ { print $2 }'  /proc/acpi/button/lid/LID/state)"
 current_provider="$(xrandr --listproviders | tr ' ' '\n' | grep "^name:" | cut -d : -f 2)"
 if [ "${lid_state}" = "open" ] && [ "${current_provider}" != "NVIDIA-0"  ]; then
