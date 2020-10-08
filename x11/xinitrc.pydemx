@@ -85,7 +85,7 @@ VBoxClient-all &
 # keynav needs to be started first because otherwise the keycode for capslock is not found
 
 if test -x "$(which autorandr)"; then
-    autorandr --load default
+    autorandr --load "${AUTORANDR_PROFILE:-default}"
 fi
 
 # xbindkeys &
@@ -129,6 +129,9 @@ else
     xbacklight -set 25
 fi
 ###
+
+# disable mouse acceleration
+xset m 0 0
 
 systemctl --user import-environment DISPLAY
 
