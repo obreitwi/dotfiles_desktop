@@ -80,6 +80,7 @@ getScratchpads = do
   return 
     [  NS "alsamixer" (term ++ " -e alsamixer") (title =? "alsamixer") defaultOverlay
     ,  NS "bashtop" (term ++ " -name bashtop -e bashtop") (title =? "bashtop") defaultOverlay
+    ,  NS "bpytop" (term ++ " -T BpyTOP -e bpytop") (title =? "BpyTOP") defaultOverlay
     ,  NS "htop" (term ++ " -e htop") (title =? "htop") defaultOverlay
     -- run htop in xterm, find it by title, use default floating window placement
     ,  NS "shell" (term ++ " -T shell") (title =? "shell") defaultOverlay
@@ -159,18 +160,18 @@ getExtendedWorkspaces = do
     host <- R.asks hostname
     -- ns <- R.asks numScreens
     -- return $ withScreens (S ns) $ extws host
-    return $ extws host
+    return $ [ "NSP" ] ++ extws host ++ [ "z" ]
   where
-    extws "abed" = [ "NSP", "games", "music", "stream", "root", "web" ]
-    extws "gordon" = [ "NSP", "root", "web" ]
-    extws "jovis" = [ "NSP", "c", "cP", "quassel", "talk", "talkP", "root", "web" ]
-    extws "lark" = [ "NSP", "music", "stream", "root", "web" ]
-    extws "mucku" = [ "NSP", "games", "music", "stream", "voice", "root", "web" ]
+    extws "abed" = [ "games", "music", "stream", "root", "web" ]
+    extws "gordon" = [ "root", "web" ]
+    extws "jovis" = [ "c", "cP", "quassel", "talk", "talkP", "root", "web" ]
+    extws "lark" = [ "music", "stream", "root", "web" ]
+    extws "mucku" = [ "games", "music", "stream", "voice", "root", "web" ]
     extws "nukular" = extws "phaelon"
-    extws "nurikum" = [ "NSP", "c", "cP", "music", "stream", "root", "web" ]
+    extws "nurikum" = [ "c", "cP", "music", "stream", "root", "web" ]
     extws "phaeloff" = extws "phaelon"
-    extws "phaelon" = [ "NSP", "music", "root", "web" ]
-    extws _  = ["NSP"]
+    extws "phaelon" = [ "music", "root", "web" ]
+    extws _  = []
 
 -- Border colors for unfocused and focused windows, respectively.
 --
@@ -378,7 +379,8 @@ getKeys = do
       ((modMask .|. shiftMask,        xK_slash        ), namedScratchpadAction myScratchpads "htop" ),
       ((modMask,                      xK_apostrophe   ), namedScratchpadAction myScratchpads "shell" ),
       ((modMask .|. shiftMask,        xK_apostrophe   ), namedScratchpadAction myScratchpads "alsamixer" ),
-      ((modMask,                      xK_backslash    ), namedScratchpadAction myScratchpads "bashtop" ),
+      ((modMask,                      xK_backslash    ), namedScratchpadAction myScratchpads "bpytop" ),
+      ((modMask .|. shiftMask,        xK_backslash    ), namedScratchpadAction myScratchpads "bashtop" ),
       ((modMask,                      xK_g            ), namedScratchpadAction myScratchpads "nvim-ghost" )
     ]++
 
@@ -418,7 +420,7 @@ getKeys = do
 
     -- special workspaces
     [
-      ((modMask,                    xK_z        ), toWorkspaceTag "stream")
+      ((modMask,                    xK_z        ), toWorkspaceTag "z")
     ] ++
 
     --
