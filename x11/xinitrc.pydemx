@@ -46,7 +46,9 @@ keynav &
 
 ### display
 # simply let autorandr detect the current configuration
-autorandr
+if test -x "$(which autorandr)"; then
+    autorandr --load "${AUTORANDR_PROFILE:-default}"
+fi
 ### display@lark
 # xrandr --output VGA1 --mode 1920x1080
 xrandr --output HDMI1 --mode 1920x1080
@@ -83,10 +85,6 @@ VBoxClient-all &
 ###
 
 # keynav needs to be started first because otherwise the keycode for capslock is not found
-
-if test -x "$(which autorandr)"; then
-    autorandr --load "${AUTORANDR_PROFILE:-default}"
-fi
 
 # xbindkeys &
 # xcompmgr -c -f -D 6 &
