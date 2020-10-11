@@ -47,7 +47,7 @@ keynav &
 ### display
 # simply let autorandr detect the current configuration
 if test -x "$(which autorandr)"; then
-    autorandr --load "${AUTORANDR_PROFILE:-default}"
+    autorandr "${AUTORANDR_PROFILE:+--load ${AUTORANDR_PROFILE}}" ${AUTORANDR_PROFILE:--c}
 fi
 ### display@lark
 # xrandr --output VGA1 --mode 1920x1080
