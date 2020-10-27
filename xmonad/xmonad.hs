@@ -77,7 +77,7 @@ getTerminal = return "urxvtc"
 
 getScratchpads = do
   term <- getTerminal
-  return 
+  return
     [  NS "alsamixer" (term ++ " -e alsamixer") (title =? "alsamixer") defaultOverlay
     ,  NS "bashtop" (term ++ " -name bashtop -e bashtop") (title =? "bashtop") defaultOverlay
     ,  NS "bpytop" (term ++ " -T BpyTOP -e bpytop") (title =? "BpyTOP") defaultOverlay
@@ -92,13 +92,14 @@ getScratchpads = do
        --  NS "stardict" "stardict" (className =? "Stardict")
        --  (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)) ,
     -- run gvim, find by role, don't float with nonFloating
-    ,  NS "notes" spawnNotes findNotes defaultOverlay
-       -- NS "notes-neovide" spawnNotes_neovide findNotes_neovide defaultOverlay
+    ,  NS "notes" (spawnNotes term) findNotes defaultOverlay
+    ,  NS "notes-neovide" spawnNotes_neovide findNotes defaultOverlay
     ]
   where
-       -- unfortunately neovide is not yet running as expected (does not allow floating and resizing) -> keep gvim for now
-       role = stringProperty "WM_WINDOW_ROLE"
-       spawnNotes = "cd ~/.vimwiki && neovide '+set titlestring=notes' '+set title' +VimwikiMakeDiaryNote '+set columns=" ++ (show numCols) ++  "'"
+       -- unfortunately neovide is not yet running as expected (does not allow floating and resizing) -> keep nvim in terminal for now
+       -- role = stringProperty "WM_WINDOW_ROLE"
+       spawnNotes term = "cd ~/.vimwiki && " ++ term ++ " -T notes -e nvim +VimwikiMakeDiaryNote'"
+       spawnNotes_neovide = "cd ~/.vimwiki && neovide '+set titlestring=notes' '+set title' +VimwikiMakeDiaryNote '+set columns=" ++ (show numCols) ++  "'"
        -- findNotes = role =? "notes"
        findNotes = title =? "notes"
        defaultOverlay = customFloating $ W.RationalRect l t w h
