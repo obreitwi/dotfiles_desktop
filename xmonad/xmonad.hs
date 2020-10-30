@@ -98,8 +98,8 @@ getScratchpads = do
   where
        -- unfortunately neovide is not yet running as expected (does not allow floating and resizing) -> keep nvim in terminal for now
        -- role = stringProperty "WM_WINDOW_ROLE"
-       spawnNotes term = "cd ~/.vimwiki && " ++ term ++ " -T notes -e nvim +VimwikiMakeDiaryNote'"
-       spawnNotes_neovide = "cd ~/.vimwiki && neovide '+set titlestring=notes' '+set title' +VimwikiMakeDiaryNote '+set columns=" ++ (show numCols) ++  "'"
+       spawnNotes term = "cd ~/.vimwiki && " ++ term ++ " -T notes -e nvim +VimwikiMakeDiaryNote '+set columns=" ++ (show numCols) ++ "'"
+       spawnNotes_neovide = "cd ~/.vimwiki && neovide '+set titlestring=notes' '+set title' +VimwikiMakeDiaryNote '+set columns=" ++ (show numCols) ++ "'"
        -- findNotes = role =? "notes"
        findNotes = title =? "notes"
        defaultOverlay = customFloating $ W.RationalRect l t w h
@@ -376,7 +376,7 @@ getKeys = do
     ------------------------------
     [
       ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes" ),
-      ((modMask .|. controlMask,      xK_slash        ), namedScratchpadAction myScratchpads "notes_neovide" ),
+      ((modMask .|. controlMask,      xK_slash        ), namedScratchpadAction myScratchpads "notes-neovide" ),
       ((modMask .|. shiftMask,        xK_slash        ), namedScratchpadAction myScratchpads "htop" ),
       ((modMask,                      xK_apostrophe   ), namedScratchpadAction myScratchpads "shell" ),
       ((modMask .|. shiftMask,        xK_apostrophe   ), namedScratchpadAction myScratchpads "alsamixer" ),
