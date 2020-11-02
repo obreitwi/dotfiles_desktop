@@ -1,6 +1,17 @@
 font:
     size: 8
 
+    normal:
+      family: DejaVu Sans Mono for Powerline
+      style: Regular
+
+    bold:
+      family: DejaVu Sans Mono for Powerline
+
+    italic:
+      family: DejaVu Sans Mono for Powerline
+
+
 # # copied from urxvt config
 # colors:
 #     primary:
@@ -26,16 +37,18 @@ font:
 #         white:      '#FFFFFF'
 
 
-
 # Colors (Hyper)
 colors:
   # Default colors
   primary:
     background: '0x000000'
     foreground: '0xffffff'
-  cursor:
-    text: '0xF81CE5'
-    cursor: '0xffffff'
+  # cursor:
+    # text: '0xF81CE5'
+    # cursor: '0xffffff'
+
+  vi_mode_cursor:
+    cursor: '0x888888'
 
   # Normal colors
   normal:
@@ -59,7 +72,7 @@ colors:
     cyan:    '0x00ffff'
     white:   '0xFFFFFF'
 
-background_opacity: 0.6
+background_opacity: 0.5
 
 key_bindings:
     - { key: Return,   mods: Control|Shift, action: SpawnNewInstance }
