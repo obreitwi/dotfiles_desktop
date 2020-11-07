@@ -32,12 +32,15 @@ import XMonad.Layout.NoBorders
 import XMonad.Layout.FixedColumn
 import XMonad.Layout.Spiral
 -- import XMonad.Layout.Tabbed
+import XMonad.Layout.LayoutScreens
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.Minimize
 import XMonad.Layout.SimpleDecoration
 import XMonad.Layout.GridVariants
 import XMonad.Layout.IndependentScreens(countScreens, withScreens)
+import XMonad.Layout.ThreeColumns
+import XMonad.Layout.TwoPane
 import XMonad.Util.Run(spawnPipe, safeSpawn, unsafeSpawn)
 import XMonad.Util.SpawnOnce(spawnOnce)
 import XMonad.Util.EZConfig(additionalKeysP)
@@ -260,6 +263,7 @@ getKeys = do
     M.fromList $
     -- launch a terminal
     [ ((modMask .|. shiftMask,      xK_Return   ), spawnHere $ XMonad.terminal conf)
+    , ((modMask .|. controlMask,    xK_Return   ), spawnHere "alacritty")
 
     -- lock screensaver
     , ((modMask .|. controlMask,    xK_l        ), myLockSpawner)
@@ -422,6 +426,12 @@ getKeys = do
     -- special workspaces
     [
       ((modMask,                    xK_z        ), toWorkspaceTag "z")
+    ] ++
+
+    -- ultra-wide settings
+    [ ((modMask .|. controlMask,    xK_q        ), rescreen )
+    , ((modMask .|. controlMask,    xK_w        ), layoutScreens 2 (TwoPane 0.5 0.5) )
+    , ((modMask .|. controlMask,    xK_e        ), layoutScreens 3 (ThreeColMid 1 (3/100) (1/2)))
     ] ++
 
     --
