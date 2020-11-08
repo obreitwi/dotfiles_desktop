@@ -5,6 +5,8 @@ import GetHostname
 import qualified Control.Monad.Trans.Reader as R
 import Control.Monad (when)
 
+import Data.List (sortOn)
+
 import System.IO
 import System.Exit
 import XMonad
@@ -31,7 +33,7 @@ import qualified XMonad.Actions.FlexibleResize as Flex
 import XMonad.Layout.NoBorders
 import XMonad.Layout.FixedColumn
 import XMonad.Layout.Spiral
--- import XMonad.Layout.Tabbed
+import XMonad.Layout.Tabbed
 import XMonad.Layout.LayoutScreens
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
@@ -459,7 +461,8 @@ getKeys = do
     -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
     -- changed to q,w,e because then r stands for the reloading it does
     --
-    [((m .|. modMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
+    -- [((m .|. modMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
+    [((m .|. modMask, key), applyToWSinScreen sc f)
       | (key, sc) <- zip myDisplayOrder [0..]
       , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
     ]
@@ -498,6 +501,10 @@ getKeys = do
       -- , ((modMask, xK_XF86MonBrightnessUp), spawn "zsh -c \"backlight +10%\"")
     ]
     ++
+    -- Debug
+    [  ((modMask, xK_F9), debugStuff)
+    ]
+    ++
     -- Music controller
     [
           ((modMask, xK_F10), spawn "myplayerctl prev")
@@ -507,9 +514,31 @@ getKeys = do
     ++
     -- Reset monitor configuration to use all available monitors
     [
-          ((modMask .|. controlMask, xK_F11), spawn "zsh -i -c monitors_refresh")
+          ((modMask .|. controlMask, xK_F10), spawn "autorandr -c")
+        , ((modMask .|. controlMask, xK_F11), spawn "zsh -i -c monitors_refresh")
         , ((modMask .|. controlMask, xK_F12), spawn "zsh -i -c monitors_all")
     ]
+
+-- apply action current workspace in screen
+applyToWSinScreen :: Int -> (WorkspaceId -> WindowSet -> WindowSet) -> X ()
+applyToWSinScreen screen action = do
+    wsScreens <- withWindowSet $ return . sortOn W.screen  . W.screens
+    -- liftIO $ mapM_ (\(i, s) -> logToTmpFile ("Screen #" ++ show i ++ ": " ++ show s)) $ zip [0..] wsScreens
+    let targetWS = W.tag . W.workspace $ wsScreens !! screen
+    -- currentWS <- withWindowSet $ return . W.currentTag
+    -- liftIO $ logToTmpFile $ "Target: " ++ show targetWS
+    -- liftIO $ logToTmpFile $ "Current: " ++ show currentWS
+    -- debugCurrentWindowSet "Before transition: "
+    -- currentStack <- withWindowSet $ return
+    -- let newStack = action targetWS currentStack
+    -- liftIO $ logToTmpFile $ "Dry-applying action: " ++ show newStack
+    windows $ action targetWS
+    -- debugCurrentWindowSet "After transition: "
+
+debugCurrentWindowSet :: String -> X ()
+debugCurrentWindowSet note = do
+  ws <- withWindowSet $ return
+  liftIO $ logToTmpFile $ note ++ show ws
 
 getAdditionalKeys = do
    return $ \ conf -> additionalKeysP conf
@@ -568,19 +597,30 @@ myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
 -- The available layouts.  Note that each layout is separated by |||,
 -- which denotes layout choice.
 --
-myTabConfig = def {  activeBorderColor = "#7C7C7C"
-                  , activeTextColor = "#CEFFAC"
+myTabConfig = def { activeBorderColor = "#7C7C7C"
+                  , activeTextColor = "#C41C1C"
                   , activeColor = "#000000"
                   , inactiveBorderColor = "#7C7C7C"
                   , inactiveTextColor = "#EEEEEE"
-                  , inactiveColor = "#000000" }
+                  , inactiveColor = "#000000"
+                  , fontName = "xft:Envy Code R:style=Bold:size=8"
+                  , decoWidth = 2
+                  , decoHeight = 15
+                  }
 
 -- myLayout = avoidStruts $ minimize (mkToggle ( NOBORDERS ?? FULL ?? EOT ) $ tiled ||| oddtiled ||| Mirror tiled ||| tabbed shrinkText myTabConfig ||| noBorders Full ||| spiral (6/7))
 -- Tabbed layout causes segfault with toggle - RANDOMLY, avoid until known to be fixed
 getLayout = do
     host <- R.asks hostname
-    return $ avoidStruts $ minimize $ (mkToggle ( single NBFULL ) $
-      tiled ||| Grid (screenRatio host) ||| noBorders streamwatching ||| Mirror tiled ||| noBorders Full ||| spiral (6/7)) ||| (oddtiled host)
+    return $ smartBorders $ avoidStruts $ minimize $ (mkToggle ( single NBFULL ) $ tiled
+      ||| tabbed shrinkText myTabConfig
+      ||| ThreeColMid 1 (3/100) (1/2)
+      ||| Grid (screenRatio host)
+      ||| noBorders streamwatching
+      ||| Mirror tiled
+      ||| noBorders Full
+      ||| spiral (6/7))
+      ||| (oddtiled host)
   where
    screenRatio "juno" = 16/9
    screenRatio "gordon" = 1366/768
@@ -706,10 +746,12 @@ getStartupHook = do
 -- Minimize windows hook (to restore from taskbar)
 getHandleEventHook = do
    spawnXmobar <- getSpawnXmobar
-   return $ minimizeEventHook
-        <+> docksEventHook
-        <+> dynStatusBarEventHook spawnXmobar killXmobar
-   --   <+> debugKeyEvents
+   -- numScreens <- R.asks numScreens
+   let eventHook = minimizeEventHook <+> docksEventHook -- <+> debugKeyEvents
+   -- if numScreens > 1 then
+   return $ eventHook <+> dynStatusBarEventHook spawnXmobar killXmobar
+   -- else
+      -- return $ eventHook
 
 myPP = xmobarPP {
      ppTitle = xmobarColor "#FFB6B0" "" . shorten 100
@@ -722,6 +764,24 @@ myPP = xmobarPP {
  }
  where
      noScratchPad ws = if ws == "NSP" then "" else ws
+
+
+-- DELME
+getLogHook :: R.Reader MyConfig (X ())
+getLogHook = return $ multiPP myPP myPP
+  -- do
+    -- spawnXmobar <- getSpawnXmobar
+    -- numScreens <- R.asks numScreens
+    -- if numScreens > 1 then
+      -- return $ multiPP myPP myPP
+    -- else
+      -- return $ do
+        -- h <- liftIO $ spawnXmobar 0
+        -- liftIO $ logToTmpFile $ "Spawning single screen xmobar"
+        -- let singleScreenPP = myPP { ppOutput = hPutStrLn h }
+        -- dynamicLogWithPP singleScreenPP
+
+
 
 -- myTrayer = "killall trayer; trayer --edge top --align left --margin 1770 --width 150 --widthtype pixel --height 16 --SetDockType true --expand false --padding 1 --tint 0x000000 --transparent true --alpha 0"
 -- myTrayer = "killall trayer; trayer --edge top --align left --margin 1340 --width 100 --widthtype pixel --height 16 --padding 1 --tint 0x000000 --transparent true --alpha 0"
@@ -796,18 +856,13 @@ getDefaultConfig = return def
 main = do
    hostname <- getHostname
    numScreens <- countScreens
+   -- logToTmpFile $ "Found " ++ show numScreens ++ " screens."
    let myConfig = MyConfig {
        hostname = hostname, numScreens = numScreens }
        spawnTrayer = R.runReader getSpawnTrayer myConfig
    spawnTrayer
-   let defaults = R.runReader getDefaults myConfig
-   xmonad $ defaults {
-       logHook =   (multiPP myPP myPP)
-       -- >> updatePointer (Relative 0.99 0.99)
-       --  , manageHook = manageDocks <+> manageSpawn <+> myManageHook
-       --  , startupHook = setWMName "LG3D"
-       -- , startupHook = myStartupHook
-   }
+   let myXmonadConfig = R.runReader getDefaults myConfig
+   xmonad $ myXmonadConfig -- { logHook = multiPP myPP myPP }
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will
@@ -820,13 +875,14 @@ getDefaults = do
    myDefaultConfig <- getDefaultConfig
    myKeys <- getKeys
    myLayout <- getLayout
+   myLogHook <- getLogHook
    myManageHook <- getManageHook
    myStartupHook <- getStartupHook
    myTerminal <- getTerminal
    myWorkspaces <- getWorkspaces
    myHandleEventHook <- getHandleEventHook
    return $ myAdditionalKeys $ myDefaultConfig {
-     -- simple stuff
+       -- simple stuff
        terminal            = myTerminal,
        focusFollowsMouse   = myFocusFollowsMouse,
        borderWidth         = myBorderWidth,
@@ -836,16 +892,34 @@ getDefaults = do
        normalBorderColor   = myNormalBorderColor,
        focusedBorderColor  = myFocusedBorderColor,
 
-     -- key bindings
+       -- key bindings
        keys                = myKeys,
        mouseBindings       = myMouseBindings,
 
-     -- hooks, layouts
+       -- hooks, layouts
        layoutHook          = smartBorders $ myLayout,
        manageHook          = myManageHook,
        startupHook         = myStartupHook,
-       handleEventHook     = myHandleEventHook
+       handleEventHook     = myHandleEventHook,
+
+       -- misc
+       logHook             = myLogHook
    }
 
+debugStuff :: X ()
+debugStuff = withWindowSet (\ws -> do
+    -- liftIO $ print ws
+    liftIO $ logToTmpFile $ show (W.screens ws)
+    liftIO $ logToTmpFile $ show ws
+    liftIO $ logToTmpFile $ show (W.currentTag ws)
+  )
+
+myAppendFile :: FilePath -> String -> IO ()
+myAppendFile f s = do
+  withFile f AppendMode $ \h -> do
+    hPutStrLn h s
+
+logToTmpFile :: String -> IO ()
+logToTmpFile = myAppendFile "/tmp/xmonad.log" . (++ "\n")
 
 -- vim: ft=haskell
