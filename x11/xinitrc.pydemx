@@ -29,11 +29,18 @@ else
     xmodmap ~/.Xmodmap &
 fi
 
+if which redshift >/dev/null; then
+    killall redshift || true
+    redshift -l geoclue2 &|
+fi
+
 # xrdb ~/.Xresources &
 xrdb ~/.Xdefaults &
 # xcompmgr -c -f -D 6 &
 
 ### compton
+### compton @ mucku
+picom -b
 ### compton @ abed
 picom -b
 ###
@@ -91,6 +98,8 @@ VBoxClient-all &
 
 ### background
 feh  --bg-fill "${HOME}/wallpaper/brisbinxmonadwall.png"
+### background@mucku
+feh --bg-fill "${HOME}/wallpaper/space.jpg"
 ###
 
 # xscreensaver &
