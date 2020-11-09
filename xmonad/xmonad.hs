@@ -523,8 +523,19 @@ getKeys = do
 applyToWSinScreen :: Int -> (WorkspaceId -> WindowSet -> WindowSet) -> X ()
 applyToWSinScreen screen action = do
     wsScreens <- withWindowSet $ return . sortOn W.screen  . W.screens
+    numPhysicalScreens <- countScreens
+    -- liftIO $ logToTmpFile $ "Num physical screens: " ++ show numPhysicalScreens ++
+      -- " Num virtual screens: " ++ show (length wsScreens)
     -- liftIO $ mapM_ (\(i, s) -> logToTmpFile ("Screen #" ++ show i ++ ": " ++ show s)) $ zip [0..] wsScreens
-    let targetWS = W.tag . W.workspace $ wsScreens !! screen
+    let numScreens = length wsScreens
+    -- TODO: Add check for one physical screen
+        screenIdx = case () of
+            _ | numScreens == 3 && numPhysicalScreens == 1 -> case screen of
+              0 -> 1
+              1 -> 0
+              x -> x
+            otherwise -> screen
+        targetWS = W.tag . W.workspace $ wsScreens !! screenIdx
     -- currentWS <- withWindowSet $ return . W.currentTag
     -- liftIO $ logToTmpFile $ "Target: " ++ show targetWS
     -- liftIO $ logToTmpFile $ "Current: " ++ show currentWS
