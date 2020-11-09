@@ -434,6 +434,7 @@ getKeys = do
     [ ((modMask .|. controlMask,    xK_q        ), rescreen )
     , ((modMask .|. controlMask,    xK_w        ), layoutScreens 2 (TwoPane 0.5 0.5) )
     , ((modMask .|. controlMask,    xK_e        ), layoutScreens 3 (ThreeColMid 1 (3/100) (1/2)))
+    , ((modMask .|. controlMask,    xK_r        ), layoutScreens 3 (Tall 1 (3/100) (1/2 + 13/100)) )
     ] ++
 
     --
@@ -624,11 +625,11 @@ myTabConfig = def { activeBorderColor = "#7C7C7C"
 getLayout = do
     host <- R.asks hostname
     return $ smartBorders $ avoidStruts $ minimize $ (mkToggle ( single NBFULL ) $ tiled
+      ||| Mirror tiled
       ||| tabbed shrinkText myTabConfig
       ||| ThreeColMid 1 (3/100) (1/2)
       ||| Grid (screenRatio host)
       ||| noBorders streamwatching
-      ||| Mirror tiled
       ||| noBorders Full
       ||| spiral (6/7))
       ||| (oddtiled host)
