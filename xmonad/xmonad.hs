@@ -12,6 +12,7 @@ import System.Exit
 import XMonad
 import XMonad.Hooks.DynamicBars
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.Minimize
@@ -759,7 +760,7 @@ getStartupHook = do
 getHandleEventHook = do
    spawnXmobar <- getSpawnXmobar
    -- numScreens <- R.asks numScreens
-   let eventHook = minimizeEventHook <+> docksEventHook -- <+> debugKeyEvents
+   let eventHook = fullscreenEventHook <+> docksEventHook <+> minimizeEventHook -- <+> debugKeyEvents
    -- if numScreens > 1 then
    return $ eventHook <+> dynStatusBarEventHook spawnXmobar killXmobar
    -- else
@@ -874,7 +875,7 @@ main = do
        spawnTrayer = R.runReader getSpawnTrayer myConfig
    spawnTrayer
    let myXmonadConfig = R.runReader getDefaults myConfig
-   xmonad $ myXmonadConfig -- { logHook = multiPP myPP myPP }
+   xmonad $ ewmh myXmonadConfig -- { logHook = multiPP myPP myPP }
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will
