@@ -9,7 +9,8 @@
 !!! dpi-settings
 Xft.dpi:        96
 !!! dpi-settings@mucku
-Xft.dpi:        94
+! DPI of 38GN950-B
+Xft.dpi:        110
 !!!
 Xft.antialias:  true
 Xft.rgba:       rgb
@@ -77,8 +78,11 @@ URxvt*scrollTtyKeypress: true
 urxvt*saveLines: 10000
 
 !!!
-! R("font", default="DejaVu Sans Mono for Powerline")
-! R("size-small", default="8")
+! font = R("font", default="DejaVu Sans Mono for Powerline")
+! font["mucku"] = "DejaVu Sans Mono Nerd Font"
+! R("pixelsize", default="10")
+! size_small = R("size-small", default="8")
+! size_small["mucku"] = "7"
 ! R("size-medium", default="10")
 ! R("size-big", default="12")
 ! R("size-huge", default="16")

@@ -31,7 +31,7 @@ fi
 
 if which redshift >/dev/null; then
     killall redshift || true
-    redshift -l geoclue2 &|
+    redshift -l geoclue2 &
 fi
 
 # xrdb ~/.Xresources &

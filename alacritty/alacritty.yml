@@ -1,15 +1,15 @@
 font:
-    size: 8
+    size: 7
 
     normal:
-      family: DejaVu Sans Mono for Powerline
+      family: DejaVu Sans Mono Nerd Font
       style: Regular
 
     bold:
-      family: DejaVu Sans Mono for Powerline
+      family: DejaVu Sans Mono Nerd Font
 
     italic:
-      family: DejaVu Sans Mono for Powerline
+      family: DejaVu Sans Mono Nerd Font
 
 
 # Colors (Hyper)
