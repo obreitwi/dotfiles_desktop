@@ -267,6 +267,7 @@ getKeys = do
     -- launch a terminal
     [ ((modMask .|. shiftMask,      xK_Return   ), spawnHere $ XMonad.terminal conf)
     , ((modMask .|. controlMask,    xK_Return   ), spawnHere "alacritty")
+    , ((modMask .|. mod1Mask,       xK_Return   ), spawnHere "kitty")
 
     -- lock screensaver
     , ((modMask .|. controlMask,    xK_l        ), myLockSpawner)
@@ -435,7 +436,9 @@ getKeys = do
     [ ((modMask .|. controlMask,    xK_q        ), rescreen )
     , ((modMask .|. controlMask,    xK_w        ), layoutScreens 2 (TwoPane 0.5 0.5) )
     , ((modMask .|. controlMask,    xK_e        ), layoutScreens 3 (ThreeColMid 1 (3/100) (1/2)))
-    , ((modMask .|. controlMask,    xK_r        ), layoutScreens 3 (Tall 1 (3/100) (1/2 + 13/100)) )
+    , ((modMask .|. controlMask,    xK_d        ), layoutScreens 2 (Tall 1 (3/100) (2/3) ))
+    , ((modMask .|. controlMask,    xK_r        ), layoutScreens 3 (Tall 1 (3/100) (1/2 + 13/100)))
+    , ((modMask .|. controlMask,    xK_f        ), layoutScreens 3 (Tall 1 (3/100) (2/3)))
     ] ++
 
     --
@@ -802,19 +805,20 @@ getLogHook = return $ multiPP myPP myPP
 -- myTrayer hostname = "killall trayer; trayer \
 getSpawnTrayer :: R.Reader MyConfig (IO ())
 getSpawnTrayer = do
-    trayWidth <- trayWidth
+    tWidth <- trayWidth
+    tHeight <- trayHeight
     return $ do
       killTrayer
       numScreens <- countScreens
-      mapM_ (spawnSingleTrayer trayWidth) [0..numScreens-1]
+      mapM_ (spawnSingleTrayer tWidth tHeight) [0..numScreens-1]
   where
-    spawnSingleTrayer width sId = unsafeSpawn $ "sleep 1 && trayer \
+    spawnSingleTrayer width height sId = unsafeSpawn $ "sleep 1 && trayer \
        \--monitor " ++ (show sId) ++ " \
        \--edge top \
        \--align right \
        \--width " ++ width ++ " \
        \--widthtype pixel \
-       \--height 16 \
+       \--height " ++ height ++ " \
        \--padding 1 \
        \--tint 0x000000 \
        \--transparent true \
@@ -824,6 +828,15 @@ getSpawnTrayer = do
 
     killTrayer :: IO ()
     killTrayer = unsafeSpawn "killall -9 trayer"
+
+
+trayHeight = do
+    host <- R.asks hostname
+    return $ height host
+  where
+    height "mucku" = "19"
+    height _ = "16"
+
 
 trayWidth = do
     host <- R.asks hostname

@@ -20,6 +20,10 @@ Xft.hintstyle:  hintfull
 Xft.autohint:   false
 Xft.lcdfilter:  lcddefault
 
+! disable ctrl-shift
+URxvt*iso14755_52: false
+URxvt*iso14755: false
+
 
 ! Transpacrency --------------------------------------------------------------
 urxvt*inheritPixmap: true
