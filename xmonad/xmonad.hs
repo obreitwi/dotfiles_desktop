@@ -435,6 +435,7 @@ getKeys = do
     -- ultra-wide settings
     [ ((modMask .|. controlMask,    xK_q        ), rescreen )
     , ((modMask .|. controlMask,    xK_w        ), layoutScreens 2 (TwoPane 0.5 0.5) )
+    , ((modMask .|. controlMask,    xK_s        ), layoutScreens 3 (Tall 1 (3/100) (1/2)))
     , ((modMask .|. controlMask,    xK_e        ), layoutScreens 3 (ThreeColMid 1 (3/100) (1/2)))
     , ((modMask .|. controlMask,    xK_d        ), layoutScreens 2 (Tall 1 (3/100) (2/3) ))
     , ((modMask .|. controlMask,    xK_r        ), layoutScreens 3 (Tall 1 (3/100) (1/2 + 13/100)))
