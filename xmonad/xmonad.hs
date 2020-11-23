@@ -536,7 +536,7 @@ applyToWSinScreen screen action = do
     let numScreens = length wsScreens
     -- TODO: Add check for one physical screen
         screenIdx = case () of
-            _ | numScreens == 3 && numPhysicalScreens == 1 -> case screen of
+            _ | False && numScreens == 3 && numPhysicalScreens == 1 -> case screen of
               0 -> 1
               1 -> 0
               x -> x
