@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -euo pipefail
+
+if [ -f ~/wallpaper/space.jpg ] && which feh>/dev/null; then
+    feh --bg-fill ~/wallpaper/space.jpg
+fi
