@@ -169,7 +169,7 @@ getExtendedWorkspaces = do
     -- return $ withScreens (S ns) $ extws host
     return $ [ "NSP" ] ++ extws host ++ [ "z" ]
   where
-    extws "abed" = [ "games", "music", "stream", "root", "web" ]
+    extws "abed" = [ "games", "music", "stream", "root", "web", "z" ]
     extws "gordon" = [ "root", "web" ]
     extws "jovis" = [ "c", "cP", "quassel", "talk", "talkP", "root", "web" ]
     extws "lark" = [ "music", "stream", "root", "web" ]
