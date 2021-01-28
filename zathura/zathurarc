@@ -1,2 +1,3 @@
 set adjust-open "best-fit"
 set vertical-center true
+set sandbox none
