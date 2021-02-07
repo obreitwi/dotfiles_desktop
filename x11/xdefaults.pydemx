@@ -165,6 +165,8 @@ URxvt.url-select.launcher:   /usr/bin/chromium
 URxvt.url-select.launcher:   /usr/bin/google-chrome
 !!! Browser @ phaeloff
 URxvt.url-select.launcher:   /usr/bin/google-chrome-stable
+!!! Browser @ mucku
+URxvt.url-select.launcher:   /usr/bin/firefox --new-tab
 !!!
 
 URxvt.url-select.underline: false

@@ -211,6 +211,8 @@ browser = do
     brs "lark" mps = "chromium" ++ mps
     brs "gordon" _ = "google-chrome"
     brs "phaeloff" _ = "google-chrome-stable"
+    brs "mucku" _ = "firefox"
+    brs "abed" _ = "firefox"
     brs _ _ = "chromium"
 -- browser "lark" = "chromium --process-per-site --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'"
 
@@ -699,7 +701,8 @@ getManageHook = do
    , className =? "Emacs"              --> doShift "1:code"
    , className =? "Komodo Edit"        --> doShift "1:code"
    , className =? "Emacs"              --> doShift "1:code"
-   , className =? "Firefox"            --> doShift "web"
+   , roleName  =? "browser"            --> doShift "web"
+   , className =? "firefox"            --> doShift "web"
    ,    (className =? "chromium")
    <||> (className =? "Chromium")
    -- debian variant of chromium
@@ -723,6 +726,10 @@ getManageHook = do
    -- , className  =? "Vlc"                --> doShift "stream"
    -- , title =? "fd://0 - VLC media player" --> doShift "stream"
    ]
+
+roleName :: Query String
+roleName = stringProperty "WM_WINDOW_ROLE"
+
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
 myFocusFollowsMouse = False
