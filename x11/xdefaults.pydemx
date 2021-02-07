@@ -83,7 +83,7 @@ urxvt*saveLines: 10000
 
 !!!
 ! font = R("font", default="DejaVu Sans Mono for Powerline")
-! font["mucku"] = "DejaVu Sans Mono Nerd Font"
+! font["mucku"] = font["abed"] = "DejaVu Sans Mono Nerd Font"
 ! R("pixelsize", default="10")
 ! size_small = R("size-small", default="8")
 ! size_small["mucku"] = "7"
