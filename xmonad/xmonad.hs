@@ -701,15 +701,15 @@ getManageHook = do
    , className =? "Emacs"              --> doShift "1:code"
    , className =? "Komodo Edit"        --> doShift "1:code"
    , className =? "Emacs"              --> doShift "1:code"
-   , roleName  =? "browser"            --> doShift "web"
-   , className =? "firefox"            --> doShift "web"
-   ,    (className =? "chromium")
-   <||> (className =? "Chromium")
-   -- debian variant of chromium
-   <||> (className =? "chromium-browser")
-   <||> (className =? "google-chrome")
-   <||> (className =? "Google-chrome")
-                                       --> doShift "web"
+   -- , roleName  =? "browser"            --> doShift "web"
+   -- , className =? "firefox"            --> doShift "web"
+   -- ,    (className =? "chromium")
+   -- <||> (className =? "Chromium")
+   -- -- debian variant of chromium
+   -- <||> (className =? "chromium-browser")
+   -- <||> (className =? "google-chrome")
+   -- <||> (className =? "Google-chrome")
+                                       -- --> doShift "web"
    , className =? "Thunderbird-bin"    --> doShift "3:msg"
    , className =? "Pidgin"             --> doShift "3:msg"
    , className =? "VirtualBox"         --> doShift "4:vm"
@@ -777,6 +777,7 @@ getHandleEventHook = do
    -- else
       -- return $ eventHook
 
+myPP :: PP
 myPP = xmobarPP {
      ppTitle = xmobarColor "#FFB6B0" "" . shorten 100
      --  , ppCurrent = xmobarColor "#CEFFAC" ""
@@ -790,9 +791,13 @@ myPP = xmobarPP {
      noScratchPad ws = if ws == "NSP" then "" else ws
 
 
+myPP_inactive :: PP
+myPP_inactive = myPP { ppCurrent = xmobarColor "#CEFFAC" "" }
+
+
 -- DELME
 getLogHook :: R.Reader MyConfig (X ())
-getLogHook = return $ multiPP myPP myPP
+getLogHook = return $ multiPP myPP myPP_inactive
   -- do
     -- spawnXmobar <- getSpawnXmobar
     -- numScreens <- R.asks numScreens
