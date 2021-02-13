@@ -2,6 +2,6 @@
 
 set -euo pipefail
 
-if [ -f ~/wallpaper/space.jpg ] && which feh>/dev/null; then
+if [ -e ~/wallpaper/current ] && which feh>/dev/null; then
     feh --bg-fill ~/wallpaper/current
 fi
