@@ -155,7 +155,9 @@ lsusb -v 2>/dev/null 1>"${tmpfile}"
 
 # check if mx518 is connected and if so swap buttons
 if awk 'BEGIN { rc=1 } $1 == "idVendor" { vendor = $2 } $1 == "idProduct" && vendor == "0x046d" && $2 == "0xc08e" { rc=0 } END { exit rc }' "${tmpfile}"; then
-    xmodmap -e 'pointer = 1 9 3 6 7 10 11 2 8 12 4 5'
+    # The following settings disable scroll capabilities in firefox, but stillwork in chromium -> strange
+    # xmodmap -e 'pointer = 1 9 3 6 7 10 11 2 8 12 4 5'
+    xmodmap -e 'pointer = 1 8 3 4 5 6 7 2 9 10 11 12'
 elif awk 'BEGIN { rc=1 } $1 == "idVendor" { vendor = $2 } $1 == "idProduct" && vendor == "0x046d" && $2 == "0xc068" { rc=0 } END { exit rc }' "${tmpfile}"; then
     # remap thumb buttons of broken g500 to mouse wheel
     xmodmap -e 'pointer = 1 2 3 6 7 8 9 5 4'
