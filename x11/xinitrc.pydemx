@@ -29,11 +29,6 @@ else
     xmodmap ~/.Xmodmap &
 fi
 
-if which redshift >/dev/null; then
-    killall redshift || true
-    redshift -l geoclue2 &
-fi
-
 # xrdb ~/.Xresources &
 xrdb ~/.Xdefaults &
 # xcompmgr -c -f -D 6 &
@@ -126,6 +121,12 @@ urxvtd -q -o -f
 # synclient TapButton1=0
 # synclient TapButton2=0
 # synclient TapButton3=0
+
+### redshift
+### redshift@mucku
+# Because for some reason systemd cannot start it once xmonad launches
+systemctl start --user redshift.service
+###
 
 ### brightness
 ### brightness @ abed-diabled
