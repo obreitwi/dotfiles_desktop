@@ -80,7 +80,7 @@ Config { font = "xft:Envy Code R:style=Bold:size=8"
 -- !!! CoreTemp @ nurikum
 -- !!! CoreTemp @ mucku
     , Run Com "bash" [ "-c", "sensors -u k10temp-pci-00c3 | awk '/temp1_input:/ { printf(\"%.0f°C\", $2) }'"] "temp_cpu" 10
-    , Run Com "bash" [ "-c", "sensors -u amdgpu-pci-0b00 | awk '/temp1_input:/ { printf(\"%.0f°C\", $2) }'"] "temp_gpu" 10
+    , Run Com "bash" [ "-c", "sensors -u amdgpu-pci-0a00 | awk '/temp1_input:/ { printf(\"%.0f°C\", $2) }'"] "temp_gpu" 10
 -- !!!
     , Run DynNetwork ["-t","<rx> / <tx>","-H","3500","-L","100","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC", "-m", "6", "-c", "{{padding}}"] 10
     , Run Memory ["-t","<used>M"] 10
