@@ -122,6 +122,12 @@ urxvtd -q -o -f
 # synclient TapButton2=0
 # synclient TapButton3=0
 
+# start sccache server
+if which sccache > /dev/null; then
+    sccache --stop-server &> /dev/null
+    SCCACHE_IDLE_TIMEOUT=0 sccache --start-server &> /dev/null
+fi
+
 ### redshift
 ### redshift@mucku
 # Because for some reason systemd cannot start it once xmonad launches
