@@ -637,6 +637,7 @@ getLayout = do
       ||| Mirror tiled
       ||| tabbed shrinkText myTabConfig
       ||| ThreeColMid 1 (3/100) (1/2)
+      ||| ThreeCol 1 (3/100) (1/2)
       ||| Grid (screenRatio host)
       ||| noBorders streamwatching
       ||| noBorders Full
