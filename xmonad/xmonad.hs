@@ -285,6 +285,9 @@ getKeys = do
     -- launch gmrun
     -- , ((modMask .|. shiftMask,       xK_p        ), spawnHere "eval \"exec ~/bin/mydmenu\"")
 
+    -- launch emoji picker
+    , ((modMask .|. controlMask,    xK_i        ), spawnHere "rofimoji -a copy")
+
     -- launch pavucontrol
     , ((modMask ,                   xK_c        ), spawnHere "pavucontrol")
 
