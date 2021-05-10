@@ -51,6 +51,9 @@ import XMonad.Util.WorkspaceCompare
 import XMonad.Util.NamedScratchpad
 -- import XMonad.Config.Xfce
 
+-- Fuzzy matching
+import XMonad.Prompt.FuzzyMatch
+
 import qualified XMonad.StackSet    as W
 import qualified Data.List          as L
 import qualified Data.Map           as M
@@ -68,6 +71,8 @@ myXPConfig_nC       =  def
                { promptKeymap = M.fromList [((controlMask,xK_c), quit)] `M.union` promptKeymap def
                , font = "xft:Envy Code R:style=Regular:size=8"
                  {- , autoComplete = Just 500000 -}
+               , searchPredicate = fuzzyMatch
+               , sorter          = fuzzySort
                }
 myXPConfig          =  myXPConfig_nC {
                        --  promptKeymap = M.fromList [((controlMask,xK_c), quit)] `M.union` promptKeymap def ,
