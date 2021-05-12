@@ -534,7 +534,7 @@ getKeys = do
     [
           ((modMask .|. controlMask, xK_F10), spawn "autorandr -c")
         , ((modMask .|. controlMask, xK_F11), spawn "zsh -i -c monitors_refresh")
-        , ((modMask .|. controlMask, xK_F12), spawn "zsh -i -c monitors_all")
+        , ((modMask .|. controlMask, xK_F12), spawn "rofi-autorandr")
     ]
 
 -- apply action current workspace in screen
