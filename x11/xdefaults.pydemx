@@ -91,12 +91,20 @@ urxvt*saveLines: 10000
 ! R("size-big", default="12")
 ! R("size-huge", default="16")
 !!!
-!
+
 !!! set-font
 URxvt*font: xft:{{font}}:style=Regular:size={{size-small}}
 URxvt*boldFont: xft:{{font}}:style=Bold:size={{size-small}}
-URxvt*letterSpace: -1
 !!!
+
+!!!
+! import subprocess as sp
+! if sp.Popen(["pacman", "-Qqs", "rxvt-unicode-truecolor-wide-glyphs"], stdout=sp.DEVNULL).wait() == 0:
+!     R("letterSpace", default=0)
+! else:
+!     R("letterSpace", default=-1)
+!!!
+URxvt*letterSpace: {{letterSpace}}
 
 ! the following is taken from:
 ! https://bbs.archlinux.org/viewtopic.php?pid=1584742#p1584742
@@ -141,6 +149,7 @@ URxvt.resize-font.bigger: M-equal
 ! fix width
 
 ! URxvt.perl-ext-common: default,keyboard-select,url-select,clipboard,searchable-scrollback<M-slash>,autocomplete-ALL-the-things
+! URxvt.perl-ext-common: default,keyboard-select,url-select,clipboard,searchable-scrollback<M-slash>,resize-font
 URxvt.perl-ext-common: default,keyboard-select,url-select,clipboard,searchable-scrollback<M-slash>,resize-font
 
 ! The following line overwrites the default Meta-s binding and allows to activate keyboard-select directly in backward search mode:
