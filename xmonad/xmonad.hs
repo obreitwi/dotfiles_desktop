@@ -67,17 +67,16 @@ setHostname :: String -> MyConfig -> MyConfig
 setHostname newHostname oldConfig = oldConfig { hostname = newHostname }
 
 -- WORKAROUND C-c hanging prompt
-myXPConfig_nC       =  def
+myXPConfigBase = def
                { promptKeymap = M.fromList [((controlMask,xK_c), quit)] `M.union` promptKeymap def
                , font = "xft:Envy Code R:style=Regular:size=8"
-                 {- , autoComplete = Just 500000 -}
-               , searchPredicate = fuzzyMatch
+               }
+myXPConfig_nC = myXPConfigBase
+               { searchPredicate = fuzzyMatch
                , sorter          = fuzzySort
                }
-myXPConfig          =  myXPConfig_nC {
-                       --  promptKeymap = M.fromList [((controlMask,xK_c), quit)] `M.union` promptKeymap def ,
-                       autoComplete = Just 300000
-               }
+myXPConfig = myXPConfigBase { autoComplete = Just 300000 }
+              --  promptKeymap = M.fromList [((controlMask,xK_c), quit)] `M.union` promptKeymap def ,
 
 
 -- The preferred terminal program, which is used in a binding below and by
