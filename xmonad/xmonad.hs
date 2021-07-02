@@ -313,7 +313,8 @@ getKeys = do
 
     -- take screenshot
     -- , ((modMask .|. controlMask,    xK_p        ), spawnHere "import `date +screens/screen_%F_%H-%M.png`")
-    , ((modMask .|. controlMask,    xK_p        ), spawnHere "maim -u -s $(date +screens/screen_%F_%H-%M.png)")
+    , ((modMask .|. controlMask,                  xK_p        ), spawnHere "maim -u -m 10 -s |  xclip -selection clipboard -t image/png")
+    , ((modMask .|. controlMask .|. shiftMask,    xK_p        ), spawnHere "maim -u -s $(date +screens/screen_%F_%H-%M.png)")
 
     -- close focused window
     , ((modMask .|. shiftMask,      xK_c        ), kill)
