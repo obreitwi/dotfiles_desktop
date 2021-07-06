@@ -95,6 +95,7 @@ getScratchpads = do
     -- run htop in xterm, find it by title, use default floating window placement
     ,  NS "shell" (term ++ " -T shell") (title =? "shell") defaultOverlay
     ,  NS "ipython" (term ++ " -T ipython -e ipython") (title =? "ipython") defaultOverlay
+    ,  NS "ptpython" (term ++ " -T ptpython -e ptpython") (title =? "ptpython") defaultOverlay
     ,  NS "nvim-ghost" (term ++ " -T nvim-ghost -e nvim  +GhostStart") (title =? "nvim-ghost") defaultOverlay
     ,  NS "neovide-ghost" "neovide +GhostStart '+set titlestring=neovide-ghost' '+set title'" (title =? "neovide-ghost") defaultOverlay
        -- run stardict, find it by class name, place it in the floating window
@@ -257,6 +258,12 @@ toWorkspaceTag tag = do
     else
       toggleWSnoNSP
 
+getPythonPrompt :: R.Reader MyConfig String
+getPythonPrompt = R.asks hostname >>= go
+  where
+    go "mucku" = return "ptpython"
+    go _       = return "ipython"
+
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here
 --
@@ -269,6 +276,7 @@ getKeys = do
   myLockSpawner <- lockSpawner
   myScratchpads <- getScratchpads
   mySpawnerProg <- getSpawnerProg
+  myPythonPrompt <- getPythonPrompt
   return $ \ (conf@(XConfig {XMonad.modMask = modMask})) ->
     M.fromList $
     -- launch a terminal
@@ -402,7 +410,7 @@ getKeys = do
       ((modMask,                      xK_backslash    ), namedScratchpadAction myScratchpads "bpytop" ),
       ((modMask .|. shiftMask,        xK_backslash    ), namedScratchpadAction myScratchpads "bashtop" ),
       ((modMask,                      xK_g            ), namedScratchpadAction myScratchpads "nvim-ghost" ),
-      ((modMask .|. shiftMask,        xK_p            ), namedScratchpadAction myScratchpads "ipython" )
+      ((modMask .|. shiftMask,        xK_p            ), namedScratchpadAction myScratchpads myPythonPrompt )
     ]++
 
     -- Actions
