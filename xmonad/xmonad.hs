@@ -95,7 +95,7 @@ getScratchpads = do
     -- run htop in xterm, find it by title, use default floating window placement
     ,  NS "shell" (term ++ " -T shell") (title =? "shell") defaultOverlay
     ,  NS "ipython" (term ++ " -T ipython -e ipython") (title =? "ipython") defaultOverlay
-    ,  NS "ptpython" (term ++ " -T ptpython -e ptpython") (title =? "ptpython") defaultOverlay
+    ,  NS "ptpython" (term ++ " -e ptpython") (title =? "Python REPL (ptpython)") defaultOverlay
     ,  NS "nvim-ghost" (term ++ " -T nvim-ghost -e nvim  +GhostStart") (title =? "nvim-ghost") defaultOverlay
     ,  NS "neovide-ghost" "neovide +GhostStart '+set titlestring=neovide-ghost' '+set title'" (title =? "neovide-ghost") defaultOverlay
        -- run stardict, find it by class name, place it in the floating window
