@@ -106,6 +106,7 @@ getScratchpads = do
     -- run gvim, find by role, don't float with nonFloating
     ,  NS "notes" (spawnNotes term) findNotes defaultOverlay
     ,  NS "notes-neovide" spawnNotes_neovide findNotes defaultOverlay
+    ,  NS "volumecontrol" "pavucontrol" (title =? "Volume Control") defaultOverlay
     ]
   where
        -- unfortunately neovide is not yet running as expected (does not allow floating and resizing) -> keep nvim in terminal for now
@@ -301,7 +302,7 @@ getKeys = do
     , ((modMask .|. controlMask,    xK_i        ), spawnHere "rofimoji -a copy")
 
     -- launch pavucontrol
-    , ((modMask ,                   xK_c        ), spawnHere "pavucontrol")
+    , ((modMask ,                   xK_c        ), namedScratchpadAction myScratchpads "volumecontrol")
 
     -- launch browser
     , ((modMask ,                   xK_b        ), spawn myBrowser)
