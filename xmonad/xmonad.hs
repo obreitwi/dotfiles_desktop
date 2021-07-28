@@ -539,16 +539,16 @@ getKeys = do
     ++
     -- Music controller
     [
-          ((modMask, xK_F10), spawn "myplayerctl prev")
-        , ((modMask, xK_F11), spawn "myplayerctl next")
-        , ((modMask, xK_F12), spawn "myplayerctl play-pause")
+        ((modMask, xK_F10), spawn "myplayerctl prev")
+      , ((modMask, xK_F11), spawn "myplayerctl next")
+      , ((modMask, xK_F12), spawn "myplayerctl play-pause")
     ]
     ++
     -- Reset monitor configuration to use all available monitors
     [
-          ((modMask .|. controlMask, xK_F10), spawn "autorandr -c")
-        , ((modMask .|. controlMask, xK_F11), spawn "zsh -i -c monitors_refresh")
-        , ((modMask .|. controlMask, xK_F12), spawn "rofi-autorandr")
+        ((modMask .|. controlMask, xK_F10), spawn "autorandr -c")
+      , ((modMask .|. controlMask, xK_F11), spawn "zsh -i -c monitors_refresh")
+      , ((modMask .|. controlMask, xK_F12), spawn "rofi-autorandr")
     ]
 
 -- apply action current workspace in screen
