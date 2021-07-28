@@ -8,5 +8,6 @@ fi
 window_active="$(xdotool getwindowfocus)"
 window_zoom="$(xdotool search --limit 1 --name "Zoom Meeting")"
 xdotool windowactivate --sync "${window_zoom}"
+sleep 0.05
 xdotool key --clearmodifiers "alt+a"
 xdotool windowactivate --sync "${window_active}"
