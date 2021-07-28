@@ -530,7 +530,11 @@ getKeys = do
     ]
     ++
     -- Debug
-    [  ((modMask, xK_F9), debugStuff)
+    [   ((modMask .|. controlMask, xK_F9), debugStuff)
+    ]
+    ++
+    -- Toggle Microphone in Zoom
+    [   ((modMask, xK_F9),  spawn "zoom-toggle-audio")
     ]
     ++
     -- Music controller
