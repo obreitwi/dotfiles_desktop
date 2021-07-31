@@ -1,5 +1,5 @@
 font:
-    size: 7
+    size: 7.25
 
     normal:
       family: DejaVu Sans Mono Nerd Font
@@ -78,6 +78,16 @@ key_bindings:
 
 hints:
   enabled:
+    - regex: "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)\
+              [^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
+      command: xdg-open
+      post_processing: true
+      mouse:
+        enabled: true
+        mods: Control|Shift
+      binding:
+        key: U
+        mods: Control|Shift
     - regex: "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)\
               [^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
       action: Copy
