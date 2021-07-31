@@ -83,7 +83,21 @@ myXPConfig = myXPConfigBase { autoComplete = Just 300000 }
 -- certain contrib modules.
 --
 getTerminal :: R.Reader MyConfig String
-getTerminal = return "urxvtc"
+getTerminal = do
+    host <- R.asks hostname
+    return $ go host
+  where
+    go "mucku" = "alacritty"
+    go _ = "urxvtc"
+
+getAltTerminal :: R.Reader MyConfig String
+getAltTerminal = do
+    host <- R.asks hostname
+    return $ go host
+  where
+    go "mucku" = "urxvtc"
+    go _ = "alacritty"
+
 
 getScratchpads = do
   term <- getTerminal
@@ -278,11 +292,12 @@ getKeys = do
   myScratchpads <- getScratchpads
   mySpawnerProg <- getSpawnerProg
   myPythonPrompt <- getPythonPrompt
+  myAltTerm <- getAltTerminal
   return $ \ (conf@(XConfig {XMonad.modMask = modMask})) ->
     M.fromList $
     -- launch a terminal
     [ ((modMask .|. shiftMask,      xK_Return   ), spawnHere $ XMonad.terminal conf)
-    , ((modMask .|. controlMask,    xK_Return   ), spawnHere "alacritty")
+    , ((modMask .|. controlMask,    xK_Return   ), spawnHere myAltTerm)
     , ((modMask .|. mod1Mask,       xK_Return   ), spawnHere "kitty")
 
     -- lock screensaver
