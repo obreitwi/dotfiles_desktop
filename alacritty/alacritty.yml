@@ -3,14 +3,15 @@ font:
 
     normal:
       family: DejaVu Sans Mono Nerd Font
-      style: Regular
+      style: Book
 
     bold:
       family: DejaVu Sans Mono Nerd Font
+      style: Bold
 
     italic:
       family: DejaVu Sans Mono Nerd Font
-
+      style: Oblique
 
 # Colors (Hyper)
 colors:
