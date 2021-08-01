@@ -98,19 +98,27 @@ getAltTerminal = do
     go "mucku" = "urxvtc"
     go _ = "alacritty"
 
+getTermTitleArg :: R.Reader MyConfig String
+getTermTitleArg = do
+    getTerminal >>= (return . go)
+  where
+    go "urxvtc" = "-T"
+    go "alacritty" = "-t"
+    go _ = "-T"
 
 getScratchpads = do
   term <- getTerminal
+  termTitleArg <- getTermTitleArg
+  let termTitle = term ++ " " ++ termTitleArg ++ " "
   return
-    [  NS "alsamixer" (term ++ " -e alsamixer") (title =? "alsamixer") defaultOverlay
-    ,  NS "bashtop" (term ++ " -name bashtop -e bashtop") (title =? "bashtop") defaultOverlay
-    ,  NS "bpytop" (term ++ " -T BpyTOP -e bpytop") (title =? "BpyTOP") defaultOverlay
-    ,  NS "htop" (term ++ " -e htop") (title =? "htop") defaultOverlay
-    -- run htop in xterm, find it by title, use default floating window placement
-    ,  NS "shell" (term ++ " -T shell") (title =? "shell") defaultOverlay
-    ,  NS "ipython" (term ++ " -T ipython -e ipython") (title =? "ipython") defaultOverlay
-    ,  NS "ptpython" (term ++ " -T \"Python REPL (ptpython)\" -e ptpython") (title =? "Python REPL (ptpython)") defaultOverlay
-    ,  NS "nvim-ghost" (term ++ " -T nvim-ghost -e nvim  +GhostStart") (title =? "nvim-ghost") defaultOverlay
+    [  NS "alsamixer" (termTitle ++ " -e alsamixer") (title =? "alsamixer") defaultOverlay
+    ,  NS "bashtop" (termTitle ++ "bashtop -e bashtop") (title =? "bashtop") defaultOverlay
+    ,  NS "bpytop" (termTitle ++ "BpyTOP -e bpytop") (title =? "BpyTOP") defaultOverlay
+    ,  NS "htop" (termTitle ++ "htop -e htop") (title =? "htop") defaultOverlay
+    ,  NS "shell" (termTitle ++ "shell") (title =? "shell") defaultOverlay
+    ,  NS "ipython" (termTitle ++ "ipython -e ipython") (title =? "ipython") defaultOverlay
+    ,  NS "ptpython" (termTitle ++ "\"Python REPL (ptpython)\" -e ptpython") (title =? "Python REPL (ptpython)") defaultOverlay
+    ,  NS "nvim-ghost" (termTitle ++ "nvim-ghost -e nvim  +GhostStart") (title =? "nvim-ghost") defaultOverlay
     ,  NS "neovide-ghost" "neovide +GhostStart '+set titlestring=neovide-ghost' '+set title'" (title =? "neovide-ghost") defaultOverlay
        -- run stardict, find it by class name, place it in the floating window
        -- 1/6 of screen width from the left, 1/6 of screen height
@@ -118,14 +126,14 @@ getScratchpads = do
        --  NS "stardict" "stardict" (className =? "Stardict")
        --  (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)) ,
     -- run gvim, find by role, don't float with nonFloating
-    ,  NS "notes" (spawnNotes term) findNotes defaultOverlay
+    ,  NS "notes" (spawnNotes termTitle) findNotes defaultOverlay
     ,  NS "notes-neovide" spawnNotes_neovide findNotes defaultOverlay
     ,  NS "volumecontrol" "pavucontrol" (title =? "Volume Control") defaultOverlay
     ]
   where
        -- unfortunately neovide is not yet running as expected (does not allow floating and resizing) -> keep nvim in terminal for now
        -- role = stringProperty "WM_WINDOW_ROLE"
-       spawnNotes term = "cd ~/.vimwiki && " ++ term ++ " -T notes -e nvim +VimwikiMakeDiaryNote '+set columns=" ++ (show numCols) ++ "'"
+       spawnNotes termTitle = "cd ~/.vimwiki && " ++ termTitle ++ "notes -e nvim +VimwikiMakeDiaryNote '+set columns=" ++ (show numCols) ++ "'"
        spawnNotes_neovide = "cd ~/.vimwiki && neovide '+set titlestring=notes' '+set title' +VimwikiMakeDiaryNote '+set columns=" ++ (show numCols) ++ "'"
        -- findNotes = role =? "notes"
        findNotes = title =? "notes"
