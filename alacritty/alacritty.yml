@@ -30,7 +30,7 @@ hints:
       post_processing: true
       mouse:
         enabled: true
-        mods: Control|Shift
+        mods: None
       binding:
         key: U
         mods: Control|Shift
@@ -40,7 +40,7 @@ hints:
       post_processing: true
       mouse:
         enabled: true
-        mods: Control|Shift
+        mods: Shift
       binding:
         key: Y
         mods: Control|Shift
