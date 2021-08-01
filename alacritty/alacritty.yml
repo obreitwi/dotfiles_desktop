@@ -1,36 +1,98 @@
 font:
-    size: 7.25
+  size: 7.25
 
-    normal:
-      family: DejaVu Sans Mono Nerd Font
-      style: Book
+  normal:
+    family: DejaVu Sans Mono Nerd Font
+    style: Book
 
-    bold:
-      family: DejaVu Sans Mono Nerd Font
-      style: Bold
+  bold:
+    family: DejaVu Sans Mono Nerd Font
+    style: Bold
 
-    italic:
-      family: DejaVu Sans Mono Nerd Font
-      style: Oblique
+  italic:
+    family: DejaVu Sans Mono Nerd Font
+    style: Oblique
 
-# Colors (Hyper)
-colors:
-  # Default colors
-  primary:
-    background: '0x000000'
-    foreground: '0xffffff'
-  # cursor:
-    # text: '0xF81CE5'
-    # cursor: '0xffffff'
+background_opacity: 0.75
 
-  vi_mode_cursor:
-    cursor: '0x888888'
+key_bindings:
+  - {
+      key: Return,
+      mods: Control|Shift,
+      action: SpawnNewInstance
+    }
 
-  # copied from urxvt config
-  primary:
+hints:
+  enabled:
+    - regex: "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|g\
+        it:|ssh:|ftp:)[^\0-\x1f-<>\"\\s{-}\\^⟨⟩`]+"
+      command: xdg-open
+      post_processing: true
+      mouse:
+        enabled: true
+        mods: Control|Shift
+      binding:
+        key: U
+        mods: Control|Shift
+    - regex: "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|g\
+        it:|ssh:|ftp:)[^\0-\x1f-<>\"\\s{-}\\^⟨⟩`]+"
+      action: Copy
+      post_processing: true
+      mouse:
+        enabled: true
+        mods: Control|Shift
+      binding:
+        key: Y
+        mods: Control|Shift
+
+color-schemes:
+  hyper: &hyper
+    # Default colors
+    primary:
       background: '#000000'
       foreground: '#ffffff'
-  normal:
+    cursor:
+      text: '#F81CE5'
+      cursor: '#ffffff'
+
+    # Normal colors
+    normal:
+      black: '#000000'
+      red: '#fe0100'
+      green: '#33ff00'
+      yellow: '#feff00'
+      blue: '#0066ff'
+      magenta: '#cc00ff'
+      cyan: '#00ffff'
+      white: '#d0d0d0'
+
+    # Bright colors
+    bright:
+      black: '#808080'
+      red: '#fe0100'
+      green: '#33ff00'
+      yellow: '#feff00'
+      blue: '#0066ff'
+      magenta: '#cc00ff'
+      cyan: '#00ffff'
+      white: '#FFFFFF'
+
+    # # Colors (Hyper)
+  my-custom: &custom
+    # Default colors
+    primary:
+      background: '0x000000'
+      foreground: '0xffffff'
+    # cursor:
+    # text: '0xF81CE5'
+    # cursor: '0xffffff'
+    vi_mode_cursor:
+      cursor: '0x888888'
+    # copied from urxvt config
+    primary:
+      background: '#000000'
+      foreground: '#ffffff'
+    normal:
       black:      '#000000'
       red:        '#AA0000'
       green:      '#00AA00'
@@ -39,7 +101,7 @@ colors:
       magenta:    '#AA00AA'
       cyan:       '#00AAAA'
       white:      '#AAAAAA'
-  bright:
+    bright:
       black:      '#555555'
       red:        '#FF5555'
       green:      '#55FF55'
@@ -49,52 +111,62 @@ colors:
       cyan:       '#55FFFF'
       white:      '#FFFFFF'
 
-  # # Normal colors
-  # normal:
-    # black:   '0x000000'
-    # red:     '0xfe0100'
-    # green:   '0x33ff00'
-    # yellow:  '0xfeff00'
-    # blue:    '0x0066ff'
-    # magenta: '0xcc00ff'
-    # cyan:    '0x00ffff'
-    # white:   '0xd0d0d0'
+  grubvox_dark: &gruvbox_dark
+    # Default colors
+    primary:
+      # hard contrast: background = '#1d2021'
+      background: '#282828'
+      # soft contrast: background = '#32302f'
+      foreground: '#ebdbb2'
 
-  # # Bright colors
-  # bright:
-    # black:   '0x808080'
-    # red:     '0xfe0100'
-    # green:   '0x33ff00'
-    # yellow:  '0xfeff00'
-    # blue:    '0x0066ff'
-    # magenta: '0xcc00ff'
-    # cyan:    '0x00ffff'
-    # white:   '0xFFFFFF'
+    # Normal colors
+    normal:
+      black:   '#282828'
+      red:     '#cc241d'
+      green:   '#98971a'
+      yellow:  '#d79921'
+      blue:    '#458588'
+      magenta: '#b16286'
+      cyan:    '#689d6a'
+      white:   '#a89984'
 
-background_opacity: 0.75
+    # Bright colors
+    bright:
+      black:   '#928374'
+      red:     '#fb4934'
+      green:   '#b8bb26'
+      yellow:  '#fabd2f'
+      blue:    '#83a598'
+      magenta: '#d3869b'
+      cyan:    '#8ec07c'
+      white:   '#ebdbb2'
 
-key_bindings:
-    - { key: Return,   mods: Control|Shift, action: SpawnNewInstance }
+  monokai_dark: &monokai_dark
+    name: Monokai (dark)
+    author: Chris Kempson
+    primary:
+      background: "#272822"
+      foreground: "#f8f8f2"
+    cursor:
+      text: "#272822"
+      cursor: "#f8f8f2"
+    normal:
+      black: "#272822"
+      red: "#f92672"
+      green: "#a6e22e"
+      yellow: "#f4bf75"
+      blue: "#66d9ef"
+      magenta: "#ae81ff"
+      cyan: "#a1efe4"
+      white: "#f8f8f2"
+    bright:
+      black: "#75715e"
+      red: "#f92672"
+      green: "#a6e22e"
+      yellow: "#f4bf75"
+      blue: "#66d9ef"
+      magenta: "#ae81ff"
+      cyan: "#a1efe4"
+      white: "#f9f8f5"
 
-hints:
-  enabled:
-    - regex: "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)\
-              [^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
-      command: xdg-open
-      post_processing: true
-      mouse:
-        enabled: true
-        mods: Control|Shift
-      binding:
-        key: U
-        mods: Control|Shift
-    - regex: "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)\
-              [^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
-      action: Copy
-      post_processing: true
-      mouse:
-        enabled: true
-        mods: Control|Shift
-      binding:
-        key: Y
-        mods: Control|Shift
+colors: *hyper
