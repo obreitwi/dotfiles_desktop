@@ -43,6 +43,9 @@ picom -b
 # increase repeat rate
 xset rate 200 75
 
+# no beed
+xset b off
+
 # ~/bin/keynav &
 keynav &
 
