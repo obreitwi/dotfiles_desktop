@@ -38,7 +38,7 @@ hints:
         mods: None
       binding:
         key: U
-        mods: Control|Shift
+        mods: Alt
     - regex: "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|g\
         it:|ssh:|ftp:)[^\0-\x1f-<>\"\\s{-}\\^⟨⟩`]+"
       action: Copy
@@ -48,7 +48,7 @@ hints:
         mods: Shift
       binding:
         key: Y
-        mods: Control|Shift
+        mods: Alt
 
 color-schemes:
   hyper: &hyper
