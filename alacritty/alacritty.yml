@@ -21,6 +21,11 @@ key_bindings:
       mods: Control|Shift,
       action: SpawnNewInstance
     }
+  - {
+      key: L,
+      mods: Alt,
+      action: Paste
+    }
 
 hints:
   enabled:
