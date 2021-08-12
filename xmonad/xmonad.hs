@@ -88,6 +88,7 @@ getTerminal = do
     return $ go host
   where
     go "mucku" = "alacritty"
+    go "abed" = "alacritty"
     go _ = "urxvtc"
 
 getAltTerminal :: R.Reader MyConfig String
