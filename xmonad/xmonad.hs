@@ -609,8 +609,8 @@ debugCurrentWindowSet note = do
 
 getAdditionalKeys = do
    return $ \ conf -> additionalKeysP conf
-     [ ("M-<XF86MonBrightnessDown>", spawn "zsh -c \"backlight -10%\"")
-     , ("M-<XF86MonBrightnessUp>", spawn "zsh -c \"backlight +10%\"")
+     [ ("<XF86MonBrightnessDown>", spawn "brightness_down.sh")
+     , ("<XF86MonBrightnessUp>", spawn "brightness_up.sh")
      ]
 
 ignoredWorkspaces = ["NSP"]
