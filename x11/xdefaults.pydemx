@@ -90,11 +90,12 @@ urxvt*saveLines: 10000
 ! R("size-medium", default="10")
 ! R("size-big", default="12")
 ! R("size-huge", default="16")
+! R("pixelsize", default="10")
 !!!
 
 !!! set-font
-URxvt*font: xft:{{font}}:style=Regular:size={{size-small}}
-URxvt*boldFont: xft:{{font}}:style=Bold:size={{size-small}}
+URxvt*font: xft:{{font}}:style=Book:size={{size-small}}:minspace=False xft:symbola:size={{size-small}}
+URxvt*boldFont: xft:{{font}}:style=Bold:size={{size-small}}:minspace=False xft:symbola:size={{size-small}}
 !!!
 
 !!!
