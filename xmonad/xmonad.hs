@@ -899,6 +899,7 @@ trayHeight = do
     return $ height host
   where
     height "mucku" = "19"
+    height "mimir" = "17"
     height _ = "16"
 
 
