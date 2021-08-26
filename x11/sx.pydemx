@@ -162,6 +162,10 @@ systemctl --user import-environment DISPLAY
 
 # pulseaudio --start &
 
+if which lxpolkit>/dev/null; then
+    lxpolkit &
+fi
+
 tmpfile="$(mktemp)"
 lsusb -v 2>/dev/null 1>"${tmpfile}"
 
