@@ -41,7 +41,7 @@ fi
 # increase repeat rate
 xset rate 200 75
 
-# no beed
+# no beep
 xset b off
 
 # ~/bin/keynav &
