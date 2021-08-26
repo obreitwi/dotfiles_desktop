@@ -33,12 +33,10 @@ fi
 xrdb ~/.Xdefaults &
 # xcompmgr -c -f -D 6 &
 
-### compton
-### compton @ mucku
-picom -b
-### compton @ abed
-picom -b
-###
+
+if which picom>/dev/null; then
+    picom -b
+fi
 
 # increase repeat rate
 xset rate 200 75
