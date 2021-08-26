@@ -89,6 +89,7 @@ getTerminal = do
   where
     go "mucku" = "alacritty"
     go "abed" = "alacritty"
+    go "mimir" = "alacritty"
     go _ = "urxvtc"
 
 getAltTerminal :: R.Reader MyConfig String
@@ -200,6 +201,7 @@ getExtendedWorkspaces = do
     return $ [ "NSP" ] ++ extws host ++ [ "z" ]
   where
     extws "abed" = [ "games", "music", "stream", "root", "web", "z" ]
+    extws "mimir" = [ "chat", "fdc", "music", "root", "web", "z" ]
     extws "gordon" = [ "root", "web" ]
     extws "jovis" = [ "c", "cP", "quassel", "talk", "talkP", "root", "web" ]
     extws "lark" = [ "music", "stream", "root", "web" ]
@@ -225,9 +227,8 @@ getSpawnerProg = do
     host <- R.asks hostname
     return $ prg host
   where
-     prg "abed" = "rofi -show run"
-     prg "mucku" = "rofi -show run"
-     prg _ = "gmrun"
+     prg _ = "rofi -show run"
+     -- prg _ = "gmrun"
 
 
 getProxyString = return " --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'"
@@ -243,6 +244,7 @@ browser = do
     brs "phaeloff" _ = "google-chrome-stable"
     brs "mucku" _ = "firefox"
     brs "abed" _ = "firefox"
+    brs "mimir" _ = "firefox"
     brs _ _ = "chromium"
 -- browser "lark" = "chromium --process-per-site --proxy-server='socks5://localhost:8080' --host-resolver-rules='MAP * 0.0.0.0' --proxy-bypass-list='127.0.0.1;localhost;*.kip.uni-heidelberg'"
 
