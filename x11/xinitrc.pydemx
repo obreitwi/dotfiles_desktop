@@ -1,7 +1,7 @@
 ###
 #### 
-# cfg["folder"] = "$HOME/.config/sx"
-# cfg["filename"] = "sxrc"
+# cfg["folder"] = "$HOME"
+# cfg["filename"] = ".xinitrc"
 # cfg["permissions"] = 0o755
 ###
 #!/bin/bash
@@ -111,6 +111,11 @@ fi
 ### autolock @ lark,gordon
 # auto lock screen after 10 minutes of idle
 ~/git/dotfiles_desktop/scripts/autolock.sh &
+### autolock @ mimir
+# Lock screen after 5 minutes of idle
+xset s 300
+# TODO: Find solution for unlocking via fingerprint
+xss-lock -- slock &
 ###
 
 (which udiskie > /dev/null) && udiskie --tray &
@@ -126,18 +131,8 @@ if which sccache > /dev/null; then
     SCCACHE_IDLE_TIMEOUT=0 sccache --start-server &> /dev/null
 fi
 
-systemctl --user import-environment DISPLAY
-
-### redshift
-### redshift@mucku,mimir
-# Because for some reason systemd cannot start it once xmonad launches
-( sleep 3 && systemctl start --user redshift.service ) &
-###
-
-### dunst
-### dunst@mimir
-( sleep 3 && systemclt start --user dunst.service ) &
-###
+systemctl --user import-environment DISPLAY XAUTHORITY DBUS_SESSION_BUS_ADDRESS
+systemctl --no-block --user start xsession.target
 
 ### brightness
 ### brightness @ abed-diabled
