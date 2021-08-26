@@ -88,7 +88,7 @@ Config { font = "xft:Envy Code R:style=Bold:size=8"
 -- !!! LAN
 -- !!! LAN @ phaelon,jovis
 -- !!! Wireless
--- !!! Wireless @ phaelon,jovis,gordon,phaeloff,abed
+-- !!! Wireless @ phaelon,jovis,gordon,phaeloff,abed,mimir
     , Run Wireless "{{wirename}}" ["-t","<quality>%","-H","80","-L","20","-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC", "-m", "3", "-c", "{{padding}}"] 5
 -- !!!
     --  , Run Network "wlan0" ["-t","<rx> / <tx>","-H","3500","-L","100","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC", "-m", "6", "-c", "{{padding}}"] 5
