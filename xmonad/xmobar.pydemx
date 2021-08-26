@@ -22,6 +22,7 @@
 -- R("cpus")["gordon"] = "<total0><total1><total2><total3>"
 -- R("cpus")["lark"] = "<total0><total1><total2><total3>"
 -- R("cpus")["mucku"] = "<total0><total1><total2><total3><total4><total5><total6><total7><total8><total9><total10><total11><total12><total13><total14><total15>"
+-- R("cpus")["mimir"] = "<total0><total1><total2><total3><total4><total5><total6><total7><total8><total9><total10><total11>"
 -- R("cpus")["nukular"] = "<total0><total1><total2><total3><total4><total5>"
 -- R("cpus")["nurikum"] = "<total0><total1><total2><total3><total4>"
 -- R("cpus")["nurikum-standalone"] = "<total0><total1><total2><total3>"
@@ -54,7 +55,7 @@
 -- R("padding")["phaeloff"] = R("padding")["gordon"]
 -- R("padding")["phaelon"] = " "
 -- R("padding", default=" ")
--- laptops = "abed phaelon jovis gordon phaeloff".split()
+-- laptops = "abed phaelon jovis gordon phaeloff mimir".split()
 -- for hostname in laptops:
 --     R("info_wl")[hostname] = ":: %{0}wi%".format(R("wirename")[hostname])
 -- R("info_ct")["phaelon"] = ""
@@ -96,7 +97,7 @@ Config { font = "xft:Envy Code R:style=Bold:size=8"
     -- , Run Battery ["-t","Bat: <acstatus><watts>W | <left>% / <timeleft>","-H","80","-L","20", "-l","#FFB6B0","-m","#CEFFAC","-h","#FFFFCC", "--", "-p", "blue", ] 600
     --  , Run Battery ["-t","AC <acstatus>, <left>% / <timeleft>","-H","80","-L","20", "-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC"] 600
 -- !!! Battery
--- !!! Battery @ abed,phaelon,jovis,gordon,phaeloff
+-- !!! Battery @ abed,phaelon,jovis,gordon,phaeloff,mimir
     , Run Battery ["-t","AC <acstatus>, <left>% / <timeleft>","-H","80","-L","20", "-l","#FFB6B0","-h","#CEFFAC","-n","#FFFFCC"] 600
     , Run Com "bash" ["-c", "awk '!/^0$/ { print \" @ \" $1/1000 \" mW\"}'  /sys/class/power_supply/*/power_now"] "draining" 20
 -- !!!
