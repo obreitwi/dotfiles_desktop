@@ -1,8 +1,10 @@
 ###
 #### 
-# cfg["folder"] = "$HOME"
-# cfg["filename"] = ".xinitrc"
+# cfg["folder"] = "$HOME/.config/sx"
+# cfg["filename"] = "sxrc"
+# cfg["permissions"] = 0o755
 ###
+#!/bin/bash
 cd $HOME
 
 file_update_keyboard="${HOME}/.local/bin/restore_keyboard_settings_user.sh"
@@ -107,8 +109,10 @@ killall autocutsel
 autocutsel -fork &
 autocutsel -selection PRIMARY -fork &
 
-# killall urxvtd # -o kills urxvtd automatically when X is restarted
-urxvtd -q -o -f
+if which urxvtd >/dev/null; then
+    # killall urxvtd # -o kills urxvtd automatically when X is restarted
+    urxvtd -q -o -f
+fi
 
 ### autolock
 ### autolock @ lark,gordon
