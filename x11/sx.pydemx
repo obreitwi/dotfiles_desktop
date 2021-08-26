@@ -89,21 +89,14 @@ fi
 VBoxClient-all &
 ###
 
-# keynav needs to be started first because otherwise the keycode for capslock is not found
-
-# xbindkeys &
-# xcompmgr -c -f -D 6 &
-
 ### background
 feh  --bg-fill "${HOME}/wallpaper/brisbinxmonadwall.png"
 ### background@mucku
 feh --bg-fill "${HOME}/wallpaper/space.jpg"
 ###
 
-# xscreensaver &
 killall unclutter
 unclutter &
-# loliclip --daemon
 
 killall autocutsel
 autocutsel -fork &
@@ -133,10 +126,17 @@ if which sccache > /dev/null; then
     SCCACHE_IDLE_TIMEOUT=0 sccache --start-server &> /dev/null
 fi
 
+systemctl --user import-environment DISPLAY
+
 ### redshift
-### redshift@mucku
+### redshift@mucku,mimir
 # Because for some reason systemd cannot start it once xmonad launches
-systemctl start --user redshift.service
+( sleep 3 && systemctl start --user redshift.service ) &
+###
+
+### dunst
+### dunst@mimir
+( sleep 3 && systemclt start --user dunst.service ) &
 ###
 
 ### brightness
@@ -152,15 +152,9 @@ fi
 # disable mouse acceleration
 xset m 0 0
 
-systemctl --user import-environment DISPLAY
-
 ~/git/dotfiles_desktop/scripts/trackpad-toggle.sh &
-# exec ck-launch-session ~/.xstart
 
-# killall gpg-agent
 . ~/.config/gnupg/gpg-agent.sh
-
-# pulseaudio --start &
 
 if which lxpolkit>/dev/null; then
     lxpolkit &
