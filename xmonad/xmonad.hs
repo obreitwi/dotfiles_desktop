@@ -288,6 +288,7 @@ getPythonPrompt :: R.Reader MyConfig String
 getPythonPrompt = R.asks hostname >>= go
   where
     go "mucku" = return "ptpython"
+    go "mimir" = return "ptpython"
     go _       = return "ipython"
 
 ------------------------------------------------------------------------
