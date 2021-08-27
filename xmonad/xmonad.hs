@@ -574,7 +574,7 @@ getKeys = do
     -- Reset monitor configuration to use all available monitors
     [
         ((modMask .|. controlMask, xK_F10), spawn "autorandr -c")
-      , ((modMask .|. controlMask, xK_F11), spawn "zsh -i -c monitors_refresh")
+      , ((modMask .|. controlMask, xK_F11), spawn "autorandr -l default")
       , ((modMask .|. controlMask, xK_F12), spawn "rofi-autorandr")
     ]
 
