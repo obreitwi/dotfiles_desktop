@@ -82,6 +82,14 @@ else
     # if lid is closed, pick defaults
     refresh_monitors  # defined in host specific file
 fi
+### display @ mimir
+# Check if we are currently running in nvidia-standalone mode
+# main_provider="$(xrandr --listproviders | grep "^Provider 0:" | tr ' ' '\n' | awk -F: '$1 == "name" { print $2 }')"
+if [ -f /etc/X11/xorg.conf.d/10-nvidia-drm-outputclass.conf ]; then
+    xrandr --setprovideroutputsource modesetting NVIDIA-0
+    autorandr -l nvidia-rzo-dual-right
+fi
+# unset main_provider
 ###
 
 ### virtualbox
@@ -178,4 +186,3 @@ if [ -f ~/.xmonad/bin/xmonad-x86_64-linux ]; then
 else
     exec ~/.xmonad/bin/xmonad
 fi
-
