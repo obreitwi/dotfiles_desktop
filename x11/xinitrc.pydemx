@@ -155,7 +155,9 @@ fi
 # disable mouse acceleration
 xset m 0 0
 
-~/git/dotfiles_desktop/scripts/trackpad-toggle.sh &
+if which synclient >/dev/null; then
+    ~/git/dotfiles_desktop/scripts/trackpad-toggle.sh &
+fi
 
 . ~/.config/gnupg/gpg-agent.sh
 
