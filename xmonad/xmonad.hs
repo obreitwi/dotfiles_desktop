@@ -101,8 +101,7 @@ getAltTerminal = do
     go _ = "alacritty"
 
 getTermTitleArg :: R.Reader MyConfig String
-getTermTitleArg = do
-    getTerminal >>= (return . go)
+getTermTitleArg = getTerminal >>= (return . go)
   where
     go "urxvtc" = "-T"
     go "alacritty" = "-t"
@@ -113,7 +112,7 @@ getScratchpads = do
   termTitleArg <- getTermTitleArg
   let termTitle = term ++ " " ++ termTitleArg ++ " "
   return
-    [  NS "alsamixer" (termTitle ++ " -e alsamixer") (title =? "alsamixer") defaultOverlay
+    [  NS "alsamixer" (termTitle ++ "alsamixer -e alsamixer") (title =? "alsamixer") defaultOverlay
     ,  NS "bashtop" (termTitle ++ "bashtop -e bashtop") (title =? "bashtop") defaultOverlay
     ,  NS "bpytop" (termTitle ++ "BpyTOP -e bpytop") (title =? "BpyTOP") defaultOverlay
     ,  NS "htop" (termTitle ++ "htop -e htop") (title =? "htop") defaultOverlay
