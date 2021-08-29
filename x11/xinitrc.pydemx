@@ -186,6 +186,11 @@ elif awk 'BEGIN { rc=1 } $1 == "idVendor" { vendor = $2 } $1 == "idProduct" && v
 fi
 rm "${tmpfile}"
 
+### dpi
+### dpi @ mimir
+xrandr --dpi 96
+###
+
 
 # try to remove the state file so that things that might have changed during
 # shutdown (e.g. numbre of monitors) gets recognized correctly
