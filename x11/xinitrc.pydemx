@@ -92,6 +92,10 @@ fi
 # unset main_provider
 ###
 
+if which gnome-keyring-daemon >/dev/null; then
+    source <(gnome-keyring-daemon --components=secrets -r -d | sed "s:^:export :g")
+fi
+
 ### virtualbox
 ### virtualbox@nurikum
 VBoxClient-all &
