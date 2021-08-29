@@ -110,9 +110,9 @@ feh --bg-fill "${HOME}/wallpaper/space.jpg"
 killall unclutter
 unclutter &
 
-killall autocutsel
-autocutsel -fork &
-autocutsel -selection PRIMARY -fork &
+# killall autocutsel
+# autocutsel -fork &
+# autocutsel -selection PRIMARY -fork &
 
 if which urxvtd >/dev/null; then
     # killall urxvtd # -o kills urxvtd automatically when X is restarted
@@ -191,6 +191,10 @@ rm "${tmpfile}"
 xrandr --dpi 96
 ###
 
+# Use pinentry-rofi if available
+if which pinentry-rofi>/dev/null; then
+    export PINENTRY_PROGRAM="$(which pinentry-rofi)"
+fi
 
 # try to remove the state file so that things that might have changed during
 # shutdown (e.g. numbre of monitors) gets recognized correctly
