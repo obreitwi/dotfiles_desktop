@@ -134,7 +134,7 @@ getScratchpads = do
   where
        -- unfortunately neovide is not yet running as expected (does not allow floating and resizing) -> keep nvim in terminal for now
        -- role = stringProperty "WM_WINDOW_ROLE"
-       spawnNotes termTitle = "cd ~/.vimwiki && " ++ termTitle ++ "notes -e nvim +VimwikiMakeDiaryNote '+set columns=" ++ (show numCols) ++ "'"
+       spawnNotes termTitle = "cd ~/.vimwiki && " ++ termTitle ++ "notes -e nvim +VimwikiMakeDiaryNote"
        spawnNotes_neovide = "cd ~/.vimwiki && neovide '+set titlestring=notes' '+set title' +VimwikiMakeDiaryNote '+set columns=" ++ (show numCols) ++ "'"
        -- findNotes = role =? "notes"
        findNotes = title =? "notes"
@@ -548,13 +548,6 @@ getKeys = do
         -}
     ]
     ++
-    [
-        -- ((modMask, xK_F8), spawn "zsh -c \"backlight -10%\"")
-      -- , ((modMask, xK_F9), spawn "zsh -c \"backlight +10%\"")
-        -- ((modMask, xK_XF86MonBrightnessDown), spawn "zsh -c \"backlight -10%\"")
-      -- , ((modMask, xK_XF86MonBrightnessUp), spawn "zsh -c \"backlight +10%\"")
-    ]
-    ++
     -- Debug
     [   ((modMask .|. controlMask, xK_F9), debugStuff)
     ]
@@ -611,8 +604,9 @@ debugCurrentWindowSet note = do
 
 getAdditionalKeys = do
    return $ \ conf -> additionalKeysP conf
-     [ ("<XF86MonBrightnessDown>", spawn "brightness_down.sh")
-     , ("<XF86MonBrightnessUp>", spawn "brightness_up.sh")
+     [
+     --   ("<XF86MonBrightnessDown>", spawn "backlight -10%")
+     -- , ("<XF86MonBrightnessUp>", spawn "backlight +10%")
      ]
 
 ignoredWorkspaces = ["NSP"]
