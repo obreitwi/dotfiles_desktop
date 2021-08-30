@@ -185,12 +185,13 @@ myNumlockMask   = mod2Mask
 --
 --  myWorkspaces    = ["1:code","2:pdf1","3:pdf2","4:web","5:vserver","6","7","8","9"]
 getWorkspaces :: R.Reader MyConfig [String]
-getWorkspaces = do
-  host <- R.asks hostname
-  if host == "abed" then
-    return [ "1", "2", "3"]
-  else
-    return [ "1", "2" ]
+getWorkspaces = R.asks hostname >>= (return . go)
+  where
+    go "abed" = three
+    go "mimir" = three
+    go _ = two
+    three = [ "1", "2", "3"]
+    two = [ "1", "2" ]
 
 getExtendedWorkspaces :: R.Reader MyConfig [String]
 getExtendedWorkspaces = do
