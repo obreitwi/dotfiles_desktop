@@ -336,16 +336,9 @@ getKeys = do
     -- launch browser with proxy enabled
     , ((modMask .|. shiftMask,      xK_b        ), spawn myBrowserProxy)
 
-    {-
-     - -- clipboard management
-     - -- from primary to clipboard
-     - , ((modMask ,                   xK_y        ), spawnHere "xcmenuctrl -spc")
-     - -- from clipboard to primary
-     - , ((modMask .|. shiftMask,      xK_y        ), spawnHere "xcmenuctrl -scp")
-     -}
-
-    -- launch gvim
-    -- , ((modMask ,                   xK_g        ), spawn "gvim")
+    -- clipboard management
+    -- copy selection -> clipboard
+    , ((modMask .|. controlMask,    xK_k        ), spawn "sh -c 'xclip -o | xclip -i -selection clipboard'")
 
     -- take screenshot
     -- , ((modMask .|. controlMask,    xK_p        ), spawnHere "import `date +screens/screen_%F_%H-%M.png`")
