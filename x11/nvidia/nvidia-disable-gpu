@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+TURN_OFF_GPU_ONLY=1 nvidia-xrun
