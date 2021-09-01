@@ -272,7 +272,8 @@ getDisplayOrder = do
   where
     -- hlp "abed" 2 = [xK_w, xK_e] -- same as if there were three monitors
     -- hlp "abed" _ = [xK_w, xK_q, xK_e]
-    hlp _ _ = [xK_q, xK_w, xK_e]
+    -- hlp "mimir" 3 = [xK_w, xK_e, xK_q]
+    hlp _ _ = [xK_q, xK_w, xK_e, xK_r]
 
 
 toWorkspaceTag :: String -> X ()
@@ -404,10 +405,10 @@ getKeys = do
     , ((modMask .|. shiftMask,      xK_u        ), withLastMinimized maximizeWindow)
 
     -- Quit xmonad
-    , ((modMask .|. shiftMask,      xK_r        ), myExitXmonad)
+    , ((modMask .|. shiftMask,      xK_F4       ), myExitXmonad)
 
     -- Restart xmonad
-    , ((modMask,                    xK_r        ), restart "xmonad" True)
+    , ((modMask,                    xK_F4       ), restart "xmonad" True)
     ] ++
 
     -- Prompts
