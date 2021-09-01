@@ -27,6 +27,7 @@ update_xkbmap() {
       -variant altgr-intl \
       -model pc105\
       -option compose:menu \
+      -option compose:prsc \
       -option lv3:ralt_switch \
       -option eurosign:e \
       -option nbsp:level3n
