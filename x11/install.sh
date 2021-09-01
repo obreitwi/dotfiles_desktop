@@ -5,5 +5,6 @@ TGTFLD="${HOME}/.local/bin"
 
 mkdir -p "${TGTFLD}"
 
-ln -s -f -v "$SRCFLD/brightness_down.sh"  "$TGTFLD"
-ln -s -f -v "$SRCFLD/brightness_up.sh"  "$TGTFLD"
+# disabled since not used right now
+# ln -s -f -v "$SRCFLD/brightness_down.sh"  "$TGTFLD"
+# ln -s -f -v "$SRCFLD/brightness_up.sh"  "$TGTFLD"
