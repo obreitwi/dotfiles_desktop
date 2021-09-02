@@ -297,7 +297,6 @@ getPythonPrompt = R.asks hostname >>= go
 --
 getKeys :: R.Reader MyConfig (XConfig Layout -> M.Map (KeyMask, KeySym) (X ()))
 getKeys = do
-  myBrowser <- browser
   myBrowserProxy <- browserProxy
   myDisplayOrder <- getDisplayOrder
   myExitXmonad <- exitXmonad
@@ -333,7 +332,7 @@ getKeys = do
     , ((modMask ,                   xK_c        ), namedScratchpadAction myScratchpads "volumecontrol")
 
     -- launch browser
-    , ((modMask ,                   xK_b        ), spawn myBrowser)
+    , ((modMask ,                   xK_b        ), spawn "open-default-browser")
     -- launch browser with proxy enabled
     , ((modMask .|. shiftMask,      xK_b        ), spawn myBrowserProxy)
 
