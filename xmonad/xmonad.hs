@@ -543,7 +543,12 @@ getKeys = do
     ]
     ++
     -- Debug
-    [   ((modMask .|. controlMask, xK_F9), debugStuff)
+    [   ((modMask .|. controlMask, xK_F8), debugStuff)
+    ]
+    ++
+    [
+      -- launch password helper
+      ((modMask, xK_F8),    spawn "rofi -modi 1pass:rofi-1pass -show 1pass")
     ]
     ++
     -- Toggle Microphone in Zoom
