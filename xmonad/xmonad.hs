@@ -120,6 +120,7 @@ getScratchpads = do
     ,  NS "ipython" (termTitle ++ "ipython -e ipython") (title =? "ipython") defaultOverlay
     ,  NS "ptpython" (termTitle ++ "\"Python REPL (ptpython)\" -e ptpython") (title =? "Python REPL (ptpython)") defaultOverlay
     ,  NS "nvim-ghost" (termTitle ++ "nvim-ghost -e nvim  +GhostStart") (title =? "nvim-ghost") defaultOverlay
+    ,  NS "nvim-scratchpad" (termTitle ++ "nvim-scratchpad -e nvim /tmp/scratchpad" ) (title =? "nvim-scratchpad") defaultOverlay
     ,  NS "neovide-ghost" "neovide +GhostStart '+set titlestring=neovide-ghost' '+set title'" (title =? "neovide-ghost") defaultOverlay
        -- run stardict, find it by class name, place it in the floating window
        -- 1/6 of screen width from the left, 1/6 of screen height
@@ -430,7 +431,7 @@ getKeys = do
       ((modMask .|. shiftMask,        xK_apostrophe   ), namedScratchpadAction myScratchpads "alsamixer" ),
       ((modMask,                      xK_backslash    ), namedScratchpadAction myScratchpads "bpytop" ),
       ((modMask .|. shiftMask,        xK_backslash    ), namedScratchpadAction myScratchpads "bashtop" ),
-      ((modMask,                      xK_g            ), namedScratchpadAction myScratchpads "nvim-ghost" ),
+      ((modMask,                      xK_g            ), namedScratchpadAction myScratchpads "nvim-scratchpad" ),
       ((modMask .|. shiftMask,        xK_p            ), namedScratchpadAction myScratchpads myPythonPrompt )
     ]++
 
