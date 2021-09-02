@@ -993,9 +993,9 @@ getDefaults = do
 debugStuff :: X ()
 debugStuff = withWindowSet (\ws -> do
     -- liftIO $ print ws
-    liftIO $ logToTmpFile $ show (W.screens ws)
+    -- liftIO $ logToTmpFile $ show (W.screens ws)
     liftIO $ logToTmpFile $ show ws
-    liftIO $ logToTmpFile $ show (W.currentTag ws)
+    -- liftIO $ logToTmpFile $ show (W.currentTag ws)
   )
 
 myAppendFile :: FilePath -> String -> IO ()
