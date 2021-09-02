@@ -432,6 +432,7 @@ getKeys = do
       ((modMask,                      xK_backslash    ), namedScratchpadAction myScratchpads "bpytop" ),
       ((modMask .|. shiftMask,        xK_backslash    ), namedScratchpadAction myScratchpads "bashtop" ),
       ((modMask,                      xK_g            ), namedScratchpadAction myScratchpads "nvim-scratchpad" ),
+      ((modMask .|. controlMask,      xK_z            ), spawnHere "copy-to-scratchpad" ),
       ((modMask .|. shiftMask,        xK_p            ), namedScratchpadAction myScratchpads myPythonPrompt )
     ]++
 
