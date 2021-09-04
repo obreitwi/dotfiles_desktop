@@ -1,1 +1,1 @@
-ACTION=="add", ATTRS{name}=="daskeyboard", RUN="/usr/local/bin/restore_keyboard_settings.sh"
+ACTION=="add", ATTRS{name}=="daskeyboard", RUN="/usr/local/bin/restore_keyboard_settings"

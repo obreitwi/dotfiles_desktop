@@ -7,7 +7,7 @@
 #!/bin/bash
 cd $HOME
 
-file_update_keyboard="${HOME}/.local/bin/restore_keyboard_settings_user.sh"
+file_update_keyboard="${HOME}/.local/bin/daemon_restore_keyboard_settings_as_user"
 if [ -f "${file_update_keyboard}" ]; then
     "${file_update_keyboard}" &
 
