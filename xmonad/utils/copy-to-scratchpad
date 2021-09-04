@@ -3,6 +3,6 @@
 sleep 0.5
 xdotool key --clearmodifiers ctrl+a
 xdotool key --clearmodifiers ctrl+super+k
-xdotool key --clearmodifiers super+g
+xdotool key --clearmodifiers super+slash
 sleep 0.8
-xdotool key --clearmodifiers "quotedbl" "plus" "p"
+xdotool key --clearmodifiers G quotedbl plus p
