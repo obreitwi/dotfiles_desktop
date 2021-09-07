@@ -202,7 +202,7 @@ getExtendedWorkspaces = do
     return $ [ "NSP" ] ++ extws host ++ [ "z" ]
   where
     extws "abed" = [ "games", "music", "stream", "root", "web", "z" ]
-    extws "mimir" = [ "chat", "code", "fdc", "music", "root", "slack", "web", "z" ]
+    extws "mimir" = [ "chat", "code", "discord", "fdc", "music", "root", "slack", "web", "z" ]
     extws "gordon" = [ "root", "web" ]
     extws "jovis" = [ "c", "cP", "quassel", "talk", "talkP", "root", "web" ]
     extws "lark" = [ "music", "stream", "root", "web" ]
