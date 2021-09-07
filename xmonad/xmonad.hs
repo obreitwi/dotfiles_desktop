@@ -556,7 +556,7 @@ getKeys = do
     ]
     ++
     -- Toggle Microphone in Zoom
-    [   ((modMask, xK_F9),  spawn "zoom-toggle-audio")
+    [   ((modMask, xK_F9),  spawn "meet-toggle-audio" >> spawn "zoom-toggle-audio")
     ]
     ++
     -- Music controller
