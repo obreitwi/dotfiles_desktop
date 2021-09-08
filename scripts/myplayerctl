@@ -10,6 +10,17 @@
 #       website being displayed. Currently, it points to the process running
 #       the flash plugin.
 
-target="$( (playerctl -l | grep spotify) 2>/dev/null || (playerctl -l | head -n 1) )"
+target_priority=(
+    spotify
+    vlc
+    "$(playerctl -l | head -n 1)"
+)
 
-exec playerctl $([ -n "${target}" ] && echo "-p ${target}" ) "${@}"
+for target in "${target_priority[@]}"; do
+    player="$( playerctl -l | grep "${target}")" 2>/dev/null 
+
+    if [ -n "${player}" ]; then
+        exec playerctl -p "${player}" "${@}"
+    fi
+done
+
