@@ -520,8 +520,8 @@ getKeys = do
     ]
     ++
     -- Swap screens
-    [ ((modMask, xK_s),  swapNextScreen )
-    , ((modMask, xK_d),  swapPrevScreen )
+    [ ((modMask, xK_s),  swapPrevScreen )
+    , ((modMask, xK_d),  swapNextScreen )
     ]
     --
     -- move focus between screens (Not needed anymore because code above works)
