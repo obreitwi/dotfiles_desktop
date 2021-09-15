@@ -130,7 +130,7 @@ getScratchpads = do
     -- run gvim, find by role, don't float with nonFloating
     ,  NS "notes" (spawnNotes termTitle) findNotes defaultOverlay
     ,  NS "notes-neovide" spawnNotes_neovide findNotes defaultOverlay
-    ,  NS "volumecontrol" "pavucontrol" (title =? "Volume Control") defaultOverlay
+    ,  NS "volumecontrol" "pavucontrol -t 3" (title =? "Volume Control") defaultOverlay
     ]
   where
        -- unfortunately neovide is not yet running as expected (does not allow floating and resizing) -> keep nvim in terminal for now
