@@ -209,6 +209,7 @@ getExtendedWorkspaces = do
                     , "rev"
                     , "root"
                     , "slack"
+                    , "teams"
                     , "voice"
                     , "web"
                     , "z" ]
@@ -216,8 +217,6 @@ getExtendedWorkspaces = do
     extws "mucku" = [ "chat"
                     , "games"
                     , "music"
-                    , "voice"
-                    , "voice"
                     , "root"
                     , "tv"
                     , "voice"
