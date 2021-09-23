@@ -201,16 +201,29 @@ getExtendedWorkspaces = do
     -- return $ withScreens (S ns) $ extws host
     return $ [ "NSP" ] ++ extws host ++ [ "z" ]
   where
-    extws "abed" = [ "games", "music", "stream", "root", "web", "z" ]
-    extws "mimir" = [ "chat", "code", "discord", "fdc", "music", "root", "slack", "web", "z" ]
-    extws "gordon" = [ "root", "web" ]
-    extws "jovis" = [ "c", "cP", "quassel", "talk", "talkP", "root", "web" ]
-    extws "lark" = [ "music", "stream", "root", "web" ]
-    extws "mucku" = [ "chat", "games", "music", "voice", "voice", "root", "tv", "web", "z" ]
-    extws "nukular" = extws "phaelon"
-    extws "nurikum" = [ "c", "cP", "music", "stream", "root", "web" ]
-    extws "phaeloff" = extws "phaelon"
-    extws "phaelon" = [ "music", "root", "web" ]
+    extws "mimir" = [ "chat"
+                    , "code"
+                    , "ds"
+                    , "fdc"
+                    , "music"
+                    , "rev"
+                    , "root"
+                    , "slack"
+                    , "voice"
+                    , "web"
+                    , "z" ]
+
+    extws "mucku" = [ "chat"
+                    , "games"
+                    , "music"
+                    , "voice"
+                    , "voice"
+                    , "root"
+                    , "tv"
+                    , "voice"
+                    , "web"
+                    , "z" ]
+
     extws _  = []
 
 -- Border colors for unfocused and focused windows, respectively.
