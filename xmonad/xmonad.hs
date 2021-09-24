@@ -203,6 +203,7 @@ getExtendedWorkspaces = do
   where
     extws "mimir" = [ "chat"
                     , "code"
+                    , "dbg"
                     , "ds"
                     , "fdc"
                     , "music"
