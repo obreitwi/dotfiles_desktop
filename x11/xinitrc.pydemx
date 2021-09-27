@@ -207,6 +207,11 @@ if which pinentry-rofi>/dev/null; then
     export PINENTRY_PROGRAM="$(which pinentry-rofi)"
 fi
 
+# Start easyeffects equalizer if available
+if which easyeffects>/dev/null; then
+    easyeffects --gapplication-service &> /dev/null &|
+fi
+
 # try to remove the state file so that things that might have changed during
 # shutdown (e.g. numbre of monitors) gets recognized correctly
 rm -f $HOME/.xmonad/xmonad.state
