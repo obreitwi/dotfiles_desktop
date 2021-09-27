@@ -5,4 +5,4 @@ xdotool key --clearmodifiers ctrl+a
 xdotool key --clearmodifiers ctrl+super+k
 xdotool key --clearmodifiers super+slash
 sleep 0.8
-xdotool key --clearmodifiers G quotedbl plus p
+xdotool key --clearmodifiers G bracketright space bracketright space G 0 quotedbl plus p
