@@ -9,4 +9,6 @@ window_active="$(xdotool getwindowfocus)"
 sleep 0.05
 xdotool search --classname crx_kjgfgldnnfoeklkmfkjfagphfepbbdan windowactivate --sync key --clearmodifiers ctrl+d
 sleep 0.05
+xdotool keyup ctrl meta alt
+sleep 0.05
 xdotool windowactivate --sync "${window_active}"
