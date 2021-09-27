@@ -1,1 +1,4 @@
 ACTION=="add", ATTRS{name}=="daskeyboard", RUN="/usr/local/bin/restore_keyboard_settings"
+
+# Sharkoon keyboard
+ACTION=="add", ATTRS{idVendor}=="04d9", ATTRS{idProduct}="a232", RUN="/usr/local/bin/restore_keyboard_settings"
