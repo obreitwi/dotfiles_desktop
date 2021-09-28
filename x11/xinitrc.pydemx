@@ -209,7 +209,7 @@ fi
 
 # Start easyeffects equalizer if available
 if which easyeffects>/dev/null; then
-    easyeffects --gapplication-service &> /dev/null &|
+    easyeffects --gapplication-service &> /dev/null &
 fi
 
 # try to remove the state file so that things that might have changed during
