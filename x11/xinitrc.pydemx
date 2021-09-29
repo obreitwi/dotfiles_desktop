@@ -112,11 +112,7 @@ fi
 VBoxClient-all &
 ###
 
-### background
-feh  --bg-fill "${HOME}/wallpaper/brisbinxmonadwall.png"
-### background@mucku
-feh --bg-fill "${HOME}/wallpaper/space.jpg"
-###
+feh  --bg-fill "${HOME}/wallpaper/current"
 
 killall unclutter
 unclutter &
