@@ -204,7 +204,7 @@ if which pinentry-rofi>/dev/null; then
 fi
 
 # Start easyeffects equalizer if available
-if which easyeffects>/dev/null; then
+if false && which easyeffects>/dev/null; then
     easyeffects --gapplication-service &> /dev/null &
 fi
 
