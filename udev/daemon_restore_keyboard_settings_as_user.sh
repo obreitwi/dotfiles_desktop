@@ -37,7 +37,7 @@ update_xkbmap() {
 
 while true; do
     kill -STOP $$
-    sleep 0.1
+    sleep 0.5
     update_xkbmap
     sleep 0.1
     update_xmodmap

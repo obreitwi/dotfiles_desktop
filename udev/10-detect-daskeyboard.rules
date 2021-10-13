@@ -1,7 +1,7 @@
-ACTION=="add", ATTRS{name}=="daskeyboard", RUN="/usr/local/bin/restore_keyboard_settings"
+ACTION=="add", SUBSYSTEMS=="usb", ATTRS{name}=="daskeyboard", RUN+="/usr/local/bin/restore_keyboard_settings"
 
 # Sharkoon keyboard
-ACTION=="add", ATTRS{idVendor}=="04d9", ATTRS{idProduct}="a232", RUN="/usr/local/bin/restore_keyboard_settings"
+ACTION=="add", SUBSYSTEMS=="usb", ATTRS{idVendor}=="04d9", ATTRS{idProduct}=="a232", RUN+="/usr/local/bin/restore_keyboard_settings"
 
 # Cherry MX brown keyboard
-ACTION=="add", ATTRS{idVendor}=="046a", ATTRS{idProduct}="0011", RUN="/usr/local/bin/restore_keyboard_settings"
+ACTION=="add", SUBSYSTEMS=="usb", ATTRS{idVendor}=="046a", ATTRS{idProduct}=="0011", RUN+="/usr/local/bin/restore_keyboard_settings"
