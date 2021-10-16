@@ -783,7 +783,7 @@ getManageHook = do
    , resource  =? "desktop_window"            --> doIgnore
    , resource  =? "kdesktop"                  --> doIgnore
    , resource  =? "xfce4-notifyd"             --> doIgnore
-   , className =? "microsoft teams - preview" --> doShfit "teams"
+   , className =? "microsoft teams - preview" --> doShift "teams"
    -- , className  =? "Vlc"                --> doShift "stream"
    -- , title =? "fd://0 - VLC media player" --> doShift "stream"
    ]
