@@ -421,7 +421,7 @@ getKeys = do
     , ((modMask .|. shiftMask,      xK_F4       ), myExitXmonad)
 
     -- Restart xmonad
-    , ((modMask,                    xK_F4       ), restart "xmonad" True)
+    , ((modMask,                    xK_F5       ), restart "xmonad" True)
     ] ++
 
     -- Prompts
