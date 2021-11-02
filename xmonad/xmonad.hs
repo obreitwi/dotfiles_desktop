@@ -131,6 +131,7 @@ getScratchpads = do
     ,  NS "notes" (spawnNotes termTitle) findNotes defaultOverlay
     ,  NS "notes-neovide" spawnNotes_neovide findNotes defaultOverlay
     ,  NS "volumecontrol" "pavucontrol -t 3" (title =? "Volume Control") defaultOverlay
+    ,  NS "terminal-presentation" (termTitle ++ "terminal-presentation") (title =? "terminal-presentation") presenterLayout
     ]
   where
        -- unfortunately neovide is not yet running as expected (does not allow floating and resizing) -> keep nvim in terminal for now
@@ -147,6 +148,7 @@ getScratchpads = do
        numCols = 206
        -- TODO: get width from env
        -- numCols = flip (-) 2 $ floor $ 1920.0 * w / 7.0
+       presenterLayout = customFloating $ W.RationalRect 0.0 (160/1600) 1 (1080/1600)
 
 -- Width of the window border in pixels.
 --
@@ -436,17 +438,17 @@ getKeys = do
 
     -- Scratch Pads
     ------------------------------
-    [
-      ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes" ),
-      ((modMask .|. controlMask,      xK_slash        ), namedScratchpadAction myScratchpads "notes-neovide" ),
-      ((modMask .|. shiftMask,        xK_slash        ), namedScratchpadAction myScratchpads "htop" ),
-      ((modMask,                      xK_apostrophe   ), namedScratchpadAction myScratchpads "shell" ),
-      ((modMask .|. shiftMask,        xK_apostrophe   ), namedScratchpadAction myScratchpads "alsamixer" ),
-      ((modMask,                      xK_backslash    ), namedScratchpadAction myScratchpads "bpytop" ),
-      ((modMask .|. shiftMask,        xK_backslash    ), namedScratchpadAction myScratchpads "bashtop" ),
-      ((modMask,                      xK_g            ), namedScratchpadAction myScratchpads "nvim-scratchpad" ),
-      ((modMask .|. controlMask,      xK_z            ), spawnHere "copy-to-scratchpad" ),
-      ((modMask .|. shiftMask,        xK_p            ), namedScratchpadAction myScratchpads myPythonPrompt )
+    [ ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes" )
+    , ((modMask .|. controlMask,      xK_slash        ), namedScratchpadAction myScratchpads "notes-neovide" )
+    , ((modMask .|. shiftMask,        xK_slash        ), namedScratchpadAction myScratchpads "htop" )
+    , ((modMask,                      xK_apostrophe   ), namedScratchpadAction myScratchpads "shell" )
+    , ((modMask .|. shiftMask,        xK_apostrophe   ), namedScratchpadAction myScratchpads "alsamixer" )
+    , ((modMask,                      xK_backslash    ), namedScratchpadAction myScratchpads "bpytop" )
+    , ((modMask .|. shiftMask,        xK_backslash    ), namedScratchpadAction myScratchpads "bashtop" )
+    , ((modMask,                      xK_g            ), namedScratchpadAction myScratchpads "nvim-scratchpad" )
+    , ((modMask .|. controlMask,      xK_z            ), spawnHere "copy-to-scratchpad" )
+    , ((modMask .|. shiftMask,        xK_p            ), namedScratchpadAction myScratchpads myPythonPrompt )
+    , ((modMask .|. controlMask,      xK_F7           ), namedScratchpadAction myScratchpads "terminal-presentation" )
     ]++
 
     -- Actions
