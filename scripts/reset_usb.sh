@@ -7,7 +7,10 @@ usage() {
     echo "Usage: $0 (<vendor>:<product> | <vendor> <product>)" >&2
 }
 
-if (( $# < 2 )); then
+if (( $# < 1 )); then
+    usage
+    exit 2
+elif (( $# < 2 )); then
     vendorproduct="$1"
     shift
 
