@@ -501,6 +501,7 @@ getKeys = do
     , ((modMask .|. controlMask,    xK_s        ), layoutSplitScreen 2 (TwoPane (1/3) (2/3)))
     , ((modMask .|. controlMask,    xK_e        ), layoutSplitScreen 3 (ThreeColMid 1 (3/100) (1/2)))
     , ((modMask .|. controlMask,    xK_d        ), layoutSplitScreen 3 (ThreeCol 1 (3/100) (1/3)))
+    , ((modMask .|. controlMask,    xK_c        ), layoutSplitScreen 3 (ResizableTall 1 (3/100) (1/2) [1080/800, (1600-1080)/800]))
     , ((modMask .|. controlMask,    xK_r        ), layoutSplitScreen 3 (Tall 1 (3/100) (1/2 + 13/100)))
     , ((modMask .|. controlMask,    xK_f        ), layoutSplitScreen 3 (Tall 1 (3/100) (2/3)))
 
