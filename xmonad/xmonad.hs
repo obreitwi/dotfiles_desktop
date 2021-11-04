@@ -39,6 +39,7 @@ import XMonad.Layout.Minimize
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.NoBorders
+import XMonad.Layout.ResizableTile
 import XMonad.Layout.SimpleDecoration
 import XMonad.Layout.Spiral
 import XMonad.Layout.Tabbed
@@ -396,9 +397,13 @@ getKeys = do
 
     -- Shrink the master area
     , ((modMask,                    xK_comma    ), sendMessage Shrink)
-
     -- Expand the master area
     , ((modMask,                    xK_period   ), sendMessage Expand)
+
+    -- Shrink the mirror area
+    , ((modMask .|. controlMask,    xK_comma    ), sendMessage MirrorShrink)
+    -- Expand the mirror area
+    , ((modMask .|. controlMask,    xK_period   ), sendMessage MirrorExpand)
 
     -- Push window back into tiling
     , ((modMask,                    xK_t        ), withFocused $ windows . W.sink)
@@ -714,10 +719,10 @@ getLayout = do
    oddRatio _ = 1 - 550 / 1920
 
    -- default tiling algorithm partitions the screen into two panes
-   tiled       = Tall nmaster delta ratio
+   tiled       = ResizableTall nmaster delta ratio []
 
    -- Another tiling algorithm where the master pane is larger
-   oddtiled h  = Tall nmaster delta $ oddRatio h
+   oddtiled h  = ResizableTall nmaster delta (oddRatio h) []
 
    streamwatching = Tall nmaster delta ( 1280 / 1920 )
 
