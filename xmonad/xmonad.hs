@@ -31,17 +31,17 @@ import XMonad.Actions.SpawnOn
 import qualified XMonad.Actions.FlexibleResize as Flex
 -- does not work with xK1..xK_0 mappings :(
 --  import qualified XMonad.Actions.DynamicWorkspaceOrder as DO
-import XMonad.Layout.NoBorders
 import XMonad.Layout.FixedColumn
-import XMonad.Layout.Spiral
-import XMonad.Layout.Tabbed
-import XMonad.Layout.LayoutScreens
-import XMonad.Layout.MultiToggle
-import XMonad.Layout.MultiToggle.Instances
-import XMonad.Layout.Minimize
-import XMonad.Layout.SimpleDecoration
 import XMonad.Layout.GridVariants
 import XMonad.Layout.IndependentScreens(countScreens, withScreens)
+import XMonad.Layout.LayoutScreens
+import XMonad.Layout.Minimize
+import XMonad.Layout.MultiToggle
+import XMonad.Layout.MultiToggle.Instances
+import XMonad.Layout.NoBorders
+import XMonad.Layout.SimpleDecoration
+import XMonad.Layout.Spiral
+import XMonad.Layout.Tabbed
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.TwoPane
 import XMonad.Util.Run(spawnPipe, safeSpawn, unsafeSpawn)
