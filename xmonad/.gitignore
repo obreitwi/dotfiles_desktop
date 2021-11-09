@@ -5,12 +5,8 @@ bin/
 prompt-history
 xmonad-old.hs
 xmobar
-xmobar-git/
 xmobar_broken
-xmonad-contrib-git/
-xmonad-git/
 xmonad-old.hs
-xmonad-utils/
 xmonad-x86_64-linux
 xmonad.errors
 xmonad.hi
