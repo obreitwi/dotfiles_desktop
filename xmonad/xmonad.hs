@@ -757,8 +757,7 @@ getLayout = do
 --
 getManageHook = do
   myScratchpads <- getScratchpads
-  return $ manageDocks
-   <+> manageSpawn
+  return $ manageSpawn
    <+> (namedScratchpadManageHook $ myScratchpads)
    <+> composeAll
    [ className =? "MPlayer"            --> doFloat
@@ -837,14 +836,13 @@ getStartupHook = do
   spawnXmobar <- getSpawnXmobar
   return $ setWMName "LG3D"
      <+> myAddExtendedWorkspaces
-     <+> docksStartupHook
      <+> dynStatusBarStartup spawnXmobar killXmobar
 
 -- Minimize windows hook (to restore from taskbar)
 getHandleEventHook = do
    spawnXmobar <- getSpawnXmobar
    -- numScreens <- R.asks numScreens
-   let eventHook = fullscreenEventHook <+> docksEventHook <+> minimizeEventHook -- <+> debugKeyEvents
+   let eventHook = minimizeEventHook -- <+> debugKeyEvents
    -- if numScreens > 1 then
    return $ eventHook <+> dynStatusBarEventHook spawnXmobar killXmobar
    -- else
@@ -974,7 +972,7 @@ main = do
        hostname = hostname, numScreens = numScreens }
        spawnTrayer = R.runReader getSpawnTrayer myConfig
    spawnTrayer
-   let myXmonadConfig = R.runReader getDefaults myConfig
+   let myXmonadConfig = docks . ewmhFullscreen $ R.runReader getDefaults myConfig
    xmonad $ ewmh myXmonadConfig -- { logHook = multiPP myPP myPP }
 
 -- A structure containing your configuration settings, overriding
