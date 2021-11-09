@@ -284,8 +284,8 @@ lockSpawner = do
 -- displayOrder "nurikum" = [xK_w, xK_q, xK_e]
 getDisplayOrder = do
     host <- R.asks hostname
-    numScreens <- R.asks numScreens
-    return $ hlp host numScreens
+    num <- R.asks numScreens
+    return $ hlp host num
   where
     -- hlp "abed" 2 = [xK_w, xK_e] -- same as if there were three monitors
     -- hlp "abed" _ = [xK_w, xK_q, xK_e]
@@ -419,6 +419,10 @@ getKeys = do
 
     -- toggle the status bar gap TODO, update this binding with avoidStruts,
     , ((modMask,                    xK_n        ), sendMessage ToggleStruts )
+
+    -- , ((modMask,                    xK_F7       ), sendMessage $ DeArrange)
+    -- set window into presenter mode (to be used with obs)
+    -- , ((modMask .|. controlMask,    xK_F7       ), sendMessage $ SetGeometry $ Rectangle 1920 160 1920 1080)
 
     -- Minimize windows
     , ((modMask,                    xK_u        ), withFocused minimizeWindow )
