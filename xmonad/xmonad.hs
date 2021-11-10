@@ -194,8 +194,8 @@ getWorkspaces = R.asks hostname >>= (return . go)
     go "abed" = three
     go "mimir" = three
     go _ = two
-    three = [ "1", "2", "3"]
-    two = [ "1", "2" ]
+    three = [ "a", "b", "c"]
+    two = [ "a", "b" ]
 
 getExtendedWorkspaces :: R.Reader MyConfig [String]
 getExtendedWorkspaces = do
