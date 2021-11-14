@@ -38,6 +38,7 @@ import XMonad.Layout.GridVariants
 import XMonad.Layout.IndependentScreens (countScreens, withScreens)
 import XMonad.Layout.LayoutScreens
 import XMonad.Layout.Minimize
+import XMonad.Layout.MultiColumns
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.NoBorders
@@ -712,16 +713,15 @@ myTabConfig = def { activeBorderColor = "#7C7C7C"
 getLayout = do
     host <- R.asks hostname
     return $ smartBorders $ avoidStruts $ minimize $ (mkToggle ( single NBFULL ) $ tiled
-      ||| Mirror tiled
       ||| tabbed shrinkText myTabConfig
       ||| BinaryColumn 1.0 30
+      ||| multiCol [1] 1 (3/100) (-0.5)
+      ||| Mirror tiled
       ||| ThreeColMid 1 (3/100) (1/2)
+      ||| ThreeCol 1 (3/100) (1/3)
       ||| ThreeCol 1 (3/100) (1/2)
       ||| Grid (screenRatio host)
-      ||| noBorders streamwatching
-      ||| noBorders Full
-      ||| spiral (6/7))
-      ||| (oddtiled host)
+      ||| noBorders streamwatching)
   where
    screenRatio "juno" = 16/9
    screenRatio "gordon" = 1366/768
