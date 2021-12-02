@@ -343,7 +343,7 @@ getKeys = do
     -- , ((modMask .|. shiftMask,       xK_p        ), spawnHere "eval \"exec ~/bin/mydmenu\"")
 
     -- launch emoji picker
-    , ((modMask .|. controlMask,    xK_i        ), spawnHere "rofimoji -a copy")
+    , ((modMask .|. controlMask,    xK_i        ), spawnHere "rofimoji --action copy --files all --skin-tone neutral")
 
     -- launch pavucontrol
     , ((modMask ,                   xK_c        ), namedScratchpadAction myScratchpads "volumecontrol")
