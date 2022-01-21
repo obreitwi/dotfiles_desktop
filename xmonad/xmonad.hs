@@ -31,6 +31,7 @@ import XMonad.Actions.SpawnOn
 import qualified XMonad.Actions.FlexibleResize as Flex
 -- does not work with xK1..xK_0 mappings :(
 --  import qualified XMonad.Actions.DynamicWorkspaceOrder as DO
+import XMonad.Layout.BinaryColumn
 import XMonad.Layout.FixedColumn
 import XMonad.Layout.GridVariants
 import XMonad.Layout.IndependentScreens(countScreens, withScreens)
@@ -708,6 +709,7 @@ getLayout = do
     return $ smartBorders $ avoidStruts $ minimize $ (mkToggle ( single NBFULL ) $ tiled
       ||| Mirror tiled
       ||| tabbed shrinkText myTabConfig
+      ||| BinaryColumn 1.0 30
       ||| ThreeColMid 1 (3/100) (1/2)
       ||| ThreeCol 1 (3/100) (1/2)
       ||| Grid (screenRatio host)
