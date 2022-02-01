@@ -210,6 +210,7 @@ getExtendedWorkspaces = do
                     , "dbg"
                     , "ds"
                     , "fdc"
+                    , "k9s"
                     , "music"
                     , "rev"
                     , "root"
