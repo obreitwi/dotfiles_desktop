@@ -212,6 +212,7 @@ getExtendedWorkspaces = do
                     , "ef"
                     , "fdc"
                     , "k9s"
+                    , "kdb"
                     , "music"
                     , "root"
                     , "slack"
@@ -363,6 +364,7 @@ getKeys = do
     -- , ((modMask .|. controlMask,    xK_p        ), spawnHere "import `date +screens/screen_%F_%H-%M.png`")
     , ((modMask .|. controlMask,                  xK_p        ), spawnHere "maim -u -m 10 -s |  xclip -selection clipboard -t image/png")
     , ((modMask .|. controlMask .|. shiftMask,    xK_p        ), spawnHere "maim -u -s $(date +screens/screen_%F_%H-%M.png)")
+    , ((modMask .|. controlMask .|. shiftMask .|. mod1Mask,    xK_p        ), spawnHere "maim -u $(date +screens/screen_%F_%H-%M.png)")
 
     -- close focused window
     , ((modMask .|. shiftMask,      xK_c        ), kill)
