@@ -215,6 +215,7 @@ getExtendedWorkspaces = do
                     , "kdb"
                     , "music"
                     , "root"
+                    , "sql"
                     , "slack"
                     , "teams"
                     , "voice"
