@@ -1,5 +1,4 @@
 -- Originally taken from: http://github.com/vicfryzel/xmonad-config
-{-# OPTIONS_GHC -Wno-deprecations #-}
 
 import GetHostname
 
@@ -9,13 +8,14 @@ import Control.Monad (when)
 import Data.List (sortOn)
 
 import System.IO
+import System.Environment
 import System.Exit
 import XMonad
-import XMonad.Hooks.DynamicBars
-import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.SetWMName
+import XMonad.Hooks.StatusBar
+import XMonad.Hooks.StatusBar.PP
 import XMonad.Hooks.Minimize
 import XMonad.Hooks.DebugKeyEvents
 import XMonad.ManageHook
@@ -35,7 +35,7 @@ import qualified XMonad.Actions.FlexibleResize as Flex
 import XMonad.Layout.BinaryColumn
 import XMonad.Layout.FixedColumn
 import XMonad.Layout.GridVariants
-import XMonad.Layout.IndependentScreens(countScreens, withScreens)
+import XMonad.Layout.IndependentScreens (countScreens, withScreens)
 import XMonad.Layout.LayoutScreens
 import XMonad.Layout.Minimize
 import XMonad.Layout.MultiToggle
@@ -47,9 +47,9 @@ import XMonad.Layout.Spiral
 import XMonad.Layout.Tabbed
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.TwoPane
-import XMonad.Util.Run(spawnPipe, safeSpawn, unsafeSpawn)
-import XMonad.Util.SpawnOnce(spawnOnce)
-import XMonad.Util.EZConfig(additionalKeysP)
+import XMonad.Util.Run (spawnPipe, safeSpawn, unsafeSpawn)
+import XMonad.Util.SpawnOnce (spawnOnce)
+import XMonad.Util.EZConfig (additionalKeysP)
 import XMonad.Util.WorkspaceCompare
 import XMonad.Util.NamedScratchpad
 -- import XMonad.Config.Xfce
@@ -614,10 +614,10 @@ applyToWSinScreen screen action = do
     -- liftIO $ logToTmpFile $ "Num physical screens: " ++ show numPhysicalScreens ++
       -- " Num virtual screens: " ++ show (length wsScreens)
     -- liftIO $ mapM_ (\(i, s) -> logToTmpFile ("Screen #" ++ show i ++ ": " ++ show s)) $ zip [0..] wsScreens
-    let numScreens = length wsScreens
+    let numScr = length wsScreens
     -- TODO: Add check for one physical screen
         screenIdx = case () of
-            _ | False && numScreens == 3 && numPhysicalScreens == 1 -> case screen of
+            _ | False && numScr == 3 && numPhysicalScreens == 1 -> case screen of
               0 -> 1
               1 -> 0
               x -> x
@@ -844,18 +844,15 @@ getAddExtendedWorkspaces = do
 
 getStartupHook = do
   myAddExtendedWorkspaces <- getAddExtendedWorkspaces
-  spawnXmobar <- getSpawnXmobar
   return $ setWMName "LG3D"
      <+> myAddExtendedWorkspaces
-     <+> dynStatusBarStartup spawnXmobar killXmobar
 
 -- Minimize windows hook (to restore from taskbar)
 getHandleEventHook = do
-   spawnXmobar <- getSpawnXmobar
    -- numScreens <- R.asks numScreens
    let eventHook = minimizeEventHook -- <+> debugKeyEvents
    -- if numScreens > 1 then
-   return $ eventHook <+> dynStatusBarEventHook spawnXmobar killXmobar
+   return $ eventHook
    -- else
       -- return $ eventHook
 
@@ -864,6 +861,7 @@ myPP = xmobarPP {
      ppTitle = xmobarColor "#FFB6B0" "" . shorten 100
      --  , ppCurrent = xmobarColor "#CEFFAC" ""
      , ppCurrent = xmobarColor "#0CC6DA" ""
+     , ppVisible = xmobarColor "#CEFFAC" ""
      , ppHidden = ppHidden xmobarPP . noScratchPad
      , ppHiddenNoWindows = xmobarColor "#777777" "" . noScratchPad
      , ppSep = "   "
@@ -878,8 +876,8 @@ myPP_inactive = myPP { ppCurrent = xmobarColor "#CEFFAC" "" }
 
 
 -- DELME
-getLogHook :: R.Reader MyConfig (X ())
-getLogHook = return $ multiPP myPP myPP_inactive
+-- getLogHook :: R.Reader MyConfig (X ())
+-- getLogHook = return $ multiPP myPP myPP_inactive
   -- do
     -- spawnXmobar <- getSpawnXmobar
     -- numScreens <- R.asks numScreens
@@ -904,8 +902,8 @@ getSpawnTrayer = do
     tHeight <- trayHeight
     return $ do
       killTrayer
-      numScreens <- countScreens
-      mapM_ (spawnSingleTrayer tWidth tHeight) [0..numScreens-1]
+      numScr<- countScreens
+      mapM_ (spawnSingleTrayer tWidth tHeight) [0..numScr-1]
   where
     spawnSingleTrayer width height sId = unsafeSpawn $ "sleep 1 && trayer \
        \--monitor " ++ (show sId) ++ " \
@@ -959,13 +957,18 @@ trayMargin = do
     margin _ _ "jovis" = "1230"
     margin _ _ _ = "1820"
 
-getSpawnXmobar :: R.Reader MyConfig (ScreenId -> IO Handle)
-getSpawnXmobar = return $ \(S sId) ->
-    spawnPipe $ "~/.xmonad/bin/xmobar -x " ++ (show sId) ++ " ~/.xmonad/xmobar"
+-- getSpawnXmobar :: R.Reader MyConfig (ScreenId -> IO Handle)
+-- getSpawnXmobar = return $ \(S sId) ->
+    -- spawnPipe $ "~/.xmonad/bin/xmobar -x " ++ (show sId) ++ " ~/.xmonad/xmobar"
 
-killXmobar :: IO ()
--- killXmobar = unsafeSpawn "killall xmobar"
-killXmobar = return ()
+getSpawnXmobar :: R.Reader MyConfig (ScreenId -> IO StatusBarConfig)
+-- spawnPipe $ "~/.xmonad/bin/xmobar -x " ++ (show sId) ++ " ~/.xmonad/xmobar"
+getSpawnXmobar = return $ \(S sId) -> do
+    home <- getEnv "HOME"
+    let logProp = "_XMONAD_LOG_" ++ (show sId)
+        rcFile = home ++ "/.xmonad/xmobar_" ++ (show sId)
+        command = home ++ "/.xmonad/bin/xmobar -x " ++ (show sId) ++ " " ++ rcFile
+    return $ statusBarPropTo logProp command (pure myPP)
 
 -- myDefaultConfig "gordon" = xfceConfig
 getDefaultConfig = return def
@@ -977,14 +980,15 @@ getDefaultConfig = return def
 --
 main = do
    hostname <- getHostname
-   numScreens <- countScreens
-   -- logToTmpFile $ "Found " ++ show numScreens ++ " screens."
+   numScr <- countScreens
+   -- logToTmpFile $ "Found " ++ show numScr ++ " screens."
    let myConfig = MyConfig {
-       hostname = hostname, numScreens = numScreens }
+       hostname = hostname, numScreens = numScr }
        spawnTrayer = R.runReader getSpawnTrayer myConfig
+       spawnXmobar = R.runReader getSpawnXmobar myConfig
    spawnTrayer
-   let myXmonadConfig = docks . ewmhFullscreen $ R.runReader getDefaults myConfig
-   xmonad $ ewmh myXmonadConfig -- { logHook = multiPP myPP myPP }
+   let myXmonadConfig = ewmhFullscreen . dynamicEasySBs spawnXmobar $ R.runReader getDefaults myConfig
+   xmonad $ ewmh myXmonadConfig
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will
@@ -997,7 +1001,6 @@ getDefaults = do
    myDefaultConfig <- getDefaultConfig
    myKeys <- getKeys
    myLayout <- getLayout
-   myLogHook <- getLogHook
    myManageHook <- getManageHook
    myStartupHook <- getStartupHook
    myTerminal <- getTerminal
@@ -1022,10 +1025,7 @@ getDefaults = do
        layoutHook          = smartBorders $ myLayout,
        manageHook          = myManageHook,
        startupHook         = myStartupHook,
-       handleEventHook     = myHandleEventHook,
-
-       -- misc
-       logHook             = myLogHook
+       handleEventHook     = myHandleEventHook
    }
 
 debugStuff :: X ()

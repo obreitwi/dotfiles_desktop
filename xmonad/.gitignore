@@ -11,5 +11,6 @@ xmonad-x86_64-linux
 xmonad.errors
 xmonad.hi
 xmonad.o
+xmobar_*
 stack.yaml.lock
 xmonad-settings-obreitwi.cabal

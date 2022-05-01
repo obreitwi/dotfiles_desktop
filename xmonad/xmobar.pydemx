@@ -102,7 +102,7 @@ Config { font = "xft:Envy Code R:style=Bold:size=8"
     , Run Com "bash" ["-c", "awk '!/^0$/ { print \" @ \" $1/1000 \" mW\"}'  /sys/class/power_supply/*/power_now"] "draining" 20
 -- !!!
     -- , Run Date "%a %b %_d %H:%M:%S" "date" 10
-    , Run StdinReader
+		, Run NamedXPropertyLog "_XMONAD_LOG" "MyPropertyLog"
     , Run Com "date" ["+%d.%m.%y %H:%M:%S"] "mydate" 10
 -- !!! Swap
     , Run Swap ["-t", "<usedratio>%"] 10
@@ -112,7 +112,7 @@ Config { font = "xft:Envy Code R:style=Bold:size=8"
     , sepChar = "%"
     , alignSep = "}{"
     -- , template = "%StdinReader% }{ %multicpu% {{info_ct:%coretemp%   }}%memory% %swap%   %{{wirename}}% {{info_wl}}  <fc=#FFFFCC>%date%</fc>"
-    , template = "%StdinReader% }{ %multicpu% {{info_ct:%coretemp%   }}%memory%{{swap_widget: %swap%}}   %dynnetwork% {{info_wl}}  {{info_bat}}  <fc=#FFFFCC>%mydate%</fc>"
+    , template = "%MyPropertyLog% }{ %multicpu% {{info_ct:%coretemp%   }}%memory%{{swap_widget: %swap%}}   %dynnetwork% {{info_wl}}  {{info_bat}}  <fc=#FFFFCC>%mydate%</fc>"
   }
 -- !!!
 -- !!!
