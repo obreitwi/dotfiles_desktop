@@ -1,4 +1,5 @@
 -- Originally taken from: http://github.com/vicfryzel/xmonad-config
+{-# OPTIONS_GHC -Wno-deprecations #-}
 
 import GetHostname
 
