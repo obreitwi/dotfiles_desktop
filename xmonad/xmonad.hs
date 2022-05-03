@@ -903,7 +903,8 @@ getSpawnTrayer = do
     return $ do
       killTrayer
       numScr<- countScreens
-      mapM_ (spawnSingleTrayer tWidth tHeight) [0..numScr-1]
+      -- mapM_ (spawnSingleTrayer tWidth tHeight) [0..numScr-1]
+      mapM_ (spawnSingleTrayer tWidth tHeight) [0]
   where
     spawnSingleTrayer width height sId = unsafeSpawn $ "sleep 1 && trayer \
        \--monitor " ++ (show sId) ++ " \
@@ -963,12 +964,16 @@ trayMargin = do
 
 getSpawnXmobar :: R.Reader MyConfig (ScreenId -> IO StatusBarConfig)
 -- spawnPipe $ "~/.xmonad/bin/xmobar -x " ++ (show sId) ++ " ~/.xmonad/xmobar"
-getSpawnXmobar = return $ \(S sId) -> do
+getSpawnXmobar = return go
+ where
+  go (S 0) = do
     home <- getEnv "HOME"
-    let logProp = "_XMONAD_LOG_" ++ (show sId)
-        rcFile = home ++ "/.xmonad/xmobar_" ++ (show sId)
-        command = home ++ "/.xmonad/bin/xmobar -x " ++ (show sId) ++ " " ++ rcFile
+    let logProp = "_XMONAD_LOG"
+        rcFile = home ++ "/.xmonad/xmobar"
+        -- command = home ++ "/.xmonad/bin/xmobar -x " ++ (show sId) ++ " " ++ rcFile
+        command = home ++ "/.xmonad/bin/xmobar -x 0 " ++ rcFile
     return $ statusBarPropTo logProp command (pure myPP)
+  go (S _) = mempty
 
 -- myDefaultConfig "gordon" = xfceConfig
 getDefaultConfig = return def
