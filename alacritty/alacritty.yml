@@ -13,9 +13,6 @@ font:
     family: DejaVuSansMono Nerd Font
     style: Oblique
 
-window:
-  opacity: 0.75
-
 key_bindings:
   - {
       key: Return,
@@ -68,33 +65,33 @@ color-schemes:
   hyper: &hyper
     # Default colors
     primary:
-      background: '#000000'
-      foreground: '#ffffff'
+      background: '0x000000'
+      foreground: '0xffffff'
     cursor:
-      text: '#F81CE5'
-      cursor: '#ffffff'
+      text: '0xF81CE5'
+      cursor: '0xffffff'
 
     # Normal colors
     normal:
-      black: '#000000'
-      red: '#fe0100'
-      green: '#33ff00'
-      yellow: '#feff00'
-      blue: '#0066ff'
-      magenta: '#cc00ff'
-      cyan: '#00ffff'
-      white: '#d0d0d0'
+      black:   '0x000000'
+      red:     '0xfe0100'
+      green:   '0x33ff00'
+      yellow:  '0xfeff00'
+      blue:    '0x0066ff'
+      magenta: '0xcc00ff'
+      cyan:    '0x00ffff'
+      white:   '0xd0d0d0'
 
     # Bright colors
     bright:
-      black: '#808080'
-      red: '#fe0100'
-      green: '#33ff00'
-      yellow: '#feff00'
-      blue: '#0066ff'
-      magenta: '#cc00ff'
-      cyan: '#00ffff'
-      white: '#FFFFFF'
+      black:   '0x808080'
+      red:     '0xfe0100'
+      green:   '0x33ff00'
+      yellow:  '0xfeff00'
+      blue:    '0x0066ff'
+      magenta: '0xcc00ff'
+      cyan:    '0x00ffff'
+      white:   '0xFFFFFF'
 
     # # Colors (Hyper)
   my-custom: &custom
@@ -188,4 +185,36 @@ color-schemes:
       cyan: "#a1efe4"
       white: "#f9f8f5"
 
-colors: *hyper
+   # Colors (Pencil Light)
+  pencil_light: &pencil_light
+    # Default Colors
+    primary:
+      background: '0xf1f1f1'
+      foreground: '0x424242'
+    # Normal colors
+    normal:
+      black:   '0x212121'
+      red:     '0xc30771'
+      green:   '0x10a778'
+      yellow:  '0xa89c14'
+      blue:    '0x008ec4'
+      magenta: '0x523c79'
+      cyan:    '0x20a5ba'
+      white:   '0xe0e0e0'
+    # Bright colors
+    bright:
+      black:   '0x212121'
+      red:     '0xfb007a'
+      green:   '0x5fd7af'
+      yellow:  '0xf3e430'
+      blue:    '0x20bbfc'
+      magenta: '0x6855de'
+      cyan:    '0x4fb8cc'
+      white:   '0xf1f1f1'
+
+window:
+  # opacity: 0.75
+  opacity: 1.
+
+# colors: *hyper
+colors: *pencil_light
