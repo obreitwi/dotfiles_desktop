@@ -225,7 +225,9 @@ getExtendedWorkspaces = do
                     , "z" ]
 
     extws "mucku" = [ "chat"
+                    , "ef"
                     , "games"
+                    , "kdb"
                     , "music"
                     , "root"
                     , "tv"
