@@ -1,0 +1,2 @@
+# Fritz! WLAN stick
+ACTION=="add", SUBSYSTEMS=="usb", ATTRS{idVendor}=="057c", ATTRS{idProduct}=="8503", RUN+="/usr/bin/netctl start fvz"
