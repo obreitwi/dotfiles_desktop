@@ -133,7 +133,7 @@ getScratchpads = do
        --  (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)) ,
     -- run gvim, find by role, don't float with nonFloating
     ,  NS "notes" (spawnNotes termTitle) findNotes defaultOverlay
-    ,  NS "notes-neovide" spawnNotes_neovide findNotes defaultOverlay
+    ,  NS "notes-neovide" spawnNotes_neovide findNotesNeovide defaultOverlay
     ,  NS "volumecontrol" "pavucontrol -t 3" (title =? "Volume Control") defaultOverlay
     ,  NS "presentation-terminal" (termTitle ++ "presentation-terminal") (title =? "presentation-terminal") presenterLayout
     ]
@@ -141,8 +141,9 @@ getScratchpads = do
        -- unfortunately neovide is not yet running as expected (does not allow floating and resizing) -> keep nvim in terminal for now
        -- role = stringProperty "WM_WINDOW_ROLE"
        spawnNotes termTitle = "cd ~/.vimwiki && " ++ termTitle ++ "notes -e nvim +VimwikiMakeDiaryNote"
-       spawnNotes_neovide = "cd ~/.vimwiki && neovide '+set titlestring=notes' '+set title' +VimwikiMakeDiaryNote '+set columns=" ++ (show numCols) ++ "'"
+       spawnNotes_neovide = "neovide --multigrid --maximized --x11-wm-class neovide-notes -- '+cd ~/.vimwiki' '+VimwikiMakeDiaryNote' '+set columns=" ++ (show numCols) ++ "'"
        -- findNotes = role =? "notes"
+       findNotesNeovide = className =? "neovide-notes"
        findNotes = title =? "notes"
        defaultOverlay = customFloating $ W.RationalRect l t w h
        l = 0.35
