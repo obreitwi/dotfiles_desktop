@@ -457,8 +457,8 @@ getKeys = do
 
     -- Scratch Pads
     ------------------------------
-    [ ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes" )
-    , ((modMask .|. controlMask,      xK_slash        ), namedScratchpadAction myScratchpads "notes-neovide" )
+    [ ((modMask .|. controlMask,      xK_slash        ), namedScratchpadAction myScratchpads "notes" )
+    , ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes-neovide" )
     , ((modMask .|. shiftMask,        xK_slash        ), namedScratchpadAction myScratchpads "htop" )
     , ((modMask,                      xK_apostrophe   ), namedScratchpadAction myScratchpads "shell" )
     , ((modMask .|. shiftMask,        xK_apostrophe   ), namedScratchpadAction myScratchpads "alsamixer" )
