@@ -134,6 +134,7 @@ getScratchpads = do
     -- run gvim, find by role, don't float with nonFloating
     ,  NS "notes" (spawnNotes termTitle) findNotes defaultOverlay
     ,  NS "notes-neovide" spawnNotes_neovide findNotesNeovide defaultOverlay
+    ,  NS "todos" "neovide-todos" findTodos defaultOverlay
     ,  NS "volumecontrol" "pavucontrol -t 3" (title =? "Volume Control") defaultOverlay
     ,  NS "presentation-terminal" (termTitle ++ "presentation-terminal") (title =? "presentation-terminal") presenterLayout
     ]
@@ -144,6 +145,7 @@ getScratchpads = do
        spawnNotes_neovide = "neovide --multigrid --maximized --x11-wm-class neovide-notes -- '+cd ~/.vimwiki' '+VimwikiMakeDiaryNote' '+set columns=" ++ (show numCols) ++ "'"
        -- findNotes = role =? "notes"
        findNotesNeovide = className =? "neovide-notes"
+       findTodos = className =? "neovide-todos"
        findNotes = title =? "notes"
        defaultOverlay = customFloating $ W.RationalRect l t w h
        l = 0.35
@@ -457,7 +459,8 @@ getKeys = do
 
     -- Scratch Pads
     ------------------------------
-    [ ((modMask .|. controlMask,      xK_slash        ), namedScratchpadAction myScratchpads "notes" )
+    -- [ ((modMask .|. controlMask,      xK_slash        ), namedScratchpadAction myScratchpads "notes" )
+    [ ((modMask .|. controlMask,      xK_slash        ), namedScratchpadAction myScratchpads "todos" )
     , ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes-neovide" )
     , ((modMask .|. shiftMask,        xK_slash        ), namedScratchpadAction myScratchpads "htop" )
     , ((modMask,                      xK_apostrophe   ), namedScratchpadAction myScratchpads "shell" )

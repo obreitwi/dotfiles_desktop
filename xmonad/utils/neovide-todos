@@ -1,0 +1,12 @@
+#!/usr/bin/env zsh
+
+set -Eeuo pipefail
+setopt err_exit
+
+source ~/.zsh/functions.d/vimwiki.zsh
+
+tmpfile=$(mktemp)
+trap 'rm -f "${tmpfile}"' EXIT
+
+get_todos -d 14 >"${tmpfile}"
+neovide --nofork --multigrid --maximized --x11-wm-class neovide-todos -- "${tmpfile}"
