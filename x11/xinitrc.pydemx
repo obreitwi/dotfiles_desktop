@@ -157,7 +157,7 @@ systemctl --user import-environment DISPLAY XAUTHORITY DBUS_SESSION_BUS_ADDRESS
 systemctl --no-block --user start xsession.target
 
 ### brightness
-### brightness @ abed-diabled
+### brightness @ mimir
 # if AC on then full brightness, otherwise 25
 if [ $(cat /sys/class/power_supply/AC/online) -eq 1 ]; then
     xbacklight -set 100
@@ -200,7 +200,8 @@ xrandr --dpi 96
 
 # Use pinentry-rofi if available
 if which pinentry-rofi>/dev/null; then
-    export PINENTRY_PROGRAM="$(which pinentry-rofi)"
+    PINENTRY_PROGRAM="$(which pinentry-rofi)"
+    export PINENTRY_PROGRAM
 fi
 
 # Start easyeffects equalizer if available
