@@ -468,7 +468,7 @@ getKeys = do
     , ((modMask,                      xK_backslash    ), namedScratchpadAction myScratchpads "bpytop" )
     , ((modMask .|. shiftMask,        xK_backslash    ), namedScratchpadAction myScratchpads "bashtop" )
     , ((modMask,                      xK_g            ), namedScratchpadAction myScratchpads "nvim-scratchpad" )
-    , ((modMask .|. controlMask,      xK_z            ), spawnHere "copy-to-scratchpad" )
+    -- , ((modMask .|. controlMask,      xK_z            ), spawnHere "copy-to-scratchpad" )
     , ((modMask .|. shiftMask,        xK_p            ), namedScratchpadAction myScratchpads myPythonPrompt )
     , ((modMask .|. controlMask,      xK_F7           ), namedScratchpadAction myScratchpads "presentation-terminal" )
     ]++
@@ -515,11 +515,12 @@ getKeys = do
     -- ultra-wide settings
     [ ((modMask .|. controlMask,    xK_q        ), rescreen )
     , ((modMask .|. controlMask,    xK_w        ), layoutSplitScreen 2 (TwoPane 0.5 0.5) )
-    , ((modMask .|. controlMask,    xK_s        ), layoutSplitScreen 2 (TwoPane (1/3) (2/3)))
+    , ((modMask .|. controlMask,    xK_s        ), layoutSplitScreen 2 (TwoPane 0 (2/3)))
     , ((modMask .|. controlMask,    xK_e        ), layoutSplitScreen 3 (ThreeColMid 1 (3/100) (1/2)))
     , ((modMask .|. controlMask,    xK_d        ), layoutSplitScreen 3 (ThreeCol 1 (3/100) (1/3)))
     -- upper left corner
     , ((modMask .|. controlMask,    xK_a        ), layoutSplitScreen 2 (Mirror $ TwoPane ((1600-1080)/1600) (1080/1600)))
+    , ((modMask .|. controlMask,    xK_z        ), layoutSplitScreen 3 (Mirror $ TwoPane 0 (1/3)))
     -- lower right corner
     , ((modMask .|. controlMask,    xK_c        ), layoutSplitScreen 3 (ResizableTall 1 (3/100) (1/2) [1080/800, (1600-1080)/800]))
     , ((modMask .|. controlMask,    xK_r        ), layoutSplitScreen 3 (Tall 1 (3/100) (1/2 + 13/100)))
