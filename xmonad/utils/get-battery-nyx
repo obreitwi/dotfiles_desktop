@@ -1,0 +1,2 @@
+#!/bin/bash
+upower --dump | jc --upower | jq '.[] | select(.model == "NA Nyx BT") | .detail.percentage'
