@@ -137,6 +137,8 @@ getScratchpads = do
     ,  NS "todos" "neovide-todos" findTodos defaultOverlay
     ,  NS "volumecontrol" "pavucontrol -t 3" (title =? "Volume Control") defaultOverlay
     ,  NS "presentation-terminal" (termTitle ++ "presentation-terminal") (title =? "presentation-terminal") presenterLayout
+    ,  NS "rev-backlog-markdown" (termTitle ++ "rev-backlog-markdown -e rev-backlog -c -m") (title =? "rev-backlog-markdown") defaultOverlay
+    ,  NS "rev-backlog-browser" (termTitle ++ "rev-backlog-browser -e rev-backlog -w") (title =? "rev-backlog-browser") defaultOverlay
     ]
   where
        -- unfortunately neovide is not yet running as expected (does not allow floating and resizing) -> keep nvim in terminal for now
@@ -471,6 +473,9 @@ getKeys = do
     -- , ((modMask .|. controlMask,      xK_z            ), spawnHere "copy-to-scratchpad" )
     , ((modMask .|. shiftMask,        xK_p            ), namedScratchpadAction myScratchpads myPythonPrompt )
     , ((modMask .|. controlMask,      xK_F7           ), namedScratchpadAction myScratchpads "presentation-terminal" )
+    -- not working unfortunately due to X limitations
+    -- , ((modMask .|. controlMask,      xK_m            ), namedScratchpadAction myScratchpads "rev-backlog-markdown")
+    , ((modMask .|. controlMask,      xK_b            ), namedScratchpadAction myScratchpads "rev-backlog-browser")
     ]++
 
     -- Actions
