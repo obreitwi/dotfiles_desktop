@@ -653,9 +653,9 @@ debugCurrentWindowSet note = do
 
 getAdditionalKeys = do
    return $ \ conf -> additionalKeysP conf
-     [
-     --   ("<XF86MonBrightnessDown>", spawn "backlight -10%")
-     -- , ("<XF86MonBrightnessUp>", spawn "backlight +10%")
+     [ ("<XF86AudioPlay>", spawn "myplayerctl play-pause")
+     , ("<XF86AudioNext>", spawn "myplayerctl next")
+     , ("<XF86AudioPrev>", spawn "myplayerctl previous")
      ]
 
 ignoredWorkspaces = ["NSP"]
