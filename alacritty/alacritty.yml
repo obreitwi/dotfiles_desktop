@@ -214,6 +214,7 @@ color-schemes:
 
 window:
   opacity: 0.75
+  # opacity: 1
 
 colors: *hyper
 # colors: *pencil_light
