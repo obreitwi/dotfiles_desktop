@@ -725,10 +725,10 @@ myTabConfig = def { activeBorderColor = "#7C7C7C"
 getLayout = do
     host <- R.asks hostname
     return $ smartBorders $ avoidStruts $ minimize $ (mkToggle ( single NBFULL ) $ tiled
+      ||| Mirror tiled
       ||| tabbed shrinkText myTabConfig
       ||| BinaryColumn 1.0 30
       ||| multiCol [1] 1 (3/100) (-0.5)
-      ||| Mirror tiled
       ||| ThreeColMid 1 (3/100) (1/2)
       ||| ThreeCol 1 (3/100) (1/3)
       ||| ThreeCol 1 (3/100) (1/2)
