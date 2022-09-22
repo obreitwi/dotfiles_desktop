@@ -916,7 +916,7 @@ getSpawnTrayer = do
       killTrayer
       numScr<- countScreens
       -- mapM_ (spawnSingleTrayer tWidth tHeight) [0..numScr-1]
-      mapM_ (spawnSingleTrayer tWidth tHeight) [0]
+      spawnSingleTrayer tWidth tHeight 0
   where
     spawnSingleTrayer width height sId = unsafeSpawn $ "sleep 1 && trayer \
        \--monitor " ++ (show sId) ++ " \
