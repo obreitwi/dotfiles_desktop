@@ -5,3 +5,6 @@ ACTION=="add", SUBSYSTEMS=="usb", ATTRS{idVendor}=="04d9", ATTRS{idProduct}=="a2
 
 # Cherry MX brown keyboard
 ACTION=="add", SUBSYSTEMS=="usb", ATTRS{idVendor}=="046a", ATTRS{idProduct}=="0011", RUN+="/usr/local/bin/restore_keyboard_settings"
+
+# Model 100
+ACTION=="add", SUBSYSTEMS=="usb", ATTRS{idVendor}=="3496", ATTRS{idProduct}=="0006", RUN+="/usr/local/bin/restore_keyboard_settings"
