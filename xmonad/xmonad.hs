@@ -125,15 +125,16 @@ getScratchpads = do
     ,  NS "ptipython" (termTitle ++ "\"Python REPL (ptipython)\" -e ptipython") (title =? "Python REPL (ptipython)") defaultOverlay
     ,  NS "nvim-ghost" (termTitle ++ "nvim-ghost -e nvim  +GhostStart") (title =? "nvim-ghost") defaultOverlay
     ,  NS "nvim-scratchpad" (termTitle ++ "nvim-scratchpad -e nvim /tmp/scratchpad" ) (title =? "nvim-scratchpad") defaultOverlay
-    ,  NS "neovide-ghost" "neovide +GhostStart '+set titlestring=neovide-ghost' '+set title'" (title =? "neovide-ghost") defaultOverlay
+    ,  NS "neovide-ghost" "neovide -- +GhostStart '+set titlestring=neovide-ghost' '+set title'" (title =? "neovide-ghost") defaultOverlay
        -- run stardict, find it by class name, place it in the floating window
        -- 1/6 of screen width from the left, 1/6 of screen height
        -- from the top, 2/3 of screen width by 2/3 of screen height
        --  NS "stardict" "stardict" (className =? "Stardict")
        --  (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)) ,
     -- run gvim, find by role, don't float with nonFloating
-    ,  NS "notes" (spawnNotes termTitle) findNotes defaultOverlay
-    ,  NS "notes-neovide" spawnNotes_neovide findNotesNeovide defaultOverlay
+    ,  NS "notes-vimwiki" (spawnNotes termTitle) findNotes defaultOverlay
+    ,  NS "notes-vimwiki-neovide" spawnNotes_neovide findNotesNeovide defaultOverlay
+    ,  NS "notes-neorg-neovide" spawnNotesNeorg_neovide findNotesNeovide defaultOverlay
     ,  NS "todos" "neovide-todos" findTodos defaultOverlay
     ,  NS "volumecontrol" "pavucontrol -t 3" (title =? "Volume Control") defaultOverlay
     ,  NS "presentation-terminal" (termTitle ++ "presentation-terminal") (title =? "presentation-terminal") presenterLayout
@@ -144,7 +145,10 @@ getScratchpads = do
        -- unfortunately neovide is not yet running as expected (does not allow floating and resizing) -> keep nvim in terminal for now
        -- role = stringProperty "WM_WINDOW_ROLE"
        spawnNotes termTitle = "cd ~/.vimwiki && " ++ termTitle ++ "notes -e nvim +VimwikiMakeDiaryNote"
-       spawnNotes_neovide = "neovide --multigrid --maximized --x11-wm-class neovide-notes -- '+cd ~/.vimwiki' '+VimwikiMakeDiaryNote' '+set columns=" ++ (show numCols) ++ "'"
+       -- spawnNotes_neovide = "neovide --multigrid --maximized --x11-wm-class neovide-notes -- '+cd ~/.vimwiki' '+VimwikiMakeDiaryNote' '+set columns=" ++ (show numCols) ++ "'"
+       -- spawnNotesNeorg_neovide = "neovide --multigrid --maximized --x11-wm-class neovide-notes -- '+cd ~/.vimwiki/neorg/journal' '+Neorg journal today' '+set columns=" ++ (show numCols) ++ "'"
+       spawnNotes_neovide = "neovide --multigrid --maximized --x11-wm-class neovide-notes -- '+cd ~/.vimwiki' '+VimwikiMakeDiaryNote'"
+       spawnNotesNeorg_neovide = "neovide --multigrid --maximized --x11-wm-class neovide-notes -- '+cd ~/.vimwiki/neorg/journal' '+Neorg journal today'"
        -- findNotes = role =? "notes"
        findNotesNeovide = className =? "neovide-notes"
        findTodos = className =? "neovide-todos"
@@ -463,7 +467,8 @@ getKeys = do
     ------------------------------
     -- [ ((modMask .|. controlMask,      xK_slash        ), namedScratchpadAction myScratchpads "notes" )
     [ ((modMask .|. controlMask,      xK_slash        ), namedScratchpadAction myScratchpads "todos" )
-    , ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes-neovide" )
+    -- , ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes-neovide" )
+    , ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes-neorg-neovide" )
     , ((modMask .|. shiftMask,        xK_slash        ), namedScratchpadAction myScratchpads "htop" )
     , ((modMask,                      xK_apostrophe   ), namedScratchpadAction myScratchpads "shell" )
     , ((modMask .|. shiftMask,        xK_apostrophe   ), namedScratchpadAction myScratchpads "alsamixer" )
