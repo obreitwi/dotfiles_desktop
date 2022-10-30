@@ -17,7 +17,7 @@
 #  location: "./custom-snapshot.yaml"
 # resolver: lts-16.25
 # resolver: lts-17.3
-resolver: lts-19.22
+resolver: lts-19.30
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -46,7 +46,10 @@ packages:
 # Dependency packages to be pulled from upstream that are not in the resolver
 # (e.g., acme-missiles-0.3)
 extra-deps:
+- cairo-0.13.8.2
+- glib-0.13.8.2
 - netlink-1.1.1.0
+- pango-0.13.8.2
 
 # Override default flag values for local packages and extra-deps
 flags:
