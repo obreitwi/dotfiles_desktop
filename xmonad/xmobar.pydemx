@@ -103,7 +103,7 @@ Config { font = "Envy Code R Bold 8"
     , Run Com "bash" ["-c", "awk '!/^0$/ { print \" @ \" $1/1000 \" mW\"}'  /sys/class/power_supply/*/power_now"] "draining" 20
 -- !!!
     -- , Run Date "%a %b %_d %H:%M:%S" "date" 10
-		, Run NamedXPropertyLog "_XMONAD_LOG" "MyPropertyLog"
+    , Run NamedXPropertyLog "_XMONAD_LOG" "MyPropertyLog"
     , Run Com "date" ["+%d.%m.%y %H:%M:%S"] "mydate" 10
 -- !!! Swap
     , Run Swap ["-t", "<usedratio>%"] 10

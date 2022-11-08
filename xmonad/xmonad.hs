@@ -133,6 +133,7 @@ getScratchpads = do
        --  (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)) ,
     -- run gvim, find by role, don't float with nonFloating
     ,  NS "notes-vimwiki" (spawnNotes termTitle) findNotes defaultOverlay
+    ,  NS "notes-neorg" (spawnNotesNeorg termTitle) findNotes defaultOverlay
     ,  NS "notes-vimwiki-neovide" spawnNotes_neovide findNotesNeovide defaultOverlay
     ,  NS "notes-neorg-neovide" spawnNotesNeorg_neovide findNotesNeovide defaultOverlay
     ,  NS "todos" "neovide-todos" findTodos defaultOverlay
@@ -145,6 +146,7 @@ getScratchpads = do
        -- unfortunately neovide is not yet running as expected (does not allow floating and resizing) -> keep nvim in terminal for now
        -- role = stringProperty "WM_WINDOW_ROLE"
        spawnNotes termTitle = "cd ~/.vimwiki && " ++ termTitle ++ "notes -e nvim +VimwikiMakeDiaryNote"
+       spawnNotesNeorg termTitle = "cd ~/.vimwiki/neorg/journal && " ++ termTitle ++ "notes -e nvim '+Neorg journal today'"
        -- spawnNotes_neovide = "neovide --multigrid --maximized --x11-wm-class neovide-notes -- '+cd ~/.vimwiki' '+VimwikiMakeDiaryNote' '+set columns=" ++ (show numCols) ++ "'"
        -- spawnNotesNeorg_neovide = "neovide --multigrid --maximized --x11-wm-class neovide-notes -- '+cd ~/.vimwiki/neorg/journal' '+Neorg journal today' '+set columns=" ++ (show numCols) ++ "'"
        spawnNotes_neovide = "neovide --multigrid --maximized --x11-wm-class neovide-notes -- '+cd ~/.vimwiki' '+VimwikiMakeDiaryNote'"
@@ -467,8 +469,8 @@ getKeys = do
     ------------------------------
     -- [ ((modMask .|. controlMask,      xK_slash        ), namedScratchpadAction myScratchpads "notes" )
     [ ((modMask .|. controlMask,      xK_slash        ), namedScratchpadAction myScratchpads "todos" )
-    -- , ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes-neovide" )
-    , ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes-neorg-neovide" )
+    , ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes-neorg" )
+    -- , ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes-neorg-neovide" )
     , ((modMask .|. shiftMask,        xK_slash        ), namedScratchpadAction myScratchpads "htop" )
     , ((modMask,                      xK_apostrophe   ), namedScratchpadAction myScratchpads "shell" )
     , ((modMask .|. shiftMask,        xK_apostrophe   ), namedScratchpadAction myScratchpads "alsamixer" )
