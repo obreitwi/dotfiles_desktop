@@ -138,6 +138,7 @@ getScratchpads = do
     ,  NS "notes-neorg-neovide" spawnNotesNeorg_neovide findNotesNeovide defaultOverlay
     ,  NS "todos" "neovide-todos" findTodos defaultOverlay
     ,  NS "volumecontrol" "pavucontrol -t 3" (title =? "Volume Control") defaultOverlay
+    ,  NS "easyeffects" "easyeffects" (title =? "Easy Effects") defaultOverlay
     ,  NS "presentation-terminal" (termTitle ++ "presentation-terminal") (title =? "presentation-terminal") presenterLayout
     ,  NS "rev-backlog-markdown" (termTitle ++ "rev-backlog-markdown -e rev-backlog -c -m") (title =? "rev-backlog-markdown") defaultOverlay
     ,  NS "rev-backlog-browser" (termTitle ++ "rev-backlog-browser -e rev-backlog -w") (title =? "rev-backlog-browser") defaultOverlay
@@ -364,8 +365,9 @@ getKeys = do
     -- launch emoji picker
     , ((modMask .|. controlMask,    xK_i        ), spawnHere "rofimoji --action copy --files all --skin-tone neutral")
 
-    -- launch pavucontrol
+    -- launch pavucontrol / volume control
     , ((modMask ,                   xK_c        ), namedScratchpadAction myScratchpads "volumecontrol")
+    , ((modMask .|. mod1Mask,       xK_c        ), namedScratchpadAction myScratchpads "easyeffects")
 
     -- launch browser
     , ((modMask ,                   xK_b        ), spawn "open-default-browser")
