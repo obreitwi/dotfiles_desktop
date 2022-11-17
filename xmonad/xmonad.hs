@@ -232,6 +232,7 @@ getExtendedWorkspaces = do
                     , "sql"
                     , "slack"
                     , "teams"
+                    , "train"
                     , "voice"
                     , "web"
                     , "z" ]
