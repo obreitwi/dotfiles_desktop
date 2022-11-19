@@ -950,9 +950,9 @@ trayHeight = do
     host <- R.asks hostname
     return $ height host
   where
-    height "mucku" = "19"
-    height "mimir" = "17"
-    height _ = "16"
+    -- height "mucku" = "19"
+    -- height "mimir" = "17"
+    height _ = "17"
 
 
 trayWidth = do
