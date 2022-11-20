@@ -205,12 +205,12 @@ if which pinentry-rofi>/dev/null; then
 fi
 
 # Start easyeffects equalizer if available
-if false && which easyeffects>/dev/null; then
+if command -v easyeffects>/dev/null; then
     easyeffects --gapplication-service &> /dev/null &
 fi
 
 # try to remove the state file so that things that might have changed during
-# shutdown (e.g. numbre of monitors) gets recognized correctly
+# shutdown (e.g. number of monitors) gets recognized correctly
 rm -f $HOME/.xmonad/xmonad.state
 if [ -f ~/.xmonad/bin/xmonad-x86_64-linux ]; then
     exec ~/.xmonad/bin/xmonad-x86_64-linux
