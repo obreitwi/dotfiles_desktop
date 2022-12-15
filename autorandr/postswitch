@@ -5,3 +5,4 @@ set -euo pipefail
 if [ -e ~/wallpaper/current ] && which feh>/dev/null; then
     feh --bg-fill ~/wallpaper/current
 fi
+xmonad --restart
