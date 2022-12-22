@@ -137,6 +137,7 @@ getScratchpads = do
     ,  NS "notes-vimwiki-neovide" spawnNotes_neovide findNotesNeovide defaultOverlay
     ,  NS "notes-neorg-neovide" spawnNotesNeorg_neovide findNotesNeovide defaultOverlay
     ,  NS "todos" "neovide-todos" findTodos defaultOverlay
+    ,  NS "bluetuith" (termTitle ++ "bluetuith -e bluetuith" ) (title =? "bluetuith") defaultOverlay
     ,  NS "volumecontrol" "pavucontrol -t 3" (title =? "Volume Control") defaultOverlay
     ,  NS "easyeffects" "easyeffects" (title =? "Easy Effects") defaultOverlay
     ,  NS "presentation-terminal" (termTitle ++ "presentation-terminal") (title =? "presentation-terminal") presenterLayout
@@ -486,6 +487,7 @@ getKeys = do
     -- not working unfortunately due to X limitations
     -- , ((modMask .|. controlMask,      xK_m            ), namedScratchpadAction myScratchpads "rev-backlog-markdown")
     , ((modMask .|. controlMask,      xK_b            ), namedScratchpadAction myScratchpads "rev-backlog-browser")
+    , ((modMask .|. controlMask,      xK_t            ), namedScratchpadAction myScratchpads "bluetuith")
     ]++
 
     -- Actions
