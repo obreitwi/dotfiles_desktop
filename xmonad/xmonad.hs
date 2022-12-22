@@ -141,8 +141,10 @@ getScratchpads = do
     ,  NS "volumecontrol" "pavucontrol -t 3" (title =? "Volume Control") defaultOverlay
     ,  NS "easyeffects" "easyeffects" (title =? "Easy Effects") defaultOverlay
     ,  NS "presentation-terminal" (termTitle ++ "presentation-terminal") (title =? "presentation-terminal") presenterLayout
-    ,  NS "rev-backlog-markdown" (termTitle ++ "rev-backlog-markdown -e rev-backlog -c -m") (title =? "rev-backlog-markdown") defaultOverlay
-    ,  NS "rev-backlog-browser" (termTitle ++ "rev-backlog-browser -e rev-backlog -w") (title =? "rev-backlog-browser") defaultOverlay
+    -- ,  NS "rev-backlog-markdown" (termTitle ++ "rev-backlog-markdown -e rev-backlog -c -m") (title =? "rev-backlog-markdown") defaultOverlay
+    -- ,  NS "rev-backlog-browser" (termTitle ++ "rev-backlog-browser -e rev-backlog -w") (title =? "rev-backlog-browser") defaultOverlay
+    ,  NS "rev-backlog-markdown" (termTitle ++ "rev-backlog-markdown -e revcli backlog query -c -m") (title =? "rev-backlog-markdown") defaultOverlay
+    ,  NS "rev-backlog-browser" (termTitle ++ "rev-backlog-browser -e revcli backlog query -b") (title =? "rev-backlog-browser") defaultOverlay
     ]
   where
        -- unfortunately neovide is not yet running as expected (does not allow floating and resizing) -> keep nvim in terminal for now
