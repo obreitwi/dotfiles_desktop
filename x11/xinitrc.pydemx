@@ -170,7 +170,7 @@ fi
 ### mouse
 ### mouse @ mucku
 # Account for higher dpi settings on G502
-xinput set-prop 'pointer:Logitech G502' 'libinput Accel Speed' -0.75
+xinput set-prop 'pointer:Logitech G502' 'libinput Accel Speed' -0.5
 ###
 
 # disable mouse acceleration
