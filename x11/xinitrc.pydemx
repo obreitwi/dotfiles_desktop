@@ -160,10 +160,17 @@ systemctl --no-block --user start xsession.target
 ### brightness @ mimir
 # if AC on then full brightness, otherwise 25
 if [ $(cat /sys/class/power_supply/AC/online) -eq 1 ]; then
-    xbacklight -set 100
+    backlight 100
 else
-    xbacklight -set 25
+    backlight 25
 fi
+###
+
+
+### mouse
+### mouse @ mucku
+# Account for higher dpi settings on G502
+xinput set-prop 'pointer:Logitech G502' 'libinput Accel Speed' -0.75
 ###
 
 # disable mouse acceleration
