@@ -149,12 +149,12 @@ getScratchpads = do
   where
        -- unfortunately neovide is not yet running as expected (does not allow floating and resizing) -> keep nvim in terminal for now
        -- role = stringProperty "WM_WINDOW_ROLE"
-       spawnNotes termTitle = "cd ~/.vimwiki && " ++ termTitle ++ "notes -e nvim +VimwikiMakeDiaryNote"
-       spawnNotesNeorg termTitle = "cd ~/.vimwiki/neorg/journal && " ++ termTitle ++ "notes -e nvim '+Neorg journal today'"
-       -- spawnNotes_neovide = "neovide --multigrid --maximized --x11-wm-class neovide-notes -- '+cd ~/.vimwiki' '+VimwikiMakeDiaryNote' '+set columns=" ++ (show numCols) ++ "'"
+       spawnNotes termTitle = "cd ~/wiki && " ++ termTitle ++ "notes -e nvim +VimwikiMakeDiaryNote"
+       spawnNotesNeorg termTitle = "cd ~/wiki/neorg/journal && " ++ termTitle ++ "notes -e nvim '+Neorg journal today'"
+       -- spawnNotes_neovide = "neovide --multigrid --maximized --x11-wm-class neovide-notes -- '+cd ~/wiki' '+VimwikiMakeDiaryNote' '+set columns=" ++ (show numCols) ++ "'"
        -- spawnNotesNeorg_neovide = "neovide --multigrid --maximized --x11-wm-class neovide-notes -- '+cd ~/.vimwiki/neorg/journal' '+Neorg journal today' '+set columns=" ++ (show numCols) ++ "'"
-       spawnNotes_neovide = "neovide --multigrid --maximized --x11-wm-class neovide-notes -- '+cd ~/.vimwiki' '+VimwikiMakeDiaryNote'"
-       spawnNotesNeorg_neovide = "neovide --multigrid --maximized --x11-wm-class neovide-notes -- '+cd ~/.vimwiki/neorg/journal' '+Neorg journal today'"
+       spawnNotes_neovide = "neovide --multigrid --maximized --x11-wm-class neovide-notes -- '+cd ~/wiki' '+VimwikiMakeDiaryNote'"
+       spawnNotesNeorg_neovide = "neovide --multigrid --maximized --x11-wm-class neovide-notes -- '+cd ~/wiki/neorg/journal' '+Neorg journal today'"
        -- findNotes = role =? "notes"
        findNotesNeovide = className =? "neovide-notes"
        findTodos = className =? "neovide-todos"
@@ -222,11 +222,11 @@ getExtendedWorkspaces = do
     -- return $ withScreens (S ns) $ extws host
     return $ [ "NSP" ] ++ extws host ++ [ "z" ]
   where
-    extws "mimir" = [ "chat"
+    extws "mimir" = [ "1pw"
+                    , "chat"
                     , "code"
                     , "dbg"
                     , "ds"
-                    , "ef"
                     , "fdc"
                     , "k9s"
                     , "kdb"

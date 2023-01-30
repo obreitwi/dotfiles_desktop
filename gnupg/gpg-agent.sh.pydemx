@@ -1,5 +1,5 @@
 ###
-cfg["permissions"] = 0755
+cfg["permissions"] = 0o0755
 ###
 #!/bin/sh
 

@@ -29,7 +29,7 @@
 -- R("cpus")["phaeloff"] = R("cpus")["gordon"]
 -- 
 -- R("wirename")["abed"] = "wlp58s0"
--- R("wirename")["mimir"] = "wlp0s20f3"
+-- R("wirename")["mimir"] = "wlan0"
 -- R("wirename")["gordon"] = "usb0"
 -- R("wirename")["gordon"] = "wlan0"
 -- R("wirename")["jovis"] = "wls1"
