@@ -299,10 +299,10 @@ exitXmonad = return $ io (exitWith ExitSuccess)
 
 lockSpawner = do
     host <- R.asks hostname
-    if host == "phaelon" then
-      return $ spawn "/bin/sh ~/git/dotfiles_desktop/scripts/go_standby.sh"
-    else
-     return $ spawn "slock"
+    return . spawn $ go host
+  where
+    go "phaelon" = "/bin/sh ~/git/dotfiles_desktop/scripts/go_standby.sh"
+    go _ = "slock"
 -- lockSpawner _ = spawn "xscreensaver-command -lock"
 
 -- displayOrder "nurikum" = [xK_w, xK_q, xK_e]
