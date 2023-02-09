@@ -1,7 +1,7 @@
 #!/bin/bash
 # Default acpi script that takes an entry for all actions
 
-logger "Receiving event: $1 $2"
+logger "Receiving event: $*"
 case "$1" in
     button/power)
         case "$2" in
@@ -39,17 +39,15 @@ case "$1" in
                 logger "ACPI action undefined: $2"
                 ;;
         esac
-        # logger "Status for AC is: $(cat /sys/class/power_supply/AC/online)"
-        # logger "xbacklight: $(/usr/bin/xbacklight -set 100)"
-        if [ $(cat /sys/class/power_supply/AC/online) -eq 1 ]; then
-            logger "backlight: Setting full brightness"
-            backlight 100%
-        else
-            logger "xbacklight: Setting 25% brightness"
-            backlight 25%
-        fi
         ;;
     battery)
+        if [ $(cat /sys/class/power_supply/AC/online) -eq 1 ]; then
+            logger "backlight: Setting full brightness"
+            backlight 10
+        else
+            logger "xbacklight: Setting 20% brightness"
+            backlight 2
+        fi
         case "$2" in
             BAT0)
                 case "$4" in
