@@ -113,7 +113,7 @@ Config { font = "Envy Code R Bold 8"
     , sepChar = "%"
     , alignSep = "}{"
     -- , template = "%StdinReader% }{ %multicpu% {{info_ct:%coretemp%   }}%memory% %swap%   %{{wirename}}% {{info_wl}}  <fc=#FFFFCC>%date%</fc>"
-    , template = "%MyPropertyLog% }{ %multicpu% {{info_ct:%coretemp%   }}%memory%{{swap_widget: %swap%}}   %dynnetwork% {{info_wl}}  {{info_bat}}  <fc=#FFFFCC>%mydate%</fc>"
+    , template = "}%MyPropertyLog%{ %multicpu% {{info_ct:%coretemp%   }}%memory%{{swap_widget: %swap%}}   %dynnetwork% {{info_wl}}  {{info_bat}}  <fc=#FFFFCC>%mydate%</fc>"
   }
 -- !!!
 -- !!!
