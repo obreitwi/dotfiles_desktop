@@ -46,7 +46,7 @@ if which picom>/dev/null; then
 ### picom
 ### picom @ mimir
     # If we use nvidia as the main renderer -> compose with glx backend
-    if [ "$(glxinfo | grep "OpenGL renderer")" = "OpenGL renderer string: Quadro T2000 with Max-Q Design/PCIe/SSE2" ]; then
+    if [ "$(glxinfo | grep "OpenGL renderer")" = "OpenGL renderer string: NVIDIA RTX A1000 Laptop GPU/PCIe/SSE2" ]; then
         picom_args+=(--backend glx --xrender-sync-fence)
     fi
 ###
