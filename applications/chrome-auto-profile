@@ -1,0 +1,33 @@
+#!/usr/bin/bash
+
+set -Eeuo pipefail
+shopt -s inherit_errexit
+
+if (( $# == 0 )); then
+    echo "# ERROR: No url." >&2
+    exit 1
+fi
+
+url="$1"
+shift
+host=$(echo "$url" | awk -F / '{ print $3 }')
+
+arg_fdc="--profile-directory=Default"
+arg_ds="--profile-directory=Profile 2"
+
+hosts_for_ds=(
+    fdccd.tools.lightning.freiheit.systems
+    jenkins.tools.lightning.freiheit.systems
+)
+
+host_matches_ds() {
+    printf '%s\0' "${hosts_for_ds[@]}" | grep -F -q -x -z -- "$1"
+}
+
+if host_matches_ds "$host"; then
+    arg=$arg_ds
+else
+    arg=$arg_fdc
+fi
+
+exec google-chrome-stable "$arg" "$url"
