@@ -16,6 +16,7 @@ arg_fdc="--profile-directory=Default"
 arg_ds="--profile-directory=Profile 2"
 
 hosts_for_ds=(
+    cd.tools.lightning.freiheit.systems
     fdccd.tools.lightning.freiheit.systems
     jenkins.tools.lightning.freiheit.systems
 )
