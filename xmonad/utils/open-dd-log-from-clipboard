@@ -1,0 +1,6 @@
+#!/bin/zsh
+
+source ~/.zsh/functions.d/curl.zsh
+source ~/.zsh/functions.d/datadog.zsh
+
+dd-log $(xclip -selection primary -o)

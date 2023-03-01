@@ -607,7 +607,7 @@ getKeys = do
     ]
     ++
     -- Debug
-    [   ((modMask .|. controlMask, xK_F8), debugStuff)
+    [   ((modMask .|. controlMask .|., xK_F8), debugStuff)
     ]
     ++
     [
@@ -626,10 +626,12 @@ getKeys = do
       , ((modMask, xK_F12), spawn "myplayerctl play-pause")
     ]
     ++
+    [   ((modMask .|. controlMask, xK_F8), spawn "open-dd-log-from-clipboard")
+    ]
+    ++
     -- Reset monitor configuration to use all available monitors
     [
         ((modMask .|. controlMask, xK_F10), spawn "autorandr -c")
-      , ((modMask .|. controlMask, xK_F11), spawn "autorandr -l default")
       , ((modMask .|. controlMask, xK_F12), spawn "rofi-autorandr")
     ]
 
@@ -803,11 +805,6 @@ getManageHook = do
    , className =? "Galculator"         --> doFloat
    , resource  =? "Komodo_find2"       --> doFloat
    , resource  =? "compose"            --> doFloat
-   , className =? "Terminal"           --> doShift "1:code"
-   , className =? "Gedit"              --> doShift "1:code"
-   , className =? "Emacs"              --> doShift "1:code"
-   , className =? "Komodo Edit"        --> doShift "1:code"
-   , className =? "Emacs"              --> doShift "1:code"
    -- , roleName  =? "browser"            --> doShift "web"
    -- , className =? "firefox"            --> doShift "web"
    -- ,    (className =? "chromium")
@@ -830,8 +827,7 @@ getManageHook = do
    , resource  =? "desktop_window"            --> doIgnore
    , resource  =? "kdesktop"                  --> doIgnore
    , resource  =? "xfce4-notifyd"             --> doIgnore
-   , className =? "microsoft teams - preview"
-     <||> className =? "Microsoft Teams - Preview" --> doShift "teams"
+   , className =? "microsoft teams - preview" <||> className =? "Microsoft Teams - Preview" --> doShift "teams"
    -- , className  =? "Vlc"                --> doShift "stream"
    -- , title =? "fd://0 - VLC media player" --> doShift "stream"
    ]
