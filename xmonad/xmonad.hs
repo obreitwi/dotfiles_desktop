@@ -607,7 +607,7 @@ getKeys = do
     ]
     ++
     -- Debug
-    [   ((modMask .|. controlMask .|., xK_F8), debugStuff)
+    [   ((modMask .|. controlMask .|. shiftMask, xK_F8), debugStuff)
     ]
     ++
     [
