@@ -468,7 +468,7 @@ getKeys = do
     ------------------------------
     -- Switch to window
     [
-    ((modMask,                      xK_o        ), windowPrompt myXPConfig Goto allWindows )
+    -- ((modMask,                      xK_o        ), windowPrompt myXPConfig Goto allWindows )
     -- SSH prompt
     --, (( modMask,                 xK_s        ), sshPrompt myXPConfig)
     -- Does not really work as expected, put on hold
@@ -535,7 +535,9 @@ getKeys = do
     ] ++
 
     -- modes
-    [ ((modMask .|. controlMask,    xK_q        ), setMode "switchLayout")
+    -- mnemonic: switch laYout
+    [ ((modMask,                    xK_y        ), setMode "switchLayout" )
+    , ((modMask,                    xK_o        ), setMode "run"          )
     ] ++
 
     --
@@ -625,9 +627,21 @@ getKeys = do
       , ((modMask .|. controlMask, xK_F12), spawn "rofi-autorandr")
     ]
 
+withExitMode :: [((KeyMask, KeySym), X () )] -> [((KeyMask, KeySym), X () )]
+withExitMode = map $ \(keys, action) -> (keys, action >> exitMode)
+
+modeRun = mode "run" $ \cfg ->
+    M.fromList
+    -- [((noModMask,     xK_d        ), setMode "datadog" )]
+    [((noModMask,     xK_d        ), spawn "open-dd-log-from-clipboard" >> exitMode )]
+
+-- modeDatadog = mode "datadog" $ \cfg ->
+    -- M.fromList . withExitMode $
+    -- [((noModMask,     xK_l        ), spawn "open-dd-log-from-clipboard" )]
+
 -- layout switcher
 modeSwitchLayout = mode "switchLayout" $ \(conf@(XConfig {XMonad.modMask = modMask})) ->
-    M.fromList
+    M.fromList . withExitMode $
     -- ultra-wide settings
     [ ((noModMask,    xK_q        ), rescreen )
     , ((noModMask,    xK_w        ), layoutSplitScreen 2 (TwoPane 0.5 0.5) )
@@ -644,6 +658,11 @@ modeSwitchLayout = mode "switchLayout" $ \(conf@(XConfig {XMonad.modMask = modMa
 
     -- , ((modMask .|. controlMask .|. shiftMask,    xK_s        ), layoutSplitScreen 2 (Tall 1 (3/100) (1/2)))
     ]
+
+allModes = [ modeRun
+           , modeDatadog
+           , modeSwitchLayout
+           ]
 
 -- apply action current workspace in screen
 applyToWSinScreen :: Int -> (WorkspaceId -> WindowSet -> WindowSet) -> X ()
@@ -1025,7 +1044,7 @@ main = do
        spawnXmobar = R.runReader getSpawnXmobar myConfig
    spawnTrayer
    let myXmonadConfig = ewmhFullscreen . dynamicEasySBs spawnXmobar $ R.runReader getDefaults myConfig
-   xmonad . modal [modeSwitchLayout] $ ewmh myXmonadConfig
+   xmonad . modal allModes $ ewmh myXmonadConfig
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will
