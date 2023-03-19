@@ -11,13 +11,14 @@ import System.IO
 import System.Environment
 import System.Exit
 import XMonad
+import XMonad.Hooks.DebugKeyEvents
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.Minimize
+import XMonad.Hooks.Modal
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
-import XMonad.Hooks.Minimize
-import XMonad.Hooks.DebugKeyEvents
 import XMonad.ManageHook
 import XMonad.Prompt
 import XMonad.Prompt.Window
@@ -533,21 +534,8 @@ getKeys = do
       ((modMask,                    xK_z        ), toWorkspaceTag "z")
     ] ++
 
-    -- ultra-wide settings
-    [ ((modMask .|. controlMask,    xK_q        ), rescreen )
-    , ((modMask .|. controlMask,    xK_w        ), layoutSplitScreen 2 (TwoPane 0.5 0.5) )
-    , ((modMask .|. controlMask,    xK_s        ), layoutSplitScreen 2 (TwoPane 0 (2/3)))
-    , ((modMask .|. controlMask,    xK_e        ), layoutSplitScreen 3 (ThreeColMid 1 (3/100) (1/2)))
-    , ((modMask .|. controlMask,    xK_d        ), layoutSplitScreen 3 (ThreeCol 1 (3/100) (1/3)))
-    -- upper left corner
-    , ((modMask .|. controlMask,    xK_a        ), layoutSplitScreen 2 (Mirror $ TwoPane 0 ((1600-1080)/1600)))
-    , ((modMask .|. controlMask,    xK_z        ), layoutSplitScreen 3 (Mirror $ TwoPane 0 (1/3)))
-    -- lower right corner
-    , ((modMask .|. controlMask,    xK_c        ), layoutSplitScreen 3 (ResizableTall 1 (3/100) (1/2) [1080/800, (1600-1080)/800]))
-    , ((modMask .|. controlMask,    xK_r        ), layoutSplitScreen 3 (Tall 1 (3/100) (1/2 + 13/100)))
-    , ((modMask .|. controlMask,    xK_f        ), layoutSplitScreen 3 (Tall 1 (3/100) (2/3)))
-
-    -- , ((modMask .|. controlMask .|. shiftMask,    xK_s        ), layoutSplitScreen 2 (Tall 1 (3/100) (1/2)))
+    -- modes
+    [ ((modMask .|. controlMask,    xK_q        ), setMode "switchLayout")
     ] ++
 
     --
@@ -635,6 +623,26 @@ getKeys = do
     [
         ((modMask .|. controlMask, xK_F10), spawn "autorandr -c")
       , ((modMask .|. controlMask, xK_F12), spawn "rofi-autorandr")
+    ]
+
+-- layout switcher
+modeSwitchLayout = mode "switchLayout" $ \(conf@(XConfig {XMonad.modMask = modMask})) ->
+    M.fromList
+    -- ultra-wide settings
+    [ ((noModMask,    xK_q        ), rescreen )
+    , ((noModMask,    xK_w        ), layoutSplitScreen 2 (TwoPane 0.5 0.5) )
+    , ((noModMask,    xK_s        ), layoutSplitScreen 2 (TwoPane 0 (2/3)))
+    , ((noModMask,    xK_e        ), layoutSplitScreen 3 (ThreeColMid 1 (3/100) (1/2)))
+    , ((noModMask,    xK_d        ), layoutSplitScreen 3 (ThreeCol 1 (3/100) (1/3)))
+    -- upper left corner
+    , ((noModMask,    xK_a        ), layoutSplitScreen 2 (Mirror $ TwoPane 0 ((1600-1080)/1600)))
+    , ((noModMask,    xK_z        ), layoutSplitScreen 3 (Mirror $ TwoPane 0 (1/3)))
+    -- lower right corner
+    , ((noModMask,    xK_c        ), layoutSplitScreen 3 (ResizableTall 1 (3/100) (1/2) [1080/800, (1600-1080)/800]))
+    , ((noModMask,    xK_r        ), layoutSplitScreen 3 (Tall 1 (3/100) (1/2 + 13/100)))
+    , ((noModMask,    xK_f        ), layoutSplitScreen 3 (Tall 1 (3/100) (2/3)))
+
+    -- , ((modMask .|. controlMask .|. shiftMask,    xK_s        ), layoutSplitScreen 2 (Tall 1 (3/100) (1/2)))
     ]
 
 -- apply action current workspace in screen
@@ -1017,7 +1025,7 @@ main = do
        spawnXmobar = R.runReader getSpawnXmobar myConfig
    spawnTrayer
    let myXmonadConfig = ewmhFullscreen . dynamicEasySBs spawnXmobar $ R.runReader getDefaults myConfig
-   xmonad $ ewmh myXmonadConfig
+   xmonad . modal [modeSwitchLayout] $ ewmh myXmonadConfig
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will
