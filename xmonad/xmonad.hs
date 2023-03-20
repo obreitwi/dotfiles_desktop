@@ -435,7 +435,7 @@ getKeys = do
     , ((modMask .|. controlMask,    xK_period   ), sendMessage MirrorExpand)
 
     -- Push window back into tiling
-    , ((modMask,                    xK_t        ), withFocused $ windows . W.sink)
+    , ((modMask,                    xK_y        ), withFocused $ windows . W.sink)
 
     -- Increment the number of windows in the master area
     , ((modMask .|. shiftMask,      xK_comma   ), sendMessage (IncMasterN 1))
@@ -535,8 +535,8 @@ getKeys = do
     ] ++
 
     -- modes
-    -- mnemonic: switch laYout
-    [ ((modMask,                    xK_y        ), setMode "switchLayout" )
+    -- mnemonic: swiTch layouT
+    [ ((modMask,                    xK_t        ), setMode "switchLayout" )
     , ((modMask,                    xK_o        ), setMode "run"          )
     ] ++
 
@@ -660,7 +660,7 @@ modeSwitchLayout = mode "switchLayout" $ \(conf@(XConfig {XMonad.modMask = modMa
     ]
 
 allModes = [ modeRun
-           , modeDatadog
+           -- , modeDatadog
            , modeSwitchLayout
            ]
 
