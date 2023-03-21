@@ -627,8 +627,11 @@ getKeys = do
       , ((modMask .|. controlMask, xK_F12), spawn "rofi-autorandr")
     ]
 
-withExitMode :: [((KeyMask, KeySym), X () )] -> [((KeyMask, KeySym), X () )]
-withExitMode = map $ \(keys, action) -> (keys, action >> exitMode)
+withExitMode :: [(KeySym, X () )] -> [(KeySym, X () )]
+withExitMode = map $ \(key, action) -> (key, action >> exitMode)
+
+withoutModMask :: [(KeySym, X () )] -> [((KeyMask, KeySym), X () )]
+withoutModMask = map $ \(key, action) -> ((noModMask, key), action)
 
 modeRun = mode "run" $ \cfg ->
     M.fromList
@@ -641,22 +644,22 @@ modeRun = mode "run" $ \cfg ->
 
 -- layout switcher
 modeSwitchLayout = mode "switchLayout" $ \(conf@(XConfig {XMonad.modMask = modMask})) ->
-    M.fromList $
-    [ ((noModMask,    xK_q        ), rescreen )]
+    M.fromList . withoutModMask $
+    [ (xK_q, rescreen )]
     ++
     withExitMode
     -- ultra-wide settings
-    [ ((noModMask,    xK_w        ), layoutSplitScreen 2 (TwoPane 0.5 0.5) )
-    , ((noModMask,    xK_s        ), layoutSplitScreen 2 (TwoPane 0 (2/3)))
-    , ((noModMask,    xK_e        ), layoutSplitScreen 3 (ThreeColMid 1 (3/100) (1/2)))
-    , ((noModMask,    xK_d        ), layoutSplitScreen 3 (ThreeCol 1 (3/100) (1/3)))
+    [ (xK_w, layoutSplitScreen 2 (TwoPane 0.5 0.5) )
+    , (xK_s, layoutSplitScreen 2 (TwoPane 0 (2/3)))
+    , (xK_e, layoutSplitScreen 3 (ThreeColMid 1 (3/100) (1/2)))
+    , (xK_d, layoutSplitScreen 3 (ThreeCol 1 (3/100) (1/3)))
     -- upper left corner
-    , ((noModMask,    xK_a        ), layoutSplitScreen 2 (Mirror $ TwoPane 0 ((1600-1080)/1600)))
-    , ((noModMask,    xK_z        ), layoutSplitScreen 3 (Mirror $ TwoPane 0 (1/3)))
+    , (xK_a, layoutSplitScreen 2 (Mirror $ TwoPane 0 ((1600-1080)/1600)))
+    , (xK_z, layoutSplitScreen 3 (Mirror $ TwoPane 0 (1/3)))
     -- lower right corner
-    , ((noModMask,    xK_c        ), layoutSplitScreen 3 (ResizableTall 1 (3/100) (1/2) [1080/800, (1600-1080)/800]))
-    , ((noModMask,    xK_r        ), layoutSplitScreen 3 (Tall 1 (3/100) (1/2 + 13/100)))
-    , ((noModMask,    xK_f        ), layoutSplitScreen 3 (Tall 1 (3/100) (2/3)))
+    , (xK_c, layoutSplitScreen 3 (ResizableTall 1 (3/100) (1/2) [1080/800, (1600-1080)/800]))
+    , (xK_r, layoutSplitScreen 3 (Tall 1 (3/100) (1/2 + 13/100)))
+    , (xK_f, layoutSplitScreen 3 (Tall 1 (3/100) (2/3)))
 
     -- , ((modMask .|. controlMask .|. shiftMask,    xK_s        ), layoutSplitScreen 2 (Tall 1 (3/100) (1/2)))
     ]
