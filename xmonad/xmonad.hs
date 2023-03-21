@@ -641,10 +641,12 @@ modeRun = mode "run" $ \cfg ->
 
 -- layout switcher
 modeSwitchLayout = mode "switchLayout" $ \(conf@(XConfig {XMonad.modMask = modMask})) ->
-    M.fromList . withExitMode $
+    M.fromList $
+    [ ((noModMask,    xK_q        ), rescreen )]
+    ++
+    withExitMode
     -- ultra-wide settings
-    [ ((noModMask,    xK_q        ), rescreen )
-    , ((noModMask,    xK_w        ), layoutSplitScreen 2 (TwoPane 0.5 0.5) )
+    [ ((noModMask,    xK_w        ), layoutSplitScreen 2 (TwoPane 0.5 0.5) )
     , ((noModMask,    xK_s        ), layoutSplitScreen 2 (TwoPane 0 (2/3)))
     , ((noModMask,    xK_e        ), layoutSplitScreen 3 (ThreeColMid 1 (3/100) (1/2)))
     , ((noModMask,    xK_d        ), layoutSplitScreen 3 (ThreeCol 1 (3/100) (1/3)))
