@@ -958,12 +958,13 @@ getSpawnTrayer = do
     tHeight <- trayHeight
     return $ do
       killTrayer
-      numScr<- countScreens
+      -- numScr <- countScreens
       -- mapM_ (spawnSingleTrayer tWidth tHeight) [0..numScr-1]
-      spawnSingleTrayer tWidth tHeight 0
+      -- TODO dynamically determine trayer position
+      spawnSingleTrayer tWidth tHeight
   where
-    spawnSingleTrayer width height sId = unsafeSpawn $ "sleep 1 && trayer \
-       \--monitor " ++ (show sId) ++ " \
+    spawnSingleTrayer width height = unsafeSpawn $ "sleep 1 && trayer \
+       \--monitor primary \
        \--edge top \
        \--align right \
        \--width " ++ width ++ " \
