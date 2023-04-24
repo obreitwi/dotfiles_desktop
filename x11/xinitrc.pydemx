@@ -56,6 +56,11 @@ if which picom>/dev/null; then
     picom "${picom_args[@]}"
 fi
 
+# Currently G502 is configured with too high DPI
+if xinput list "pointer:Logitech G502" &>/dev/null; then
+    xinput set-prop "pointer:Logitech G502" "Coordinate Transformation Matrix" .5 0 0 0 0.5 0 0 0 1
+fi
+
 # increase repeat rate
 xset rate 200 75
 
