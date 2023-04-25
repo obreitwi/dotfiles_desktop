@@ -43,6 +43,7 @@ import XMonad.Layout.MultiColumns
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.NoBorders
+import XMonad.Layout.Reflect (reflectVert)
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.SimpleDecoration
 import XMonad.Layout.Spiral
@@ -775,6 +776,7 @@ myTabConfig = def { activeBorderColor = "#7C7C7C"
 getLayout = do
     host <- R.asks hostname
     return $ smartBorders $ avoidStruts $ minimize $ (mkToggle ( single NBFULL ) $ tiled
+      ||| terminal
       ||| Mirror tiled
       ||| tabbed shrinkText myTabConfig
       ||| BinaryColumn 1.0 30
@@ -797,6 +799,7 @@ getLayout = do
 
    -- default tiling algorithm partitions the screen into two panes
    tiled       = ResizableTall nmaster delta ratio []
+   terminal    = reflectVert $ Mirror $ ResizableTall nmaster delta (15/100) []
 
    -- Another tiling algorithm where the master pane is larger
    oddtiled h  = ResizableTall nmaster delta (oddRatio h) []
