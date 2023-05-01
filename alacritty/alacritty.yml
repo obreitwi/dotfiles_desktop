@@ -2,15 +2,15 @@ font:
   size: 9
 
   normal:
-    family: DejaVuSansMono Nerd Font
+    family: DejaVuSansM Nerd Font
     style: Book
 
   bold:
-    family: DejaVuSansMono Nerd Font
+    family: DejaVuSansM Nerd Font
     style: Bold
 
   italic:
-    family: DejaVuSansMono Nerd Font
+    family: DejaVuSansM Nerd Font
     style: Oblique
 
 key_bindings:
