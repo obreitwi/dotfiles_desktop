@@ -3,6 +3,6 @@
 set -Eeuo pipefail
 setopt err_exit
 
-source ~/.zsh/functions.d/vimwiki.zsh
+source ~/.zsh/functions.d/wiki.zsh
 
 neovide --nofork --multigrid --maximized --x11-wm-class neovide-todos -- -q <(todos-errorfile) +copen

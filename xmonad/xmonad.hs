@@ -479,8 +479,8 @@ getKeys = do
     ------------------------------
     -- [ ((modMask .|. controlMask,      xK_slash        ), namedScratchpadAction myScratchpads "notes" )
     [ ((modMask .|. controlMask,      xK_slash        ), namedScratchpadAction myScratchpads "todos" )
-    , ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes-neorg" )
-    -- , ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes-neorg-neovide" )
+    -- , ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes-neorg" )
+    , ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes-neorg-neovide" )
     , ((modMask .|. shiftMask,        xK_slash        ), namedScratchpadAction myScratchpads "htop" )
     , ((modMask,                      xK_apostrophe   ), namedScratchpadAction myScratchpads "shell" )
     , ((modMask .|. shiftMask,        xK_apostrophe   ), namedScratchpadAction myScratchpads "alsamixer" )
