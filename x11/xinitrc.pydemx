@@ -173,9 +173,9 @@ systemctl --no-block --user start xsession.target
 ### brightness @ mimir
 # if AC on then full brightness, otherwise 25
 if [ $(cat /sys/class/power_supply/AC/online) -eq 1 ]; then
-    backlight 100
+    backlight 10
 else
-    backlight 25
+    backlight 4
 fi
 ###
 
