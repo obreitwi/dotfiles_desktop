@@ -232,13 +232,12 @@ getExtendedWorkspaces = do
                     , "fdc"
                     , "k9s"
                     , "kdb"
+                    , "meeting"
                     , "music"
                     , "root"
                     , "sql"
                     , "slack"
                     , "teams"
-                    , "train"
-                    , "voice"
                     , "web"
                     , "z" ]
 
