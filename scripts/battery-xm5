@@ -1,0 +1,2 @@
+#!/bin/bash
+upower --dump | jc --upower | jq '.[] | select(.model == "WH-1000XM5") | .detail.percentage'
