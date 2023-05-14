@@ -218,6 +218,12 @@ rm "${tmpfile}"
 # xrandr --dpi 96
 ###
 
+# network-tray
+if command -v iwgtk >/dev/null && command -v snixembed >/dev/null; then
+    snixembed --fork
+    iwgtk -i &
+fi
+
 # Use pinentry-rofi if available
 if which pinentry-rofi>/dev/null; then
     PINENTRY_PROGRAM="$(which pinentry-rofi)"
