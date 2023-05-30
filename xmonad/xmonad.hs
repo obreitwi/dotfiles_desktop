@@ -145,7 +145,7 @@ getScratchpads = do
     ,  NS "presentation-terminal" (termTitle ++ "presentation-terminal") (title =? "presentation-terminal") presenterLayout
     -- ,  NS "rev-backlog-markdown" (termTitle ++ "rev-backlog-markdown -e rev-backlog -c -m") (title =? "rev-backlog-markdown") defaultOverlay
     -- ,  NS "rev-backlog-browser" (termTitle ++ "rev-backlog-browser -e rev-backlog -w") (title =? "rev-backlog-browser") defaultOverlay
-    ,  NS "rev-backlog-markdown" (termTitle ++ "rev-backlog-markdown -e revcli backlog query -c -m") (title =? "rev-backlog-markdown") defaultOverlay
+    ,  NS "rev-backlog-markdown" (termTitle ++ "rev-backlog-markdown -e tmux -c 'revcli backlog query -c -m'") (title =? "rev-backlog-markdown") defaultOverlay
     ,  NS "rev-backlog-browser" (termTitle ++ "rev-backlog-browser -e revcli backlog query -b") (title =? "rev-backlog-browser") defaultOverlay
     ]
   where
@@ -489,7 +489,6 @@ getKeys = do
     -- , ((modMask .|. controlMask,      xK_z            ), spawnHere "copy-to-scratchpad" )
     , ((modMask .|. shiftMask,        xK_p            ), namedScratchpadAction myScratchpads myPythonPrompt )
     , ((modMask .|. controlMask,      xK_F7           ), namedScratchpadAction myScratchpads "presentation-terminal" )
-    -- not working unfortunately due to X limitations
     -- , ((modMask .|. controlMask,      xK_m            ), namedScratchpadAction myScratchpads "rev-backlog-markdown")
     , ((modMask .|. controlMask,      xK_b            ), namedScratchpadAction myScratchpads "rev-backlog-browser")
     , ((modMask .|. controlMask,      xK_t            ), namedScratchpadAction myScratchpads "bluetuith")
