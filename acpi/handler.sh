@@ -43,10 +43,10 @@ case "$1" in
     battery)
         if [ $(cat /sys/class/power_supply/AC/online) -eq 1 ]; then
             logger "backlight: Setting full brightness"
-            backlight 10
+            backlight 100
         else
-            logger "xbacklight: Setting 20% brightness"
-            backlight 2
+            logger "xbacklight: Setting 25% brightness"
+            backlight 25
         fi
         case "$2" in
             BAT0)

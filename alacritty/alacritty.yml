@@ -3,14 +3,20 @@ font:
 
   normal:
     family: DejaVuSansM Nerd Font Mono
+    # family: Iosevka Nerd Font
+    # family: Mononoki Nerd Font Mono
     style: Regular
 
   bold:
     family: DejaVuSansM Nerd Font Mono
+    # family: Iosevka Nerd Font
+    # family: Mononoki Nerd Font Mono
     style: Bold
 
   italic:
     family: DejaVuSansM Nerd Font Mono
+    # family: Iosevka Nerd Font
+    # family: Mononoki Nerd Font Mono
     style: Oblique
 
 key_bindings:
@@ -29,11 +35,13 @@ key_bindings:
       mods: Alt|Shift,
       action: PasteSelection
     }
-  - { key: J,
+  - {
+      key: J,
       mods: Alt|Shift,
       chars: "\x1b[74;3u"
     }
-  - { key: K,
+  - {
+      key: K,
       mods: Alt|Shift,
       chars: "\x1b[75;3u"
     }
