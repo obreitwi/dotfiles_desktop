@@ -56,11 +56,6 @@ if which picom>/dev/null; then
     picom "${picom_args[@]}"
 fi
 
-# Currently G502 is configured with too high DPI
-if xinput list "pointer:Logitech G502" &>/dev/null; then
-    xinput set-prop "pointer:Logitech G502" "Coordinate Transformation Matrix" .5 0 0 0 0.5 0 0 0 1
-fi
-
 # increase repeat rate
 xset rate 200 75
 
@@ -181,9 +176,13 @@ fi
 
 
 ### mouse
-### mouse @ mucku
-# Account for higher dpi settings on G502
-xinput set-prop 'pointer:Logitech G502' 'libinput Accel Speed' -0.5
+### mouse @ mucku-disabled
+# Currently G502 is configured with too high DPI
+if xinput list "pointer:Logitech G502" &>/dev/null; then
+    # xinput set-prop 'pointer:Logitech G502' 'libinput Accel Speed' -0.5
+    xinput set-prop "pointer:Logitech G502" "Coordinate Transformation Matrix" .5 0 0 0 0.5 0 0 0 1
+fi
+
 ###
 
 # disable mouse acceleration
