@@ -2,19 +2,22 @@ font:
   size: 9
 
   normal:
-    family: DejaVuSansM Nerd Font Mono
+    family: MesloLGS NF
+    # family: DejaVuSansM Nerd Font Mono
     # family: Iosevka Nerd Font
     # family: Mononoki Nerd Font Mono
     style: Regular
 
   bold:
-    family: DejaVuSansM Nerd Font Mono
+    family: MesloLGS NF
+    # family: DejaVuSansM Nerd Font Mono
     # family: Iosevka Nerd Font
     # family: Mononoki Nerd Font Mono
     style: Bold
 
   italic:
-    family: DejaVuSansM Nerd Font Mono
+    family: MesloLGS NF
+    # family: DejaVuSansM Nerd Font Mono
     # family: Iosevka Nerd Font
     # family: Mononoki Nerd Font Mono
     style: Oblique
