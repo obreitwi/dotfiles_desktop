@@ -94,8 +94,11 @@ urxvt*saveLines: 10000
 !!!
 
 !!! set-font
-URxvt*font: xft:{{font}}:style=Book:size={{size-small}}:minspace=False xft:symbola:size={{size-small}}
+URxvt*font:     xft:{{font}}:style=Book:size={{size-small}}:minspace=False xft:symbola:size={{size-small}}
 URxvt*boldFont: xft:{{font}}:style=Bold:size={{size-small}}:minspace=False xft:symbola:size={{size-small}}
+!!! set-font @ mimir
+URxvt*font:     xft:MesloLGS NF:style=Regular:size=9:minspace=False xft:symbola:size=9
+URxvt*boldFont: xft:MesloLGS NF:style=Bold:size=9:minspace=False xft:symbola:size=9
 !!!
 
 !!!
