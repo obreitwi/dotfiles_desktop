@@ -1,26 +1,39 @@
 font:
-  size: 9
+  size: 10
 
   normal:
-    family: MesloLGS NF
+    family: IosevkaTerm NF
+    # family: Iosevka NF
+    # family: MesloLGS NF
     # family: DejaVuSansM Nerd Font Mono
     # family: Iosevka Nerd Font
     # family: Mononoki Nerd Font Mono
     style: Regular
 
   bold:
-    family: MesloLGS NF
+    family: IosevkaTerm NF
+    # family: Iosevka NF
+    # family: MesloLGS NF
     # family: DejaVuSansM Nerd Font Mono
     # family: Iosevka Nerd Font
     # family: Mononoki Nerd Font Mono
     style: Bold
 
   italic:
-    family: MesloLGS NF
+    family: IosevkaTerm NF
+    # family: Iosevka NF
+    # family: MesloLGS NF
     # family: DejaVuSansM Nerd Font Mono
     # family: Iosevka Nerd Font
     # family: Mononoki Nerd Font Mono
     style: Oblique
+
+  offset:
+    x: 0
+    y: 0
+  glyph_offset:
+    x: 0
+    y: 0
 
 key_bindings:
   - {
