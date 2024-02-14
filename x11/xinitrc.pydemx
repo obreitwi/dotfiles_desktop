@@ -7,6 +7,7 @@
 #!/bin/bash
 cd $HOME
 
+# Yes, I know this is very hacky and should be systemd units, but it gets the job done
 file_update_keyboard="${HOME}/.local/bin/daemon_restore_keyboard_settings_as_user"
 if [ -f "${file_update_keyboard}" ]; then
     "${file_update_keyboard}" &
@@ -29,6 +30,12 @@ else
     # -option terminate:ctrl_alt_bkspc \
 
     xmodmap ~/.Xmodmap &
+fi
+
+# Yes, I know this is very hacky and should be systemd units, but it gets the job done
+file_html_to_markdown_link="${HOME}/.local/bin/daemon_html_to_markdown_link"
+if [ -f "${file_html_to_markdown_link}" ]; then
+    "${file_html_to_markdown_link}" &
 fi
 
 # xrdb ~/.Xresources &

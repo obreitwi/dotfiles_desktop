@@ -361,6 +361,7 @@ getKeys = do
     -- launch dmenu
     --      , ((modMask,                    xK_semicolon), spawnHere "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
     , ((modMask,                    xK_m),       spawnHere mySpawnerProg)
+    , ((modMask .|. controlMask,    xK_m),       spawnHere "html_to_markdown_link")
 
     -- refresh montiros
     , ((modMask,                    xK_x),       spawnHere "nemo")
