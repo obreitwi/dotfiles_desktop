@@ -138,7 +138,8 @@ getScratchpads = do
     ,  NS "notes-neorg" (spawnNotesNeorg termTitle) findNotes defaultOverlay
     ,  NS "notes-vimwiki-neovide" spawnNotes_neovide findNotesNeovide defaultOverlay
     ,  NS "notes-neorg-neovide" spawnNotesNeorg_neovide findNotesNeovide defaultOverlay
-    ,  NS "todos" "neovide-todos" findTodos defaultOverlay
+    ,  NS "todos" (termTitle ++ "nvim-todos -e zsh -c 'source $HOME/.zshrc; todos'") (title =? "nvim-todos") defaultOverlay
+    ,  NS "nv-todos" "neovide-todos" findTodos defaultOverlay
     ,  NS "bluetuith" (termTitle ++ "bluetuith -e bluetuith" ) (title =? "bluetuith") defaultOverlay
     ,  NS "volumecontrol" "pavucontrol -t 3" (title =? "Volume Control") defaultOverlay
     ,  NS "easyeffects" "easyeffects" (title =? "Easy Effects") defaultOverlay
@@ -152,11 +153,11 @@ getScratchpads = do
        -- unfortunately neovide is not yet running as expected (does not allow floating and resizing) -> keep nvim in terminal for now
        -- role = stringProperty "WM_WINDOW_ROLE"
        spawnNotes termTitle = "cd ~/wiki && " ++ termTitle ++ "notes -e nvim +VimwikiMakeDiaryNote"
-       spawnNotesNeorg termTitle = "cd ~/wiki/neorg/journal && " ++ termTitle ++ "notes -e nvim '+Neorg journal today'"
+       spawnNotesNeorg termTitle = "cd ~/wiki/neorg && " ++ termTitle ++ "notes -e nvim '+Neorg journal today'"
        -- spawnNotes_neovide = "neovide --multigrid --maximized --x11-wm-class neovide-notes -- '+cd ~/wiki' '+VimwikiMakeDiaryNote' '+set columns=" ++ (show numCols) ++ "'"
        -- spawnNotesNeorg_neovide = "neovide --multigrid --maximized --x11-wm-class neovide-notes -- '+cd ~/.vimwiki/neorg/journal' '+Neorg journal today' '+set columns=" ++ (show numCols) ++ "'"
        spawnNotes_neovide = "neovide --maximized --x11-wm-class neovide-notes -- '+cd ~/wiki' '+VimwikiMakeDiaryNote'"
-       spawnNotesNeorg_neovide = "neovide --maximized --x11-wm-class neovide-notes -- '+cd ~/wiki/neorg/journal' '+Neorg journal today'"
+       spawnNotesNeorg_neovide = "neovide --maximized --x11-wm-class neovide-notes -- '+cd ~/wiki/neorg' '+Neorg journal today'"
        -- findNotes = role =? "notes"
        findNotesNeovide = className =? "neovide-notes"
        findTodos = className =? "neovide-todos"
@@ -479,8 +480,8 @@ getKeys = do
     ------------------------------
     -- [ ((modMask .|. controlMask,      xK_slash        ), namedScratchpadAction myScratchpads "notes" )
     [ ((modMask .|. controlMask,      xK_slash        ), namedScratchpadAction myScratchpads "todos" )
-    -- , ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes-neorg" )
-    , ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes-neorg-neovide" )
+    , ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes-neorg" )
+    -- , ((modMask,                      xK_slash        ), namedScratchpadAction myScratchpads "notes-neorg-neovide" )
     , ((modMask .|. shiftMask,        xK_slash        ), namedScratchpadAction myScratchpads "htop" )
     , ((modMask,                      xK_apostrophe   ), namedScratchpadAction myScratchpads "shell" )
     , ((modMask .|. shiftMask,        xK_apostrophe   ), namedScratchpadAction myScratchpads "alsamixer" )
