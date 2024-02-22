@@ -12,12 +12,13 @@ TGTFLD="${HOME}/.local/share/applications"
 
 ln -s -f -v "${SRCFLD}/chrome-auto-profile.desktop" "${TGTFLD}"
 ln -s -f -v "${SRCFLD}/nvim-urxvt.desktop"          "${TGTFLD}"
+ln -s -f -v "${SRCFLD}/nvim-alacritty.desktop"      "${TGTFLD}"
 ln -s -f -v "${SRCFLD}/zathura.desktop"             "${TGTFLD}"
 
 export XDG_UTILS_DEBUG_LEVEL=10
 
-for ft in $(grep MimeType "${SRCFLD}/nvim-urxvt.desktop" | cut -d= -f2 | tr ';' ' '); do
-    xdg-mime default nvim-urxvt.desktop "$ft";
+for ft in $(grep MimeType "${SRCFLD}/nvim-alacritty.desktop" | cut -d= -f2 | tr ';' ' '); do
+    xdg-mime default nvim-alacritty.desktop "$ft";
 done
 
 if which zathura>/dev/null; then
