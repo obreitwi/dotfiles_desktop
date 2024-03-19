@@ -120,7 +120,7 @@ getScratchpads = do
   return
     [  NS "alsamixer" (termTitle ++ "alsamixer -e alsamixer") (title =? "alsamixer") defaultOverlay
     ,  NS "bashtop" (termTitle ++ "bashtop -e bashtop") (title =? "bashtop") defaultOverlay
-    ,  NS "bpytop" (termTitle ++ "BpyTOP -e bpytop") (title =? "BpyTOP") defaultOverlay
+    ,  NS "btop" (termTitle ++ "btop -e btop") (title =? "btop") defaultOverlay
     ,  NS "htop" (termTitle ++ "htop -e htop") (title =? "htop") defaultOverlay
     ,  NS "shell" (termTitle ++ "shell") (title =? "shell") defaultOverlay
     ,  NS "ipython" (termTitle ++ "ipython -e ipython") (title =? "ipython") defaultOverlay
@@ -226,6 +226,7 @@ getExtendedWorkspaces = do
     return $ [ "NSP" ] ++ extws host ++ [ "z" ]
   where
     extws "mimir" = [ "1pw"
+                    , "ai"
                     , "chat"
                     , "code"
                     , "dbg"
@@ -486,7 +487,7 @@ getKeys = do
     , ((modMask .|. shiftMask,        xK_slash        ), namedScratchpadAction myScratchpads "htop" )
     , ((modMask,                      xK_apostrophe   ), namedScratchpadAction myScratchpads "shell" )
     , ((modMask .|. shiftMask,        xK_apostrophe   ), namedScratchpadAction myScratchpads "alsamixer" )
-    , ((modMask,                      xK_backslash    ), namedScratchpadAction myScratchpads "bpytop" )
+    , ((modMask,                      xK_backslash    ), namedScratchpadAction myScratchpads "btop" )
     , ((modMask .|. shiftMask,        xK_backslash    ), namedScratchpadAction myScratchpads "bashtop" )
     , ((modMask,                      xK_g            ), namedScratchpadAction myScratchpads "nvim-scratchpad" )
     -- , ((modMask .|. controlMask,      xK_z            ), spawnHere "copy-to-scratchpad" )
