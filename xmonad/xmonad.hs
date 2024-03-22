@@ -239,7 +239,7 @@ getExtendedWorkspaces = do
                     , "root"
                     , "sql"
                     , "slack"
-                    , "teams"
+                    , "tests"
                     , "web"
                     , "z" ]
 
