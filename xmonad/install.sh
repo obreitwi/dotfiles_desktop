@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SRCFLD=$(dirname $(readlink -m "$0"))
 TGTFLD="$HOME/.xmonad"
