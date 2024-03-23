@@ -1035,7 +1035,7 @@ getSpawnXmobar = return go
     let logProp = "_XMONAD_LOG"
         rcFile = home ++ "/.xmonad/xmobar"
         -- command = home ++ "/.xmonad/bin/xmobar -x " ++ (show sId) ++ " " ++ rcFile
-        command = home ++ "/.xmonad/bin/xmobar -x 0 " ++ rcFile
+        command = "xmobar -x 0 " ++ rcFile
     return $ statusBarPropTo logProp command (pure myPP)
   go (S _) = mempty
 
