@@ -45,7 +45,7 @@ if [[ "$(hostname)" == "mimir" ]]; then
     export LIBVA_DRIVER_NAME=vdpau
 fi
 
-if command -v picom &>/dev/null; then
+if ! [ -e /etc/NIXOS ] && command -v picom &>/dev/null; then
     picom_args=(-b)
     # If we use nvidia as the main renderer -> compose with glx backend
     if [[ "$(hostname)" == "mimir" ]] && [ "$(glxinfo | grep "OpenGL renderer")" = "OpenGL renderer string: NVIDIA RTX A1000 Laptop GPU/PCIe/SSE2" ]; then
@@ -86,13 +86,15 @@ if which gnome-keyring-daemon >/dev/null; then
 fi
 
 ### virtualbox
-if command -v VBoxClient-all &>/dev/null; then
+if ! [ -e /etc/NIXOS ] && command -v VBoxClient-all &>/dev/null; then
     VBoxClient-all &
 fi
 
-feh  --bg-fill "${HOME}/wallpaper/current"
+if command -v feh &>/dev/null && [ -e "${HOME}/wallpaper/current" ]; then
+    feh  --bg-fill "${HOME}/wallpaper/current"
+fi
 
-if command -v unclutter &>/dev/null; then
+if ! [ -e /etc/NIXOS ] && command -v unclutter &>/dev/null; then
     killall unclutter
     unclutter &
 fi
@@ -205,6 +207,8 @@ fi
 rm -f $HOME/.xmonad/xmonad.state
 if [ -f ~/.xmonad/bin/xmonad-x86_64-linux ]; then
     exec ~/.xmonad/bin/xmonad-x86_64-linux
-else
+elif [ -f ~/.xmonad/bin/xmonad ]; then
     exec ~/.xmonad/bin/xmonad
+else
+    exec xmonad
 fi
