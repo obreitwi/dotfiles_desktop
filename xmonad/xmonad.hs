@@ -93,18 +93,16 @@ getTerminal = do
     host <- R.asks hostname
     return $ go host
   where
-    go "mucku" = "alacritty"
-    go "abed" = "alacritty"
-    go "mimir" = "alacritty"
-    go _ = "urxvtc"
+    -- go _ = "urxvtc"
+    go _ = "alacritty"
 
 getAltTerminal :: R.Reader MyConfig String
 getAltTerminal = do
     host <- R.asks hostname
     return $ go host
   where
-    go "mucku" = "urxvtc"
-    go _ = "alacritty"
+    -- go _ = "urxvtc"
+    go _ = "urxvt"
 
 getTermTitleArg :: R.Reader MyConfig String
 getTermTitleArg = getTerminal >>= (return . go)
