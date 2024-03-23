@@ -58,10 +58,11 @@ if ! [ -e /etc/NIXOS ] && command -v picom &>/dev/null; then
 fi
 
 # increase repeat rate
-xset rate 200 75
-
-# no beep
-xset b off
+if ! [ -e /etc/NIXOS ]; then
+    xset rate 200 75
+    # no beep
+    xset b off
+fi
 
 if command -v keynav &>/dev/null; then
     keynav &
