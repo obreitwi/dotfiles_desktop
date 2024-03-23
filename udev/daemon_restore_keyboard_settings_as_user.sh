@@ -29,6 +29,7 @@ update_xkbmap() {
       -option compose:menu \
       -option compose:prsc \
       -option lv3:ralt_switch \
+      -option caps:escape \
       -option eurosign:e \
       -option nbsp:level3n
 }
