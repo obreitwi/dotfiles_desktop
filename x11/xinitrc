@@ -12,7 +12,7 @@ if [ -f "${file_update_keyboard}" ]; then
     (sleep 2 && kill -CONT ${pid_kb_update}) &
 
     unset pid_kb_update
-else
+elif ! [ -e /etc/NIXOS ]; then # manual setup if we are not on nixOS
     # xsetroot -cursor_name left_ptr &
     setxkbmap us\
       -variant altgr-intl \
@@ -27,10 +27,13 @@ else
     xmodmap ~/.Xmodmap &
 fi
 
-# Yes, I know this is very hacky and should be systemd units, but it gets the job done
-file_html_to_markdown_link="${HOME}/.local/bin/daemon_html_to_markdown_link"
-if [ -f "${file_html_to_markdown_link}" ]; then
-    "${file_html_to_markdown_link}" &
+# Probably not needed anymore (yay), so just disabled for now.
+if false; then
+    # Yes, I know this is very hacky and should be systemd units, but it gets the job done
+    file_html_to_markdown_link="${HOME}/.local/bin/daemon_html_to_markdown_link"
+    if [ -f "${file_html_to_markdown_link}" ]; then
+        "${file_html_to_markdown_link}" &
+    fi
 fi
 
 # xrdb ~/.Xresources &
@@ -41,7 +44,6 @@ fi
 if [[ "$(hostname)" == "mimir" ]]; then
     export LIBVA_DRIVER_NAME=vdpau
 fi
-
 
 if command -v picom &>/dev/null; then
     picom_args=(-b)
