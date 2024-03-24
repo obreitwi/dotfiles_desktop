@@ -1031,9 +1031,10 @@ getSpawnXmobar = return go
   go (S 0) = do
     home <- getEnv "HOME"
     let logProp = "_XMONAD_LOG"
-        rcFile = home ++ "/.config/xmobar/.xmobarrc"
+        -- rcFile = home ++ "/.config/xmobar/.xmobarrc"
         -- command = home ++ "/.xmonad/bin/xmobar -x " ++ (show sId) ++ " " ++ rcFile
-        command = "xmobar -x 0 " ++ rcFile
+        -- command = "xmobar -x 0 " ++ rcFile
+        command = "xmobar -x 0"
     return $ statusBarPropTo logProp command (pure myPP)
   go (S _) = mempty
 
