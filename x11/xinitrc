@@ -46,6 +46,19 @@ if command -v backlight &>/dev/null; then
     fi
 fi
 
+if command -v picom &>/dev/null; then
+    picom_args=(-b)
+    # If we use nvidia as the main renderer -> compose with glx backend
+    if [[ "$(hostname)" == "mimir" ]] && [ "$(glxinfo | grep "OpenGL renderer")" = "OpenGL renderer string: NVIDIA RTX A1000 Laptop GPU/PCIe/SSE2" ]; then
+        picom_args+=(--backend glx --xrender-sync-fence)
+        # Trying out xrender backend, 10-04-23 17:23:14
+        # Tearing and windows disappearing, 22.04.2023 22:49:59
+        # picom_args+=(--backend xrender)
+    fi
+    picom "${picom_args[@]}"
+fi
+
+
 if ! [ -e /etc/NIXOS ]; then # BEGIN non-NIXOS
     # Yes, I know this is very hacky and should be systemd units, but it gets the job done
     file_update_keyboard="${HOME}/.local/bin/daemon_restore_keyboard_settings_as_user"
@@ -90,18 +103,6 @@ if ! [ -e /etc/NIXOS ]; then # BEGIN non-NIXOS
     xset rate 200 75
     # no beep
     xset b off
-
-    if command -v picom &>/dev/null; then
-        picom_args=(-b)
-        # If we use nvidia as the main renderer -> compose with glx backend
-        if [[ "$(hostname)" == "mimir" ]] && [ "$(glxinfo | grep "OpenGL renderer")" = "OpenGL renderer string: NVIDIA RTX A1000 Laptop GPU/PCIe/SSE2" ]; then
-            picom_args+=(--backend glx --xrender-sync-fence)
-            # Trying out xrender backend, 10-04-23 17:23:14
-            # Tearing and windows disappearing, 22.04.2023 22:49:59
-            # picom_args+=(--backend xrender)
-        fi
-        picom "${picom_args[@]}"
-    fi
 
     # auto lock screen after 10 minutes of idle
     if command -v sinac &>/dev/null; then
@@ -206,13 +207,18 @@ if ! [ -e /etc/NIXOS ]; then # BEGIN non-NIXOS
     fi
 fi # END non-NixOS
 
-# try to remove the state file so that things that might have changed during
-# shutdown (e.g. number of monitors) gets recognized correctly
-rm -f $HOME/.xmonad/xmonad.state
-if [ -f ~/.xmonad/bin/xmonad-x86_64-linux ]; then
-    exec ~/.xmonad/bin/xmonad-x86_64-linux
-elif [ -f ~/.xmonad/bin/xmonad ]; then
-    exec ~/.xmonad/bin/xmonad
+if command -v nixGL &>/dev/null; then
+    nixGL xmonad
+
 else
-    exec xmonad
+    # try to remove the state file so that things that might have changed during
+    # shutdown (e.g. number of monitors) gets recognized correctly
+    rm -f $HOME/.xmonad/xmonad.state
+    if [ -f ~/.xmonad/bin/xmonad-x86_64-linux ]; then
+        exec ~/.xmonad/bin/xmonad-x86_64-linux
+    elif [ -f ~/.xmonad/bin/xmonad ]; then
+        exec ~/.xmonad/bin/xmonad
+    else
+        exec xmonad
+    fi
 fi
