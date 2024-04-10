@@ -122,7 +122,7 @@ getScratchpads = do
     ,  NS "htop" (termTitle ++ "htop -e htop") (title =? "htop") defaultOverlay
     ,  NS "shell" (termTitle ++ "shell") (title =? "shell") defaultOverlay
     ,  NS "ipython" (termTitle ++ "ipython -e ipython") (title =? "ipython") defaultOverlay
-    ,  NS "ptipython" (termTitle ++ "\"Python REPL (ptipython)\" -e ptipython") (title =? "Python REPL (ptipython)") defaultOverlay
+    ,  NS "ptpython" (termTitle ++ "\"Python REPL (ptpython)\" -e ptpython") (title =? "Python REPL (ptpython)") defaultOverlay
     ,  NS "nvim-ghost" (termTitle ++ "nvim-ghost -e nvim  +GhostStart") (title =? "nvim-ghost") defaultOverlay
     ,  NS "nvim-scratchpad" (termTitle ++ "nvim-scratchpad -e nvim /tmp/scratchpad" ) (title =? "nvim-scratchpad") defaultOverlay
     ,  NS "neovide-ghost" "neovide -- +GhostStart '+set titlestring=neovide-ghost' '+set title'" (title =? "neovide-ghost") defaultOverlay
