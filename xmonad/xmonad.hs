@@ -234,6 +234,7 @@ getExtendedWorkspaces = do
                     , "music"
                     , "nix"
                     , "root"
+                    , "rust"
                     , "slack"
                     , "tests"
                     , "web"
@@ -607,7 +608,9 @@ getKeys = do
     ]
     ++
     -- Toggle Microphone in Zoom
-    [   ((modMask, xK_F9),  spawn "meet-toggle-audio" >> spawn "zoom-toggle-audio")
+    -- [   ((modMask, xK_F9),  spawn "meet-toggle-audio" >> spawn "zoom-toggle-audio")
+    -- Toggle bluetooth mode
+    [   ((modMask, xK_F9),  spawn "toggle-bluetooth-audio")
     ]
     ++
     -- Music controller
