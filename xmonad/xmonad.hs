@@ -960,28 +960,31 @@ myPP_inactive = myPP { ppCurrent = xmobarColor "#CEFFAC" "" }
 -- myTrayer hostname = "killall trayer; trayer \
 getSpawnTrayer :: R.Reader MyConfig (IO ())
 getSpawnTrayer = do
+    host <- R.asks hostname
     tWidth <- trayWidth
     tHeight <- trayHeight
-    return $ do
+    return $ go host tWidth tHeight
+  where 
+    -- no trayer for mimir -> switching to stalonetray
+    go "mimir" _ _ = return ()
+    go _ width height = do
       killTrayer
       -- numScr <- countScreens
       -- mapM_ (spawnSingleTrayer tWidth tHeight) [0..numScr-1]
       -- TODO dynamically determine trayer position
-      spawnSingleTrayer tWidth tHeight
-  where
-    spawnSingleTrayer width height = unsafeSpawn $ "sleep 1 && trayer \
-       \--monitor primary \
-       \--edge top \
-       \--align right \
-       \--width " ++ width ++ " \
-       \--widthtype pixel \
-       \--height " ++ height ++ " \
-       \--padding 1 \
-       \--tint 0x000000 \
-       \--transparent true \
-       \--alpha 0 \
-       \--expand false \
-       \--SetDockType true 2>&1 | systemd-cat -t trayer"
+      unsafeSpawn $ "sleep 1 && trayer \
+        \--monitor primary \
+        \--edge top \
+        \--align right \
+        \--width " ++ width ++ " \
+        \--widthtype pixel \
+        \--height " ++ height ++ " \
+        \--padding 1 \
+        \--tint 0x000000 \
+        \--transparent true \
+        \--alpha 0 \
+        \--expand false \
+        \--SetDockType true 2>&1 | systemd-cat -t trayer"
 
     killTrayer :: IO ()
     killTrayer = unsafeSpawn "killall -9 trayer"
