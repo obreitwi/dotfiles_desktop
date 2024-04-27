@@ -918,41 +918,21 @@ getHandleEventHook = do
    -- else
       -- return $ eventHook
 
-myPP :: PP
-myPP = xmobarPP {
-     ppTitle = xmobarColor "#FFB6B0" "" . shorten 100
-     --  , ppCurrent = xmobarColor "#CEFFAC" ""
-     , ppCurrent = xmobarColor "#0CC6DA" ""
-     , ppVisible = xmobarColor "#CEFFAC" ""
-     , ppHidden = ppHidden xmobarPP . noScratchPad
-     , ppHiddenNoWindows = xmobarColor "#777777" "" . noScratchPad
-     , ppSep = "   "
-     --  , ppSort = DO.getSortByOrder
- }
- where
-     noScratchPad ws = if ws == "NSP" then "" else ws
-
-
-myPP_inactive :: PP
-myPP_inactive = myPP { ppCurrent = xmobarColor "#CEFFAC" "" }
-
-
--- DELME
--- getLogHook :: R.Reader MyConfig (X ())
--- getLogHook = return $ multiPP myPP myPP_inactive
-  -- do
-    -- spawnXmobar <- getSpawnXmobar
-    -- numScreens <- R.asks numScreens
-    -- if numScreens > 1 then
-      -- return $ multiPP myPP myPP
-    -- else
-      -- return $ do
-        -- h <- liftIO $ spawnXmobar 0
-        -- liftIO $ logToTmpFile $ "Spawning single screen xmobar"
-        -- let singleScreenPP = myPP { ppOutput = hPutStrLn h }
-        -- dynamicLogWithPP singleScreenPP
-
-
+myPP :: R.Reader MyConfig PP
+myPP = do
+  tWidth <- trayWidth
+  return $ xmobarPP {
+      ppTitle = xmobarColor "#FFB6B0" "" . shorten tWidth
+      --  , ppCurrent = xmobarColor "#CEFFAC" ""
+      , ppCurrent = xmobarColor "#0CC6DA" ""
+      , ppVisible = xmobarColor "#CEFFAC" ""
+      , ppHidden = ppHidden xmobarPP . noScratchPad
+      , ppHiddenNoWindows = xmobarColor "#777777" "" . noScratchPad
+      , ppSep = "   "
+      --  , ppSort = DO.getSortByOrder
+  }
+  where
+      noScratchPad ws = if ws == "NSP" then "" else ws
 
 -- myTrayer = "killall trayer; trayer --edge top --align left --margin 1770 --width 150 --widthtype pixel --height 16 --SetDockType true --expand false --padding 1 --tint 0x000000 --transparent true --alpha 0"
 -- myTrayer = "killall trayer; trayer --edge top --align left --margin 1340 --width 100 --widthtype pixel --height 16 --padding 1 --tint 0x000000 --transparent true --alpha 0"
@@ -963,10 +943,13 @@ getSpawnTrayer = do
     host <- R.asks hostname
     tWidth <- trayWidth
     tHeight <- trayHeight
-    return $ go host tWidth tHeight
+    return $ go host (show tWidth) (show tHeight)
   where 
     -- no trayer for mimir -> switching to stalonetray
-    go "mimir" _ _ = return ()
+    go "mimir" _ _ = do
+      killStalonetray
+      unsafeSpawn $ "sleep 1 && stalonetray"
+
     go _ width height = do
       killTrayer
       -- numScr <- countScreens
@@ -989,6 +972,9 @@ getSpawnTrayer = do
     killTrayer :: IO ()
     killTrayer = unsafeSpawn "killall -9 trayer"
 
+    killStalonetray :: IO ()
+    killStalonetray = unsafeSpawn "killall -9 stalonetray"
+
 
 trayHeight = do
     host <- R.asks hostname
@@ -1003,44 +989,28 @@ trayWidth = do
     host <- R.asks hostname
     return $ width host
   where
-    width "nurikum" = "150"
-    width "jovis" = "50"
-    width "gordon" = "75"
-    width "phaeloff" = "74"
-    width _ = "100"
-
-trayMargin = do
-    host <- R.asks hostname
-    widthNurikum <- R.withReader (setHostname "nurikum") trayWidth
-    widthGordon <- R.withReader (setHostname "gordon") trayWidth
-    return $ margin widthNurikum widthGordon host
-  where
-    -- TODO: this is ugly, fix it!
-    margin _ _ "nurikum" = "1700"
-    margin widthNurikum _ "nurikum-standalone" = show (1920 + 1280 - (read widthNurikum))
-    margin _ _ "phaelon" = "1340"
-    margin _ _ "gordon" = "1291"
-    margin _ widthGordon "phaeloff" = widthGordon
-    margin _ _ "jovis" = "1230"
-    margin _ _ _ = "1820"
-
--- getSpawnXmobar :: R.Reader MyConfig (ScreenId -> IO Handle)
--- getSpawnXmobar = return $ \(S sId) ->
-    -- spawnPipe $ "~/.xmonad/bin/xmobar -x " ++ (show sId) ++ " ~/.xmonad/xmobar"
+    width "nurikum" = 150
+    width "jovis" = 50
+    width "gordon" = 75
+    width "phaeloff" = 74
+    width "mimir" = 102 -- 6×17
+    width _ = 100
 
 getSpawnXmobar :: R.Reader MyConfig (ScreenId -> IO StatusBarConfig)
 -- spawnPipe $ "~/.xmonad/bin/xmobar -x " ++ (show sId) ++ " ~/.xmonad/xmobar"
-getSpawnXmobar = return go
+getSpawnXmobar = do
+    pp <- myPP
+    return $ go pp
  where
-  go (S 0) = do
-    home <- getEnv "HOME"
-    let logProp = "_XMONAD_LOG"
-        -- rcFile = home ++ "/.config/xmobar/.xmobarrc"
-        -- command = home ++ "/.xmonad/bin/xmobar -x " ++ (show sId) ++ " " ++ rcFile
-        -- command = "xmobar -x 0 " ++ rcFile
-        command = "xmobar -x 0"
-    return $ statusBarPropTo logProp command (pure myPP)
-  go (S _) = mempty
+    go pp (S 0) = do
+      home <- getEnv "HOME"
+      let logProp = "_XMONAD_LOG"
+          -- rcFile = home ++ "/.config/xmobar/.xmobarrc"
+          -- command = home ++ "/.xmonad/bin/xmobar -x " ++ (show sId) ++ " " ++ rcFile
+          -- command = "xmobar -x 0 " ++ rcFile
+          command = "xmobar -x 0"
+      return $ statusBarPropTo logProp command (pure pp)
+    go _ (S _) = mempty
 
 -- myDefaultConfig "gordon" = xfceConfig
 getDefaultConfig = return def
