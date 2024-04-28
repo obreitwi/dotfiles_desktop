@@ -993,7 +993,7 @@ trayWidth = do
     width "jovis" = 50
     width "gordon" = 75
     width "phaeloff" = 74
-    width "mimir" = 102 -- 6×17
+    width "mimir" = 6*17
     width _ = 100
 
 getSpawnXmobar :: R.Reader MyConfig (ScreenId -> IO StatusBarConfig)
