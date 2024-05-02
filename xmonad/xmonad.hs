@@ -946,6 +946,9 @@ getSpawnTrayer = do
     return $ go host tWidth tHeight
   where 
     -- no trayer for mimir -> switching to stalonetray
+    go "mimir" _ _ = do
+      killTrayer
+      unsafeSpawn "sleep 1 && ~/.xmonad/run-trayer.sh"
     -- go "mimir" _ _ = do
       -- killStalonetray
       -- unsafeSpawn $ "sleep 1 && stalonetray"
@@ -977,7 +980,7 @@ getSpawnTrayer = do
 
 
 numIcons = do
-  return 7
+  return 6
 
 
 trayWidth = do
