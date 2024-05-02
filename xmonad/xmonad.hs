@@ -973,7 +973,7 @@ getSpawnTrayer = do
     killTrayer = unsafeSpawn "killall -9 trayer"
 
     killStalonetray :: IO ()
-    killStalonetray = unsafeSpawn "killall -9 stalonetray"
+    killStalonetray = unsafeSpawn "killall -15 stalonetray"
 
 
 trayHeight = do
