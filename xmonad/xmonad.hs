@@ -941,8 +941,8 @@ myPP = do
 getSpawnTrayer :: R.Reader MyConfig (IO ())
 getSpawnTrayer = do
     host <- R.asks hostname
-    tWidth <- trayWidth
     tHeight <- trayHeight
+    tWidth <- trayWidth
     return $ go host tWidth tHeight
   where 
     -- no trayer for mimir -> switching to stalonetray
@@ -959,7 +959,7 @@ getSpawnTrayer = do
         \--monitor primary \
         \--edge top \
         \--align right \
-        \--width " ++ (show $ 7 * width) ++ " \
+        \--width " ++ (show $ width) ++ " \
         \--widthtype pixel \
         \--height " ++ (show height) ++ " \
         \--padding 1 \
@@ -976,25 +976,24 @@ getSpawnTrayer = do
     killStalonetray = unsafeSpawn "killall -15 stalonetray"
 
 
+numIcons = do
+  return 7
+
+
+trayWidth = do
+  nI <- numIcons
+  height <- trayHeight
+  return $ nI * height
+
+
 trayHeight = do
     host <- R.asks hostname
     return $ height host
   where
     -- height "mucku" = "19"
     -- height "mimir" = "17"
-    height _ = "18"
+    height _ = 18
 
-
-trayWidth = do
-    host <- R.asks hostname
-    return $ width host
-  where
-    width "nurikum" = 150
-    width "jovis" = 50
-    width "gordon" = 75
-    width "phaeloff" = 74
-    width "mimir" = 6*17
-    width _ = 100
 
 getSpawnXmobar :: R.Reader MyConfig (ScreenId -> IO StatusBarConfig)
 -- spawnPipe $ "~/.xmonad/bin/xmobar -x " ++ (show sId) ++ " ~/.xmonad/xmobar"
