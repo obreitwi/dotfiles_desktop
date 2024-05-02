@@ -946,9 +946,9 @@ getSpawnTrayer = do
     return $ go host (show tWidth) (show tHeight)
   where 
     -- no trayer for mimir -> switching to stalonetray
-    go "mimir" _ _ = do
-      killStalonetray
-      unsafeSpawn $ "sleep 1 && stalonetray"
+    -- go "mimir" _ _ = do
+      -- killStalonetray
+      -- unsafeSpawn $ "sleep 1 && stalonetray"
 
     go _ width height = do
       killTrayer
@@ -982,7 +982,7 @@ trayHeight = do
   where
     -- height "mucku" = "19"
     -- height "mimir" = "17"
-    height _ = "17"
+    height _ = "18"
 
 
 trayWidth = do
