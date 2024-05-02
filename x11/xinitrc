@@ -28,9 +28,9 @@ if command -v feh &>/dev/null && [ -e "${HOME}/wallpaper/current" ]; then
     feh --bg-fill "${HOME}/wallpaper/current"
 fi
 
-### autolock @ mimir
 # Lock screen after 5 minutes of idle
 xset s 300
+xsetroot -cursor_name left_ptr
 
 if command -v xss-lock &>/dev/null; then
     xss-lock -- slock &
