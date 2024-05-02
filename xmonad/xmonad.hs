@@ -943,7 +943,7 @@ getSpawnTrayer = do
     host <- R.asks hostname
     tWidth <- trayWidth
     tHeight <- trayHeight
-    return $ go host (show tWidth) (show tHeight)
+    return $ go host tWidth tHeight
   where 
     -- no trayer for mimir -> switching to stalonetray
     -- go "mimir" _ _ = do
@@ -959,9 +959,9 @@ getSpawnTrayer = do
         \--monitor primary \
         \--edge top \
         \--align right \
-        \--width " ++ width ++ " \
+        \--width " ++ (show $ 7 * width) ++ " \
         \--widthtype pixel \
-        \--height " ++ height ++ " \
+        \--height " ++ (show height) ++ " \
         \--padding 1 \
         \--tint 0x000000 \
         \--transparent true \
