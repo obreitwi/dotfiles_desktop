@@ -942,7 +942,7 @@ getSpawnTrayer :: R.Reader MyConfig (IO ())
 getSpawnTrayer = do
     killTrayer
     unsafeSpawn "sleep 1 && ~/.xmonad/run-trayer.sh"
-
+  where
     killTrayer :: IO ()
     killTrayer = unsafeSpawn "killall -9 trayer"
 
