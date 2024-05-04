@@ -30,6 +30,8 @@ fi
 
 # Lock screen after 5 minutes of idle
 xset s 300
+
+# no black x as cursor in tray
 xsetroot -cursor_name left_ptr
 
 if command -v xss-lock &>/dev/null; then
