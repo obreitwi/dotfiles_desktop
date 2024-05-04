@@ -940,44 +940,11 @@ myPP = do
 -- myTrayer hostname = "killall trayer; trayer \
 getSpawnTrayer :: R.Reader MyConfig (IO ())
 getSpawnTrayer = do
-    host <- R.asks hostname
-    tHeight <- trayHeight
-    tWidth <- trayWidth
-    return $ go host tWidth tHeight
-  where 
-    -- no trayer for mimir -> switching to stalonetray
-    go "mimir" _ _ = do
-      killTrayer
-      unsafeSpawn "sleep 1 && ~/.xmonad/run-trayer.sh"
-    -- go "mimir" _ _ = do
-      -- killStalonetray
-      -- unsafeSpawn $ "sleep 1 && stalonetray"
-
-    go _ width height = do
-      killTrayer
-      -- numScr <- countScreens
-      -- mapM_ (spawnSingleTrayer tWidth tHeight) [0..numScr-1]
-      -- TODO dynamically determine trayer position
-      unsafeSpawn $ "sleep 1 && trayer \
-        \--monitor primary \
-        \--edge top \
-        \--align right \
-        \--width " ++ (show $ width) ++ " \
-        \--widthtype pixel \
-        \--height " ++ (show height) ++ " \
-        \--padding 1 \
-        \--tint 0x000000 \
-        \--transparent true \
-        \--alpha 0 \
-        \--expand false \
-        \--SetDockType true 2>&1 | systemd-cat -t trayer"
+    killTrayer
+    unsafeSpawn "sleep 1 && ~/.xmonad/run-trayer.sh"
 
     killTrayer :: IO ()
     killTrayer = unsafeSpawn "killall -9 trayer"
-
-    killStalonetray :: IO ()
-    killStalonetray = unsafeSpawn "killall -15 stalonetray"
-
 
 numIcons = do
   return 6
