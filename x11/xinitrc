@@ -192,8 +192,10 @@ if ! [ -e /etc/NIXOS ]; then # BEGIN non-NIXOS
     # xrandr --dpi 96
 
     # network-tray
-    if command -v iwgtk >/dev/null && command -v snixembed >/dev/null; then
+    if command -v snixembed >/dev/null; then
         snixembed --fork
+    fi
+    if command -v iwgtk >/dev/null; then
         iwgtk -i &
     fi
 
