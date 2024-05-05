@@ -939,16 +939,12 @@ myPP = do
 -- myTrayer "gordon" = "/bin/true"
 -- myTrayer hostname = "killall trayer; trayer \
 getSpawnTrayer :: R.Reader MyConfig (IO ())
-getSpawnTrayer = do
-    killTrayer
+getSpawnTrayer = return $ do
+    unsafeSpawn "killall -9 trayer"
     unsafeSpawn "sleep 1 && ~/.xmonad/run-trayer.sh"
-  where
-    killTrayer :: IO ()
-    killTrayer = unsafeSpawn "killall -9 trayer"
 
 numIcons = do
   return 6
-
 
 trayWidth = do
   nI <- numIcons
