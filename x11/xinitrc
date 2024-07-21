@@ -189,7 +189,7 @@ if ! [ -e /etc/NIXOS ]; then # BEGIN non-NIXOS
     rm "${tmpfile}"
 
     # dpi
-    # xrandr --dpi 96
+    xrandr --dpi 96
 
     # network-tray
     if command -v snixembed >/dev/null; then
