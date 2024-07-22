@@ -268,7 +268,7 @@ getSpawnerProg = do
     host <- R.asks hostname
     return $ prg host
   where
-     prg _ = "rofi -show run"
+     prg _ = "rofi -show run -sort"
      -- prg _ = "gmrun"
 
 
