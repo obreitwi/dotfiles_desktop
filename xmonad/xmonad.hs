@@ -226,8 +226,8 @@ getExtendedWorkspaces = do
     extws "mimir" = [ "1pw"
                     , "chat"
                     , "code"
-                    , "dbg"
                     , "fdc"
+                    , "gchat"
                     , "k9s"
                     , "kdb"
                     , "meeting"
@@ -236,7 +236,6 @@ getExtendedWorkspaces = do
                     , "root"
                     , "rust"
                     , "slack"
-                    , "tests"
                     , "web"
                     , "z" ]
 
