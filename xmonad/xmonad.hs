@@ -960,12 +960,13 @@ trayHeight = do
     height _ = 18
 
 
-getSpawnXmobar :: R.Reader MyConfig (ScreenId -> IO StatusBarConfig)
+getSpawnXmobar :: R.Reader MyConfig (ScreenId -> X StatusBarConfig)
 -- spawnPipe $ "~/.xmonad/bin/xmobar -x " ++ (show sId) ++ " ~/.xmonad/xmobar"
 getSpawnXmobar = do
     pp <- myPP
-    return $ go pp
+    return $ \sId -> (liftIO $ go pp sId)
  where
+    go :: PP -> ScreenId -> IO StatusBarConfig
     go pp (S 0) = do
       home <- getEnv "HOME"
       let logProp = "_XMONAD_LOG"
