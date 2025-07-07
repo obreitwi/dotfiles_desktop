@@ -229,13 +229,12 @@ getExtendedWorkspaces = do
                     , "fdc"
                     , "gchat"
                     , "k9s"
-                    , "kdb"
                     , "meeting"
                     , "music"
                     , "nix"
+                    , "recruiting"
                     , "root"
                     , "rust"
-                    , "slack"
                     , "web"
                     , "z" ]
 
