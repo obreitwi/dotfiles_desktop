@@ -605,6 +605,12 @@ getKeys = do
       ((modMask, xK_F8),    spawn "rofi -modi 1pass:rofi-1pass -show 1pass")
     ]
     ++
+    [
+      -- get notofications from history
+        ((modMask .|. controlMask, xK_space),               spawn "dunstctl history-pop")
+      , ((modMask .|. controlMask .|. shiftMask, xK_space), spawn "dunstctl close")
+    ]
+    ++
     -- Toggle Microphone in Zoom
     -- [   ((modMask, xK_F9),  spawn "meet-toggle-audio" >> spawn "zoom-toggle-audio")
     -- Toggle bluetooth mode
