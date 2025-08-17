@@ -606,9 +606,8 @@ getKeys = do
     ]
     ++
     [
-      -- get notofications from history
-        ((modMask .|. controlMask, xK_space),               spawn "dunstctl history-pop")
-      , ((modMask .|. controlMask .|. shiftMask, xK_space), spawn "dunstctl close")
+        ((modMask .|. controlMask, xK_space), spawn "dunstctl history-pop")
+      , ((modMask .|. controlMask .|. shiftMask, xK_space), spawn "dunstctl history-clear")
     ]
     ++
     -- Toggle Microphone in Zoom
