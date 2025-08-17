@@ -377,7 +377,7 @@ getKeys = do
     -- launch browser
     -- , ((modMask ,                   xK_b        ), spawn "open-default-browser")
     -- launch browser with proxy enabled
-    , ((modMask .|. shiftMask,      xK_b        ), spawn myBrowserProxy)
+    --, ((modMask .|. shiftMask,      xK_b        ), spawn myBrowserProxy)
 
     -- clipboard management
     -- copy selection -> clipboard
@@ -607,7 +607,7 @@ getKeys = do
     ++
     [
         ((modMask .|. controlMask, xK_space), spawn "dunstctl history-pop")
-      , ((modMask .|. controlMask .|. shiftMask, xK_space), spawn "dunstctl history-clear")
+      , ((modMask .|. shiftMask, xK_b), spawn "dunstctl history-clear")
     ]
     ++
     -- Toggle Microphone in Zoom
