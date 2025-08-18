@@ -373,7 +373,7 @@ getKeys = do
     , ((modMask .|. mod1Mask,       xK_c        ), namedScratchpadAction myScratchpads "easyeffects")
 
     -- bleach (clear) notifications
-    , ((modMask ,                   xK_b        ), spawn "dunstctl close")
+    , ((modMask ,                   xK_b        ), spawn "dunstctl close-all")
     -- launch browser
     -- , ((modMask ,                   xK_b        ), spawn "open-default-browser")
     -- launch browser with proxy enabled
